@@ -19,8 +19,9 @@ lazy val cloudflare = (project in file("."))
   .aggregate(
     cloudflareCore.jvm,
     cloudflareCore.js,
-    cloudflareCirce.jvm,
-    cloudflareCirce.js,
+    cloudflareHttp4s.jvm,
+    cloudflareHttp4s.js,
+    cloudflareInstances,
     cloudflareZone,
     cloudflareDns,
   )
@@ -37,11 +38,34 @@ lazy val cloudflareCore = (crossProject(JSPlatform, JVMPlatform) in file("cloudf
     ),
   )
 
-lazy val cloudflareCirce = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-circe"))
+lazy val cloudflareHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-http4s"))
+  .dependsOn(cloudflareCore)
   .settings(commonSettings)
   .settings(
-    name := "circe",
+    name := "http4s",
     libraryDependencies ++= Seq(
+      "org.http4s" %%% "http4s-core" % http4sVersion,
+    ),
+  )
+
+lazy val cloudflareInstances = (project in file("cloudflare-instances"))
+  .aggregate(
+    cloudflareCirceInstances.jvm,
+    cloudflareCirceInstances.js,
+  )
+  .settings(commonSettings)
+  .settings(
+    name := "instances",
+    libraryDependencies ++= Seq(
+    ),
+  )
+
+lazy val cloudflareCirceInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-instances/circe-instances"))
+  .settings(commonSettings)
+  .settings(
+    name := "circe-instances",
+    libraryDependencies ++= Seq(
+      "io.circe" %%% "circe-core" % circeVersion,
     ),
   )
 
@@ -83,6 +107,8 @@ lazy val cloudflareZoneApi = (crossProject(JSPlatform, JVMPlatform) in file("clo
 
 lazy val cloudflareZoneHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-zone/http4s"))
   .dependsOn(
+    cloudflareCirceInstances,
+    cloudflareHttp4s,
     cloudflareZoneApi,
   )
   .settings(commonSettings)
@@ -151,4 +177,5 @@ lazy val cloudflareDnsRecordHttp4s = (crossProject(JSPlatform, JVMPlatform) in f
     ),
   )
 
+val circeVersion = "0.14.6"
 val http4sVersion = "1.0.0-M34"
