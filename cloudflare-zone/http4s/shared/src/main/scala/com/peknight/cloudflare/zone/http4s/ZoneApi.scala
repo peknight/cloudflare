@@ -1,7 +1,7 @@
 package com.peknight.cloudflare.zone.http4s
 
 import cats.effect.Concurrent
-import com.peknight.cloudflare.circe.instances.decoder.given
+import com.peknight.cloudflare.circe.instances.configuration.given
 import com.peknight.cloudflare.http4s.headers.toHeader
 import com.peknight.cloudflare.http4s.uri.v4
 import com.peknight.cloudflare.{Result, Token}

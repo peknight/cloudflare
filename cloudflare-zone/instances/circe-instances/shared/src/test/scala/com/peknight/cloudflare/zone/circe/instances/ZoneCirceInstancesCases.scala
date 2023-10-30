@@ -1,15 +1,7 @@
 package com.peknight.cloudflare.zone.circe.instances
 
-import org.scalatest.flatspec.AnyFlatSpec
-import com.peknight.cloudflare.Result
-import com.peknight.cloudflare.circe.instances.all.given
-import com.peknight.cloudflare.zone.Zone
-import com.peknight.cloudflare.zone.circe.instances.all.given
-import io.circe.parser.decode
-
-class ZoneCirceInstancesFlatSpec extends AnyFlatSpec:
-
-  private[this] val listZonesFailed =
+object ZoneCirceInstancesCases:
+  private[instances] val listZonesFailed =
     """
       |{
       |  "success" : false,
@@ -30,7 +22,7 @@ class ZoneCirceInstancesFlatSpec extends AnyFlatSpec:
       |  "result" : null
       |}
     """.stripMargin
-  private[this] val listZonesSucceed =
+  private[instances] val listZonesSucceed =
     """
       |{
       |  "result" : [
@@ -111,9 +103,4 @@ class ZoneCirceInstancesFlatSpec extends AnyFlatSpec:
       |}
     """.stripMargin
 
-  "CloudFlare Zone's circe instances" should "succeed" in {
-    val result = decode[Result[List[Zone]]](listZonesSucceed)
-    println(result)
-    assert(result.isRight)
-  }
-end ZoneCirceInstancesFlatSpec
+end ZoneCirceInstancesCases

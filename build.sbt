@@ -66,6 +66,7 @@ lazy val cloudflareCirceInstances = (crossProject(JSPlatform, JVMPlatform) in fi
     name := "circe-instances",
     libraryDependencies ++= Seq(
       "io.circe" %%% "circe-core" % circeVersion,
+
     ),
   )
 
@@ -118,6 +119,8 @@ lazy val cloudflareZoneCirceInstances = (crossProject(JSPlatform, JVMPlatform) i
     libraryDependencies ++= Seq(
       "io.circe" %%% "circe-core" % circeVersion,
       "io.circe" %%% "circe-parser" % circeVersion % Test,
+      "io.circe" %%% "circe-jawn" % circeVersion % Test,
+      "com.peknight" %%% "generic-circe" % pekGenericVersion % Test,
       "org.scalatest" %%% "scalatest" % scalaTestVersion % Test,
     ),
   )
@@ -210,3 +213,6 @@ lazy val cloudflareDnsRecordHttp4s = (crossProject(JSPlatform, JVMPlatform) in f
 val circeVersion = "0.14.6"
 val http4sVersion = "1.0.0-M34"
 val scalaTestVersion = "3.2.16"
+
+val pekVersion = "0.1.0-SNAPSHOT"
+val pekGenericVersion = pekVersion
