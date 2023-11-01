@@ -24,6 +24,8 @@ lazy val cloudflare = (project in file("."))
     cloudflareInstances,
     cloudflareZone,
     cloudflareDns,
+    cloudflareTest.jvm,
+    cloudflareTest.js,
   )
   .settings(commonSettings)
   .settings(
@@ -143,6 +145,7 @@ lazy val cloudflareZoneHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("
     cloudflareHttp4s,
     cloudflareZoneCirceInstances,
     cloudflareZoneApi,
+    cloudflareTest % Test,
   )
   .settings(commonSettings)
   .settings(
@@ -150,6 +153,14 @@ lazy val cloudflareZoneHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("
     libraryDependencies ++= Seq(
       "org.http4s" %%% "http4s-client" % http4sVersion,
       "org.http4s" %%% "http4s-circe" % http4sVersion,
+      "com.peknight" %%% "generic-circe" % pekGenericVersion,
+      "org.http4s" %%% "http4s-ember-client" % http4sVersion % Test,
+      "org.typelevel" %% "cats-effect-testing-scalatest" % catsEffectTestingScalaTestVersion % Test,
+    ),
+  )
+  .jvmSettings(
+    libraryDependencies ++= Seq(
+      logbackClassic % Runtime,
     ),
   )
 
@@ -210,9 +221,22 @@ lazy val cloudflareDnsRecordHttp4s = (crossProject(JSPlatform, JVMPlatform) in f
     ),
   )
 
+lazy val cloudflareTest = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-test"))
+  .dependsOn(cloudflareCore)
+  .settings(commonSettings)
+  .settings(
+    name := "test",
+    libraryDependencies ++= Seq(
+    ),
+  )
+
 val circeVersion = "0.14.6"
 val http4sVersion = "1.0.0-M34"
 val scalaTestVersion = "3.2.16"
+val catsEffectTestingScalaTestVersion = "1.5.0"
+val logbackVersion = "1.4.11"
 
 val pekVersion = "0.1.0-SNAPSHOT"
 val pekGenericVersion = pekVersion
+
+val logbackClassic = "ch.qos.logback" % "logback-classic" % logbackVersion

@@ -11,9 +11,13 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class ZoneCirceInstancesFlatSpec extends AnyFlatSpec:
 
-  "CloudFlare Zone's circe instances" should "succeed" in {
-    val result = decode[Result[List[Zone]]](listZonesSucceed)
-    println(result)
+  "CloudFlare Zone's circe instances" should "parse succeed json" in {
+    val result = decode[Result[List[Zone[String]]]](listZonesSucceed)
+    assert(result.isRight)
+  }
+
+  "CloudFlare Zone's circe instances" should "parse failed json" in {
+    val result = decode[Result[List[Zone[String]]]](listZonesFailed)
     assert(result.isRight)
   }
 end ZoneCirceInstancesFlatSpec

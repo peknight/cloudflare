@@ -8,5 +8,6 @@ case class ResultInfo(
                        // Number of results per page of results
                        perPage: Int,
                        // Total results available without any search parameters
-                       totalCount: Int
+                       totalCount: Int,
+                       totalPages: Option[Int]
                      )
