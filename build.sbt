@@ -214,9 +214,9 @@ lazy val cloudflareDnsRecordInstances = (project in file("cloudflare-dns/record/
 
 lazy val cloudflareDnsRecordCirceInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/instances/circe-instances"))
   .dependsOn(
+    cloudflareCirceInstances,
     cloudflareDnsRecordCore,
     cloudflareCore % Test,
-    cloudflareCirceInstances % Test,
   )
   .settings(commonSettings)
   .settings(

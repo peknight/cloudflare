@@ -1,7 +1,7 @@
 package com.peknight.cloudflare.dns.record.circe.instances
 
 object DNSRecordCirceInstancesCases:
-  private[instances] val listDnsRecordsSucceed =
+  private[instances] val listDNSRecordsSucceed =
     """
       |{
       |    "result":[
