@@ -177,6 +177,7 @@ lazy val cloudflareDnsRecord = (project in file("cloudflare-dns/record"))
   .aggregate(
     cloudflareDnsRecordCore.jvm,
     cloudflareDnsRecordCore.js,
+    cloudflareDnsRecordInstances,
     cloudflareDnsRecordApi.jvm,
     cloudflareDnsRecordApi.js,
     cloudflareDnsRecordHttp4s.jvm,
@@ -190,10 +191,42 @@ lazy val cloudflareDnsRecord = (project in file("cloudflare-dns/record"))
   )
 
 lazy val cloudflareDnsRecordCore = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/core"))
+  .dependsOn(cloudflareZoneCore)
   .settings(commonSettings)
   .settings(
     name := "dns-record-core",
     libraryDependencies ++= Seq(
+      "com.comcast" %% "ip4s-core" % ip4sCoreVersion,
+    ),
+  )
+
+lazy val cloudflareDnsRecordInstances = (project in file("cloudflare-dns/record/instances"))
+  .aggregate(
+    cloudflareDnsRecordCirceInstances.jvm,
+    cloudflareDnsRecordCirceInstances.js,
+  )
+  .settings(commonSettings)
+  .settings(
+    name := "zone-instances",
+    libraryDependencies ++= Seq(
+    ),
+  )
+
+lazy val cloudflareDnsRecordCirceInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/instances/circe-instances"))
+  .dependsOn(
+    cloudflareDnsRecordCore,
+    cloudflareCore % Test,
+    cloudflareCirceInstances % Test,
+  )
+  .settings(commonSettings)
+  .settings(
+    name := "dns-record-circe-instances",
+    libraryDependencies ++= Seq(
+      "io.circe" %%% "circe-core" % circeVersion,
+      "io.circe" %%% "circe-parser" % circeVersion % Test,
+      "io.circe" %%% "circe-jawn" % circeVersion % Test,
+      "com.peknight" %%% "generic-circe" % pekGenericVersion % Test,
+      "org.scalatest" %%% "scalatest" % scalaTestVersion % Test,
     ),
   )
 
@@ -212,12 +245,26 @@ lazy val cloudflareDnsRecordApi = (crossProject(JSPlatform, JVMPlatform) in file
 
 lazy val cloudflareDnsRecordHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/http4s"))
   .dependsOn(
+    cloudflareCirceInstances,
+    cloudflareHttp4s,
+    cloudflareDnsRecordCirceInstances,
     cloudflareDnsRecordApi,
+    cloudflareTest % Test,
   )
   .settings(commonSettings)
   .settings(
     name := "dns-record-http4s",
     libraryDependencies ++= Seq(
+      "org.http4s" %%% "http4s-client" % http4sVersion,
+      "org.http4s" %%% "http4s-circe" % http4sVersion,
+      "com.peknight" %%% "generic-circe" % pekGenericVersion,
+      "org.http4s" %%% "http4s-ember-client" % http4sVersion % Test,
+      "org.typelevel" %% "cats-effect-testing-scalatest" % catsEffectTestingScalaTestVersion % Test,
+    ),
+  )
+  .jvmSettings(
+    libraryDependencies ++= Seq(
+      logbackClassic % Runtime,
     ),
   )
 
@@ -232,6 +279,7 @@ lazy val cloudflareTest = (crossProject(JSPlatform, JVMPlatform) in file("cloudf
 
 val circeVersion = "0.14.6"
 val http4sVersion = "1.0.0-M34"
+val ip4sCoreVersion = "3.3.0"
 val scalaTestVersion = "3.2.16"
 val catsEffectTestingScalaTestVersion = "1.5.0"
 val logbackVersion = "1.4.11"
