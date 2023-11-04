@@ -1,7 +1,4 @@
 package com.peknight.cloudflare.dns.record.circe.instances
 
-trait AllInstances extends DNSRecordIdInstances
-  with DNSRecordTypeInstances
-  with LatitudeDirectionInstances
-  with LongitudeDirectionInstances
+trait AllInstances extends DNSRecordInstances
 object AllInstances extends AllInstances

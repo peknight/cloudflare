@@ -63,11 +63,12 @@ lazy val cloudflareInstances = (project in file("cloudflare-instances"))
   )
 
 lazy val cloudflareCirceInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-instances/circe-instances"))
+  .dependsOn(cloudflareCore)
   .settings(commonSettings)
   .settings(
     name := "circe-instances",
     libraryDependencies ++= Seq(
-      "io.circe" %%% "circe-core" % circeVersion,
+      "com.peknight" %%% "generic-circe" % pekGenericVersion,
 
     ),
   )
@@ -101,6 +102,8 @@ lazy val cloudflareZoneInstances = (project in file("cloudflare-zone/instances")
   .aggregate(
     cloudflareZoneCirceInstances.jvm,
     cloudflareZoneCirceInstances.js,
+    cloudflareZoneHttp4sInstances.jvm,
+    cloudflareZoneHttp4sInstances.js,
   )
   .settings(commonSettings)
   .settings(
@@ -112,18 +115,25 @@ lazy val cloudflareZoneInstances = (project in file("cloudflare-zone/instances")
 lazy val cloudflareZoneCirceInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-zone/instances/circe-instances"))
   .dependsOn(
     cloudflareZoneCore,
-    cloudflareCore % Test,
-    cloudflareCirceInstances % Test,
+    cloudflareCirceInstances,
   )
   .settings(commonSettings)
   .settings(
     name := "zone-circe-instances",
     libraryDependencies ++= Seq(
-      "io.circe" %%% "circe-core" % circeVersion,
       "io.circe" %%% "circe-parser" % circeVersion % Test,
       "io.circe" %%% "circe-jawn" % circeVersion % Test,
-      "com.peknight" %%% "generic-circe" % pekGenericVersion % Test,
       "org.scalatest" %%% "scalatest" % scalaTestVersion % Test,
+    ),
+  )
+
+lazy val cloudflareZoneHttp4sInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-zone/instances/http4s-instances"))
+  .dependsOn(cloudflareZoneCore)
+  .settings(commonSettings)
+  .settings(
+    name := "zone-http4s-instances",
+    libraryDependencies ++= Seq(
+      "org.http4s" %%% "http4s-core" % http4sVersion,
     ),
   )
 
@@ -141,10 +151,10 @@ lazy val cloudflareZoneApi = (crossProject(JSPlatform, JVMPlatform) in file("clo
 
 lazy val cloudflareZoneHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-zone/http4s"))
   .dependsOn(
-    cloudflareCirceInstances,
-    cloudflareHttp4s,
-    cloudflareZoneCirceInstances,
     cloudflareZoneApi,
+    cloudflareHttp4s,
+    cloudflareCirceInstances,
+    cloudflareZoneCirceInstances,
     cloudflareTest % Test,
   )
   .settings(commonSettings)
@@ -153,9 +163,8 @@ lazy val cloudflareZoneHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("
     libraryDependencies ++= Seq(
       "org.http4s" %%% "http4s-client" % http4sVersion,
       "org.http4s" %%% "http4s-circe" % http4sVersion,
-      "com.peknight" %%% "generic-circe" % pekGenericVersion,
       "org.http4s" %%% "http4s-ember-client" % http4sVersion % Test,
-      "org.typelevel" %% "cats-effect-testing-scalatest" % catsEffectTestingScalaTestVersion % Test,
+      "org.typelevel" %%% "cats-effect-testing-scalatest" % catsEffectTestingScalaTestVersion % Test,
     ),
   )
   .jvmSettings(
@@ -196,7 +205,7 @@ lazy val cloudflareDnsRecordCore = (crossProject(JSPlatform, JVMPlatform) in fil
   .settings(
     name := "dns-record-core",
     libraryDependencies ++= Seq(
-      "com.comcast" %% "ip4s-core" % ip4sCoreVersion,
+      "com.comcast" %%% "ip4s-core" % ip4sCoreVersion,
     ),
   )
 
@@ -214,18 +223,17 @@ lazy val cloudflareDnsRecordInstances = (project in file("cloudflare-dns/record/
 
 lazy val cloudflareDnsRecordCirceInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/instances/circe-instances"))
   .dependsOn(
-    cloudflareCirceInstances,
     cloudflareDnsRecordCore,
-    cloudflareCore % Test,
+    cloudflareCirceInstances,
+    cloudflareZoneCirceInstances,
   )
   .settings(commonSettings)
   .settings(
     name := "dns-record-circe-instances",
     libraryDependencies ++= Seq(
-      "io.circe" %%% "circe-core" % circeVersion,
+      "com.peknight" %%% "circe-instances-ip4s" % pekCirceInstancesVersion,
       "io.circe" %%% "circe-parser" % circeVersion % Test,
       "io.circe" %%% "circe-jawn" % circeVersion % Test,
-      "com.peknight" %%% "generic-circe" % pekGenericVersion % Test,
       "org.scalatest" %%% "scalatest" % scalaTestVersion % Test,
     ),
   )
@@ -233,7 +241,6 @@ lazy val cloudflareDnsRecordCirceInstances = (crossProject(JSPlatform, JVMPlatfo
 lazy val cloudflareDnsRecordApi = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/api"))
   .dependsOn(
     cloudflareCore,
-    cloudflareZoneCore,
     cloudflareDnsRecordCore,
   )
   .settings(commonSettings)
@@ -245,10 +252,11 @@ lazy val cloudflareDnsRecordApi = (crossProject(JSPlatform, JVMPlatform) in file
 
 lazy val cloudflareDnsRecordHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/http4s"))
   .dependsOn(
-    cloudflareCirceInstances,
-    cloudflareHttp4s,
-    cloudflareDnsRecordCirceInstances,
     cloudflareDnsRecordApi,
+    cloudflareHttp4s,
+    cloudflareCirceInstances,
+    cloudflareDnsRecordCirceInstances,
+    cloudflareZoneHttp4sInstances,
     cloudflareTest % Test,
   )
   .settings(commonSettings)
@@ -257,9 +265,8 @@ lazy val cloudflareDnsRecordHttp4s = (crossProject(JSPlatform, JVMPlatform) in f
     libraryDependencies ++= Seq(
       "org.http4s" %%% "http4s-client" % http4sVersion,
       "org.http4s" %%% "http4s-circe" % http4sVersion,
-      "com.peknight" %%% "generic-circe" % pekGenericVersion,
       "org.http4s" %%% "http4s-ember-client" % http4sVersion % Test,
-      "org.typelevel" %% "cats-effect-testing-scalatest" % catsEffectTestingScalaTestVersion % Test,
+      "org.typelevel" %%% "cats-effect-testing-scalatest" % catsEffectTestingScalaTestVersion % Test,
     ),
   )
   .jvmSettings(
@@ -269,7 +276,10 @@ lazy val cloudflareDnsRecordHttp4s = (crossProject(JSPlatform, JVMPlatform) in f
   )
 
 lazy val cloudflareTest = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-test"))
-  .dependsOn(cloudflareCore)
+  .dependsOn(
+    cloudflareCore,
+    cloudflareZoneCore
+  )
   .settings(commonSettings)
   .settings(
     name := "test",
@@ -286,5 +296,6 @@ val logbackVersion = "1.4.11"
 
 val pekVersion = "0.1.0-SNAPSHOT"
 val pekGenericVersion = pekVersion
+val pekCirceInstancesVersion = pekVersion
 
 val logbackClassic = "ch.qos.logback" % "logback-classic" % logbackVersion

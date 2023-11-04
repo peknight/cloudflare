@@ -1,14 +1,12 @@
 package com.peknight.cloudflare.zone.http4s
 
 import cats.effect.Concurrent
-import com.peknight.cloudflare.circe.instances.configuration.given
+import com.peknight.cloudflare.circe.instances.result.given
 import com.peknight.cloudflare.http4s.headers.toHeader
 import com.peknight.cloudflare.http4s.uri.v4
-import com.peknight.cloudflare.zone.Zone
-import com.peknight.cloudflare.zone.api
-import com.peknight.cloudflare.zone.circe.instances.all.given
+import com.peknight.cloudflare.zone.{Zone, api}
+import com.peknight.cloudflare.zone.circe.instances.zone.given
 import com.peknight.cloudflare.{Result, Token}
-import com.peknight.generic.circe.decoder.given
 import io.circe.Decoder
 import org.http4s.Method.GET
 import org.http4s.circe.jsonOf
