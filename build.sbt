@@ -95,6 +95,7 @@ lazy val cloudflareZoneCore = (crossProject(JSPlatform, JVMPlatform) in file("cl
   .settings(
     name := "zone-core",
     libraryDependencies ++= Seq(
+      "com.comcast" %%% "ip4s-core" % ip4sCoreVersion,
     ),
   )
 
@@ -121,6 +122,7 @@ lazy val cloudflareZoneCirceInstances = (crossProject(JSPlatform, JVMPlatform) i
   .settings(
     name := "zone-circe-instances",
     libraryDependencies ++= Seq(
+      "com.peknight" %%% "circe-instances-ip4s" % pekCirceInstancesVersion,
       "io.circe" %%% "circe-parser" % circeVersion % Test,
       "io.circe" %%% "circe-jawn" % circeVersion % Test,
       "org.scalatest" %%% "scalatest" % scalaTestVersion % Test,
@@ -205,7 +207,6 @@ lazy val cloudflareDnsRecordCore = (crossProject(JSPlatform, JVMPlatform) in fil
   .settings(
     name := "dns-record-core",
     libraryDependencies ++= Seq(
-      "com.comcast" %%% "ip4s-core" % ip4sCoreVersion,
     ),
   )
 
@@ -231,7 +232,6 @@ lazy val cloudflareDnsRecordCirceInstances = (crossProject(JSPlatform, JVMPlatfo
   .settings(
     name := "dns-record-circe-instances",
     libraryDependencies ++= Seq(
-      "com.peknight" %%% "circe-instances-ip4s" % pekCirceInstancesVersion,
       "io.circe" %%% "circe-parser" % circeVersion % Test,
       "io.circe" %%% "circe-jawn" % circeVersion % Test,
       "org.scalatest" %%% "scalatest" % scalaTestVersion % Test,

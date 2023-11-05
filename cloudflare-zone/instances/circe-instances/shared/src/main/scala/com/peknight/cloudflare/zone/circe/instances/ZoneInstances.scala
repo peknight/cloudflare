@@ -1,5 +1,6 @@
 package com.peknight.cloudflare.zone.circe.instances
 
+import com.peknight.circe.instances.ip4s.HostInstances
 import com.peknight.cloudflare.circe.instances.configuration.configuration
 import com.peknight.cloudflare.zone.Zone
 import com.peknight.generic.circe.CodecInstances
@@ -10,7 +11,8 @@ trait ZoneInstances extends ZoneIdInstances
   with OwnerIdInstances
   with TenantIdInstances
   with TenantUnitIdInstances
-  with PlanIdInstances:
+  with PlanIdInstances
+  with HostInstances:
   given Codec[Zone] = CodecInstances.derivedConfiguredCodec(configuration)
 end ZoneInstances
 object ZoneInstances extends ZoneInstances

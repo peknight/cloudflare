@@ -1,5 +1,7 @@
 package com.peknight.cloudflare.zone
 
+import com.comcast.ip4s.Hostname
+
 import java.time.OffsetDateTime
 
 case class Zone(
@@ -10,7 +12,7 @@ case class Zone(
                  `type`: Option[String],
                  developmentMode: Int,
                  nameServers: Option[List[String]],
-                 originalNameServers: List[String],
+                 originalNameServers: List[Hostname],
                  originalRegistrar: String,
                  originalDnshost: Option[String],
                  modifiedOn: OffsetDateTime,
@@ -23,5 +25,5 @@ case class Zone(
                  tenantUnit: Option[TenantUnit],
                  permissions: Option[List[String]],
                  plan: Option[Plan],
-                 vanityNameServers: Option[List[String]]
+                 vanityNameServers: Option[List[Hostname]]
                )
