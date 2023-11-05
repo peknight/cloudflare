@@ -11,6 +11,9 @@ class ZoneApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
   "CloudFlare Zone Api List Zones" should "succeed" in {
     EmberClientBuilder.default[IO].build
       .use(client => ZoneApi[IO](client)(dsl.io).listZones(PekToken.token))
-      .asserting(result => assert(result.result.isDefined))
+      .asserting { result =>
+        println(result)
+        assert(result.result.isDefined)
+      }
   }
 end ZoneApiFlatSpec

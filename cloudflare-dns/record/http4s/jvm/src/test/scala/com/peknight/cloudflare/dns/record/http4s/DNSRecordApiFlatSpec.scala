@@ -13,7 +13,7 @@ class DNSRecordApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
       .use(client => DNSRecordApi[IO](client)(dsl.io).listDNSRecords(PekZone.zoneIdentifier)(PekToken.token))
       .asserting{ result =>
         println(result)
-        assert(true)
+        assert(result.result.isDefined)
       }
   }
 end DNSRecordApiFlatSpec
