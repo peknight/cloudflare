@@ -9,4 +9,5 @@ package object instances:
   object tenantId extends TenantIdInstances
   object tenantUnitId extends TenantUnitIdInstances
   object planId extends PlanIdInstances
+  object zoneStatus extends ZoneStatusInstances
 end instances

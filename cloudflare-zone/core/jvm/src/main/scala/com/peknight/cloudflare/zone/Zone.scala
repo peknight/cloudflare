@@ -7,7 +7,7 @@ import java.time.OffsetDateTime
 case class Zone(
                  id: ZoneId,
                  name: String,
-                 status: Option[String],
+                 status: Option[ZoneStatus],
                  paused: Option[Boolean],
                  `type`: Option[String],
                  developmentMode: Int,

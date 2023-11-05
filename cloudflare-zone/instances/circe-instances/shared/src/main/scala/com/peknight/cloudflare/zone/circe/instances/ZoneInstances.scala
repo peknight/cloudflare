@@ -12,6 +12,7 @@ trait ZoneInstances extends ZoneIdInstances
   with TenantIdInstances
   with TenantUnitIdInstances
   with PlanIdInstances
+  with ZoneStatusInstances
   with HostInstances:
   given Codec[Zone] = CodecInstances.derivedConfiguredCodec(configuration)
 end ZoneInstances
