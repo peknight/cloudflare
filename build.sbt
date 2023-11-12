@@ -21,6 +21,8 @@ lazy val cloudflare = (project in file("."))
     cloudflareCore.js,
     cloudflareHttp4s.jvm,
     cloudflareHttp4s.js,
+    cloudflareQuery.jvm,
+    cloudflareQuery.js,
     cloudflareInstances,
     cloudflareZone,
     cloudflareDns,
@@ -50,6 +52,16 @@ lazy val cloudflareHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("clou
     ),
   )
 
+lazy val cloudflareQuery = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-query"))
+  .settings(commonSettings)
+  .settings(
+    name := "query",
+    libraryDependencies ++= Seq(
+      "org.http4s" %%% "http4s-core" % http4sVersion,
+      "com.peknight" %%% "codec-core" % pekCodecVersion,
+    ),
+  )
+
 lazy val cloudflareInstances = (project in file("cloudflare-instances"))
   .aggregate(
     cloudflareCirceInstances.jvm,
@@ -68,8 +80,8 @@ lazy val cloudflareCirceInstances = (crossProject(JSPlatform, JVMPlatform) in fi
   .settings(
     name := "circe-instances",
     libraryDependencies ++= Seq(
-      "com.peknight" %%% "generic-circe" % pekGenericVersion,
-
+      "com.peknight" %%% "codec-circe" % pekCodecVersion,
+      "com.peknight" %%% "commons-string" % pekCommonsVersion,
     ),
   )
 
@@ -295,7 +307,8 @@ val catsEffectTestingScalaTestVersion = "1.5.0"
 val logbackVersion = "1.4.11"
 
 val pekVersion = "0.1.0-SNAPSHOT"
-val pekGenericVersion = pekVersion
+val pekCodecVersion = pekVersion
+val pekCommonsVersion = pekVersion
 val pekCirceInstancesVersion = pekVersion
 
 val logbackClassic = "ch.qos.logback" % "logback-classic" % logbackVersion

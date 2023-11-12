@@ -1,13 +1,16 @@
 package com.peknight.cloudflare.dns.record.circe.instances
 
 import com.peknight.circe.instances.ip4s.{HostInstances, PortInstances}
-import com.peknight.cloudflare.circe.instances.configuration.configuration
+import com.peknight.cloudflare.circe.instances.ConfigurationInstances
 import com.peknight.cloudflare.dns.record.DNSRecord
 import com.peknight.cloudflare.zone.circe.instances.ZoneIdInstances
-import com.peknight.generic.circe.CodecInstances
-import com.peknight.generic.circe.all.given
-import io.circe.Codec
-import io.circe.derivation.Configuration
+import com.peknight.codec.circe.derivation.CodecInstances
+import com.peknight.codec.circe.derivation.all.given
+import com.peknight.codec.configuration.CodecConfiguration
+import com.peknight.commons.string.cases.SnakeCase
+import com.peknight.commons.string.syntax.cases.to
+import com.peknight.generic.Generic
+import io.circe.{Codec, Encoder}
 
 trait DNSRecordInstances extends DNSRecordIdInstances
   with DNSRecordTypeInstances
@@ -15,8 +18,7 @@ trait DNSRecordInstances extends DNSRecordIdInstances
   with LongitudeDirectionInstances
   with HostInstances
   with PortInstances
-  with ZoneIdInstances:
-  given Configuration = configuration
-  given Codec[DNSRecord] = CodecInstances.derivedConfiguredCodec(configuration.withDiscriminator("type"))
-
+  with ZoneIdInstances
+  with ConfigurationInstances:
+  given Codec[DNSRecord] = CodecInstances.derived(using configuration.withDiscriminator("type"))
 end DNSRecordInstances
