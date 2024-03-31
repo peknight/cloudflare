@@ -5,7 +5,7 @@ import com.peknight.cloudflare.circe.instances.ConfigurationInstances
 import com.peknight.cloudflare.dns.record.DNSRecord
 import com.peknight.cloudflare.zone.circe.instances.ZoneIdInstances
 import com.peknight.codec.circe.derivation.CodecDerivation
-import com.peknight.codec.circe.derivation.all.given
+import com.peknight.codec.circe.instances.all.given
 import com.peknight.codec.configuration.CodecConfiguration
 import com.peknight.commons.string.cases.SnakeCase
 import com.peknight.commons.string.syntax.cases.to

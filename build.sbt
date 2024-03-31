@@ -21,8 +21,6 @@ lazy val cloudflare = (project in file("."))
     cloudflareCore.js,
     cloudflareHttp4s.jvm,
     cloudflareHttp4s.js,
-    cloudflareQuery.jvm,
-    cloudflareQuery.js,
     cloudflareInstances,
     cloudflareZone,
     cloudflareDns,
@@ -49,16 +47,6 @@ lazy val cloudflareHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("clou
     name := "http4s",
     libraryDependencies ++= Seq(
       "org.http4s" %%% "http4s-core" % http4sVersion,
-    ),
-  )
-
-lazy val cloudflareQuery = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-query"))
-  .settings(commonSettings)
-  .settings(
-    name := "query",
-    libraryDependencies ++= Seq(
-      "org.http4s" %%% "http4s-core" % http4sVersion,
-      "com.peknight" %%% "codec-core" % pekCodecVersion,
     ),
   )
 

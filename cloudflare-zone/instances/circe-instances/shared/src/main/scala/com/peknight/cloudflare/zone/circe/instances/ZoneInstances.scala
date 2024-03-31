@@ -4,7 +4,7 @@ import com.peknight.circe.instances.ip4s.HostInstances
 import com.peknight.cloudflare.circe.instances.ConfigurationInstances
 import com.peknight.cloudflare.zone.Zone
 import com.peknight.codec.circe.derivation.CodecDerivation
-import com.peknight.codec.circe.derivation.all.given
+import com.peknight.codec.circe.instances.all.given
 import io.circe.Codec
 trait ZoneInstances extends ZoneIdInstances
   with AccountIdInstances
