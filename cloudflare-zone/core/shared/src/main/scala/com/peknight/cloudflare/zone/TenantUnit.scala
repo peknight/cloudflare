@@ -1,3 +1,3 @@
 package com.peknight.cloudflare.zone
 
-case class TenantUnit(id: Option[TenantId])
+case class TenantUnit(id: Option[TenantUnitId])

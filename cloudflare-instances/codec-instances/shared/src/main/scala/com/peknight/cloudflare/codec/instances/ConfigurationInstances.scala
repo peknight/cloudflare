@@ -1,4 +1,4 @@
-package com.peknight.cloudflare.circe.instances
+package com.peknight.cloudflare.codec.instances
 
 import com.peknight.codec.configuration.CodecConfiguration
 import com.peknight.commons.string.cases.SnakeCase

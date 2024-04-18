@@ -5,5 +5,5 @@ import org.http4s.syntax.literals.uri
 package object uri:
   val api = uri"https://api.cloudflare.com"
   val client = api / "client"
-  val v4 = client / "v4"
+  val clientV4 = client / "v4"
 end uri
