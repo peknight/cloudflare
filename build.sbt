@@ -103,6 +103,7 @@ lazy val cloudflareZone = (project in file("cloudflare-zone"))
   )
 
 lazy val cloudflareZoneCore = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-zone/core"))
+  .dependsOn(cloudflareCore)
   .settings(commonSettings)
   .settings(
     name := "zone-core",
@@ -158,7 +159,6 @@ lazy val cloudflareZoneCirceInstances = (crossProject(JSPlatform, JVMPlatform) i
 
 lazy val cloudflareZoneApi = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-zone/api"))
   .dependsOn(
-    cloudflareCore,
     cloudflareZoneCore,
   )
   .settings(commonSettings)
@@ -275,7 +275,6 @@ lazy val cloudflareDnsRecordCirceInstances = (crossProject(JSPlatform, JVMPlatfo
 
 lazy val cloudflareDnsRecordApi = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/api"))
   .dependsOn(
-    cloudflareCore,
     cloudflareDnsRecordCore,
   )
   .settings(commonSettings)
@@ -313,7 +312,6 @@ lazy val cloudflareDnsRecordHttp4s = (crossProject(JSPlatform, JVMPlatform) in f
 
 lazy val cloudflareTest = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-test"))
   .dependsOn(
-    cloudflareCore,
     cloudflareZoneCore
   )
   .settings(commonSettings)
