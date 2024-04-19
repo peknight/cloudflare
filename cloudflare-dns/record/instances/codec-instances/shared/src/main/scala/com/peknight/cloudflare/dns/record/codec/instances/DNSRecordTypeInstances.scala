@@ -9,7 +9,7 @@ import com.peknight.codec.derivation.EnumCodecDerivation
 import com.peknight.codec.sum.StringType
 
 trait DNSRecordTypeInstances:
-  given stringCodecDNSRecordType[F[_], S](using Configuration, Applicative[F]): Codec[F, String, String, DNSRecordType] =
+  given stringCodecDNSRecordType[F[_]](using Configuration, Applicative[F]): Codec[F, String, String, DNSRecordType] =
     EnumCodecDerivation.unsafeDerived[F, String, String, DNSRecordType]
 
   given codecDNSRecordTypeS[F[_], S](using Configuration, Applicative[F], StringType[S])

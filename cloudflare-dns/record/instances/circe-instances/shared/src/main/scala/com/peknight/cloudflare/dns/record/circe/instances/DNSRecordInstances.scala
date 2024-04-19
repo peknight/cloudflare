@@ -91,3 +91,4 @@ trait DNSRecordInstances extends AllInstances
   : Codec[F, Json, Cursor[Json], DNSRecord] =
     Codec.derived[F, Json, DNSRecord](using configuration.withDiscriminator("type"))
 end DNSRecordInstances
+object DNSRecordInstances extends DNSRecordInstances

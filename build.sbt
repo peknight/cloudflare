@@ -299,6 +299,7 @@ lazy val cloudflareDnsRecordHttp4s = (crossProject(JSPlatform, JVMPlatform) in f
     name := "dns-record-http4s",
     libraryDependencies ++= Seq(
       "org.http4s" %%% "http4s-client" % http4sVersion,
+      "com.peknight" %%% "codec-http4s" % pekCodecVersion,
       "com.peknight" %%% "codec-http4s-circe" % pekCodecVersion,
       "org.http4s" %%% "http4s-ember-client" % http4sVersion % Test,
       "org.typelevel" %%% "cats-effect-testing-scalatest" % catsEffectTestingScalaTestVersion % Test,

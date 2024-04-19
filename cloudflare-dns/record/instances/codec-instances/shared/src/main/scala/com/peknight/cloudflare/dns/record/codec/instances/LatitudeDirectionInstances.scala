@@ -9,7 +9,7 @@ import com.peknight.codec.derivation.EnumCodecDerivation
 import com.peknight.codec.sum.StringType
 
 trait LatitudeDirectionInstances:
-  given stringCodecLatitudeDirection[F[_], S](using Configuration, Applicative[F])
+  given stringCodecLatitudeDirection[F[_]](using Configuration, Applicative[F])
   : Codec[F, String, String, LatitudeDirection] =
     EnumCodecDerivation.unsafeDerived[F, String, String, LatitudeDirection]
 
