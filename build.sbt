@@ -117,8 +117,6 @@ lazy val cloudflareZoneInstances = (project in file("cloudflare-zone/instances")
     cloudflareZoneCodecInstances.js,
     cloudflareZoneCirceInstances.jvm,
     cloudflareZoneCirceInstances.js,
-    cloudflareZoneHttp4sInstances.jvm,
-    cloudflareZoneHttp4sInstances.js,
   )
   .settings(commonSettings)
   .settings(
@@ -158,16 +156,6 @@ lazy val cloudflareZoneCirceInstances = (crossProject(JSPlatform, JVMPlatform) i
     ),
   )
 
-lazy val cloudflareZoneHttp4sInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-zone/instances/http4s-instances"))
-  .dependsOn(cloudflareZoneCore)
-  .settings(commonSettings)
-  .settings(
-    name := "zone-http4s-instances",
-    libraryDependencies ++= Seq(
-      "org.http4s" %%% "http4s-core" % http4sVersion,
-    ),
-  )
-
 lazy val cloudflareZoneApi = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-zone/api"))
   .dependsOn(
     cloudflareCore,
@@ -184,6 +172,7 @@ lazy val cloudflareZoneHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("
   .dependsOn(
     cloudflareZoneApi,
     cloudflareHttp4s,
+    cloudflareCodecInstances,
     cloudflareCirceInstances,
     cloudflareZoneCirceInstances,
     cloudflareTest % Test,
@@ -193,7 +182,7 @@ lazy val cloudflareZoneHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("
     name := "zone-http4s",
     libraryDependencies ++= Seq(
       "org.http4s" %%% "http4s-client" % http4sVersion,
-      "org.http4s" %%% "http4s-circe" % http4sVersion,
+      "com.peknight" %%% "codec-http4s-circe" % pekCodecVersion,
       "org.http4s" %%% "http4s-ember-client" % http4sVersion % Test,
       "org.typelevel" %%% "cats-effect-testing-scalatest" % catsEffectTestingScalaTestVersion % Test,
     ),
@@ -241,26 +230,43 @@ lazy val cloudflareDnsRecordCore = (crossProject(JSPlatform, JVMPlatform) in fil
 
 lazy val cloudflareDnsRecordInstances = (project in file("cloudflare-dns/record/instances"))
   .aggregate(
+    cloudflareDnsRecordCodecInstances.jvm,
+    cloudflareDnsRecordCodecInstances.js,
     cloudflareDnsRecordCirceInstances.jvm,
     cloudflareDnsRecordCirceInstances.js,
   )
   .settings(commonSettings)
   .settings(
-    name := "zone-instances",
+    name := "dns-record-instances",
     libraryDependencies ++= Seq(
+    ),
+  )
+
+lazy val cloudflareDnsRecordCodecInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/instances/codec-instances"))
+  .dependsOn(
+    cloudflareDnsRecordCore,
+  )
+  .settings(commonSettings)
+  .settings(
+    name := "dns-record-codec-instances",
+    libraryDependencies ++= Seq(
+      "com.peknight" %%% "codec-core" % pekCodecVersion,
     ),
   )
 
 lazy val cloudflareDnsRecordCirceInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/instances/circe-instances"))
   .dependsOn(
-    cloudflareDnsRecordCore,
-    cloudflareCirceInstances,
-    cloudflareZoneCirceInstances,
+    cloudflareDnsRecordCodecInstances,
+    cloudflareZoneCodecInstances,
+    cloudflareCodecInstances % Test,
+    cloudflareCirceInstances % Test,
   )
   .settings(commonSettings)
   .settings(
     name := "dns-record-circe-instances",
     libraryDependencies ++= Seq(
+      "com.peknight" %%% "codec-circe" % pekCirceInstancesVersion,
+      "com.peknight" %%% "codec-ip4s" % pekCirceInstancesVersion,
       "io.circe" %%% "circe-parser" % circeVersion % Test,
       "io.circe" %%% "circe-jawn" % circeVersion % Test,
       "org.scalatest" %%% "scalatest" % scalaTestVersion % Test,
@@ -283,9 +289,9 @@ lazy val cloudflareDnsRecordHttp4s = (crossProject(JSPlatform, JVMPlatform) in f
   .dependsOn(
     cloudflareDnsRecordApi,
     cloudflareHttp4s,
+    cloudflareCodecInstances,
     cloudflareCirceInstances,
     cloudflareDnsRecordCirceInstances,
-    cloudflareZoneHttp4sInstances,
     cloudflareTest % Test,
   )
   .settings(commonSettings)
@@ -293,7 +299,7 @@ lazy val cloudflareDnsRecordHttp4s = (crossProject(JSPlatform, JVMPlatform) in f
     name := "dns-record-http4s",
     libraryDependencies ++= Seq(
       "org.http4s" %%% "http4s-client" % http4sVersion,
-      "org.http4s" %%% "http4s-circe" % http4sVersion,
+      "com.peknight" %%% "codec-http4s-circe" % pekCodecVersion,
       "org.http4s" %%% "http4s-ember-client" % http4sVersion % Test,
       "org.typelevel" %%% "cats-effect-testing-scalatest" % catsEffectTestingScalaTestVersion % Test,
     ),

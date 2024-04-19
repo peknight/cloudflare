@@ -20,6 +20,7 @@ class ZoneCirceInstancesFlatSpec extends AnyFlatSpec:
 
   "CloudFlare Zone's circe instances" should "parse failed json" in {
     val result = decode[Result[List[Zone]]](listZonesFailed)
+    println(result)
     assert(result.isRight)
   }
 end ZoneCirceInstancesFlatSpec

@@ -7,7 +7,7 @@ import com.peknight.cloudflare.dns.record.DNSRecord
 import com.peknight.cloudflare.dns.record.circe.instances.DNSRecordCirceInstancesCases.*
 import com.peknight.cloudflare.dns.record.circe.instances.dnsRecord.given
 import com.peknight.codec.circe.instances.all.given
-import io.circe.parser.decode
+import io.circe.jawn.decode
 import org.scalatest.flatspec.AnyFlatSpec
 
 class DNSRecordCirceInstancesFlatSpec extends AnyFlatSpec:

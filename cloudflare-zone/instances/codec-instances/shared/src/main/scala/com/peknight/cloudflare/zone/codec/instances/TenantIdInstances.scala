@@ -10,6 +10,7 @@ trait TenantIdInstances:
   given stringCodecTenantId[F[_]: Applicative]: Codec[F, String, String, TenantId] =
     Codec.map[F, String, String, TenantId](_.id)(TenantId.apply)
 
-  given codecTenantIdS[F[_]: Applicative, S: StringType]: Codec[F, S, Cursor[S], TenantId] = Codec.codecS[F, S, TenantId]
+  given codecTenantIdS[F[_]: Applicative, S: StringType]: Codec[F, S, Cursor[S], TenantId] =
+    Codec.codecS[F, S, TenantId]
 end TenantIdInstances
 object TenantIdInstances extends TenantIdInstances
