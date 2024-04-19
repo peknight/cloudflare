@@ -66,6 +66,7 @@ lazy val cloudflareInstances = (project in file("cloudflare-instances"))
   )
 
 lazy val cloudflareCodecInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-instances/codec-instances"))
+  .dependsOn(cloudflareCore)
   .settings(commonSettings)
   .settings(
     name := "codec-instances",
