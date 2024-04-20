@@ -184,6 +184,7 @@ lazy val cloudflareZoneHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("
     libraryDependencies ++= Seq(
       "org.http4s" %%% "http4s-client" % http4sVersion,
       "com.peknight" %%% "codec-http4s-circe" % pekCodecVersion,
+      "com.peknight" %%% "query-http4s" % pekQueryVersion,
       "org.http4s" %%% "http4s-ember-client" % http4sVersion % Test,
       "org.typelevel" %%% "cats-effect-testing-scalatest" % catsEffectTestingScalaTestVersion % Test,
     ),
@@ -331,6 +332,7 @@ val logbackVersion = "1.4.11"
 
 val pekVersion = "0.1.0-SNAPSHOT"
 val pekCodecVersion = pekVersion
+val pekQueryVersion = pekVersion
 val pekCommonsVersion = pekVersion
 val pekCirceInstancesVersion = pekVersion
 
