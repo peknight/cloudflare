@@ -15,7 +15,6 @@ import com.peknight.cloudflare.{Result, Token}
 import com.peknight.codec.http4s.circe.instances.entityDecoder.given
 import com.peknight.query.Query
 import com.peknight.query.codec.id.Encoder
-import com.peknight.query.configuration.Configuration
 import com.peknight.query.http4s.syntax.id.uri.withQuery
 import org.http4s.Headers
 import org.http4s.Method.GET
