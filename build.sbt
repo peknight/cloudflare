@@ -57,6 +57,8 @@ lazy val cloudflareInstances = (project in file("cloudflare-instances"))
     cloudflareCodecInstances.js,
     cloudflareCirceInstances.jvm,
     cloudflareCirceInstances.js,
+    cloudflareQueryInstances.jvm,
+    cloudflareQueryInstances.js,
   )
   .settings(commonSettings)
   .settings(
@@ -83,6 +85,15 @@ lazy val cloudflareCirceInstances = (crossProject(JSPlatform, JVMPlatform) in fi
     name := "circe-instances",
     libraryDependencies ++= Seq(
       "com.peknight" %%% "codec-circe" % pekCodecVersion,
+    ),
+  )
+
+lazy val cloudflareQueryInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-instances/query-instances"))
+  .settings(commonSettings)
+  .settings(
+    name := "query-instances",
+    libraryDependencies ++= Seq(
+      "com.peknight" %%% "query-core" % pekQueryVersion,
     ),
   )
 
@@ -175,6 +186,7 @@ lazy val cloudflareZoneHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("
     cloudflareHttp4s,
     cloudflareCodecInstances,
     cloudflareCirceInstances,
+    cloudflareQueryInstances,
     cloudflareZoneCirceInstances,
     cloudflareTest % Test,
   )
@@ -292,6 +304,7 @@ lazy val cloudflareDnsRecordHttp4s = (crossProject(JSPlatform, JVMPlatform) in f
     cloudflareHttp4s,
     cloudflareCodecInstances,
     cloudflareCirceInstances,
+    cloudflareQueryInstances,
     cloudflareDnsRecordCirceInstances,
     cloudflareTest % Test,
   )
