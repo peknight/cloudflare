@@ -21,7 +21,7 @@ class DNSRecordApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
       order = Type.some
     )
     EmberClientBuilder.default[IO].build
-      .use(client => DNSRecordApi[IO](client)(dsl.io).listDNSRecords(PekZone.zoneIdentifier)(query)(PekToken.token))
+      .use(client => DNSRecordApi[IO](client)(dsl.io).listDNSRecords(PekZone.zoneId)(query)(PekToken.token))
       .asserting{ result =>
         println(result)
         assert(result.result.isDefined)

@@ -6,5 +6,5 @@ import com.peknight.cloudflare.zone.ZoneId
 import com.peknight.cloudflare.{Result, Token}
 
 trait DNSRecordApi[F[_]]:
-  def listDNSRecords(zoneIdentifier: ZoneId)(query: ListDNSRecordsQuery)(token: Token): F[Result[List[DNSRecord]]]
+  def listDNSRecords(zoneId: ZoneId)(query: ListDNSRecordsQuery)(token: Token): F[Result[List[DNSRecord]]]
 end DNSRecordApi
