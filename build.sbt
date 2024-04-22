@@ -24,7 +24,7 @@ lazy val cloudflare = (project in file("."))
     cloudflareHttp4s.js,
     cloudflareInstances,
     cloudflareZone,
-    cloudflareDns,
+    cloudflareDNS,
     cloudflareTest.jvm,
     cloudflareTest.js,
   )
@@ -89,6 +89,7 @@ lazy val cloudflareCirceInstances = (crossProject(JSPlatform, JVMPlatform) in fi
   )
 
 lazy val cloudflareQueryInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-instances/query-instances"))
+  .dependsOn(cloudflareCore)
   .settings(commonSettings)
   .settings(
     name := "query-instances",
@@ -130,6 +131,8 @@ lazy val cloudflareZoneInstances = (project in file("cloudflare-zone/instances")
     cloudflareZoneCodecInstances.js,
     cloudflareZoneCirceInstances.jvm,
     cloudflareZoneCirceInstances.js,
+    cloudflareZoneQueryInstances.jvm,
+    cloudflareZoneQueryInstances.js,
   )
   .settings(commonSettings)
   .settings(
@@ -169,6 +172,20 @@ lazy val cloudflareZoneCirceInstances = (crossProject(JSPlatform, JVMPlatform) i
     ),
   )
 
+lazy val cloudflareZoneQueryInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-zone/instances/query-instances"))
+  .dependsOn(
+    cloudflareCodecInstances,
+    cloudflareQueryInstances,
+    cloudflareZoneCodecInstances,
+  )
+  .settings(commonSettings)
+  .settings(
+    name := "zone-query-instances",
+    libraryDependencies ++= Seq(
+      "com.peknight" %%% "query-core" % pekCodecVersion,
+    ),
+  )
+
 lazy val cloudflareZoneApi = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-zone/api"))
   .dependsOn(
     cloudflareZoneCore,
@@ -186,8 +203,8 @@ lazy val cloudflareZoneHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("
     cloudflareHttp4s,
     cloudflareCodecInstances,
     cloudflareCirceInstances,
-    cloudflareQueryInstances,
     cloudflareZoneCirceInstances,
+    cloudflareZoneQueryInstances,
     cloudflareTest % Test,
   )
   .settings(commonSettings)
@@ -207,24 +224,24 @@ lazy val cloudflareZoneHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("
     ),
   )
 
-lazy val cloudflareDns = (project in file("cloudflare-dns"))
+lazy val cloudflareDNS = (project in file("cloudflare-dns"))
   .aggregate(
-    cloudflareDnsRecord,
+    cloudflareDNSRecord,
   )
   .settings(commonSettings)
   .settings(
     name := "dns",
   )
 
-lazy val cloudflareDnsRecord = (project in file("cloudflare-dns/record"))
+lazy val cloudflareDNSRecord = (project in file("cloudflare-dns/record"))
   .aggregate(
-    cloudflareDnsRecordCore.jvm,
-    cloudflareDnsRecordCore.js,
-    cloudflareDnsRecordInstances,
-    cloudflareDnsRecordApi.jvm,
-    cloudflareDnsRecordApi.js,
-    cloudflareDnsRecordHttp4s.jvm,
-    cloudflareDnsRecordHttp4s.js,
+    cloudflareDNSRecordCore.jvm,
+    cloudflareDNSRecordCore.js,
+    cloudflareDNSRecordInstances,
+    cloudflareDNSRecordApi.jvm,
+    cloudflareDNSRecordApi.js,
+    cloudflareDNSRecordHttp4s.jvm,
+    cloudflareDNSRecordHttp4s.js,
   )
   .settings(commonSettings)
   .settings(
@@ -233,7 +250,7 @@ lazy val cloudflareDnsRecord = (project in file("cloudflare-dns/record"))
     ),
   )
 
-lazy val cloudflareDnsRecordCore = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/core"))
+lazy val cloudflareDNSRecordCore = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/core"))
   .dependsOn(cloudflareZoneCore)
   .settings(commonSettings)
   .settings(
@@ -242,12 +259,14 @@ lazy val cloudflareDnsRecordCore = (crossProject(JSPlatform, JVMPlatform) in fil
     ),
   )
 
-lazy val cloudflareDnsRecordInstances = (project in file("cloudflare-dns/record/instances"))
+lazy val cloudflareDNSRecordInstances = (project in file("cloudflare-dns/record/instances"))
   .aggregate(
-    cloudflareDnsRecordCodecInstances.jvm,
-    cloudflareDnsRecordCodecInstances.js,
-    cloudflareDnsRecordCirceInstances.jvm,
-    cloudflareDnsRecordCirceInstances.js,
+    cloudflareDNSRecordCodecInstances.jvm,
+    cloudflareDNSRecordCodecInstances.js,
+    cloudflareDNSRecordCirceInstances.jvm,
+    cloudflareDNSRecordCirceInstances.js,
+    cloudflareDNSRecordQueryInstances.jvm,
+    cloudflareDNSRecordQueryInstances.js,
   )
   .settings(commonSettings)
   .settings(
@@ -256,9 +275,9 @@ lazy val cloudflareDnsRecordInstances = (project in file("cloudflare-dns/record/
     ),
   )
 
-lazy val cloudflareDnsRecordCodecInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/instances/codec-instances"))
+lazy val cloudflareDNSRecordCodecInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/instances/codec-instances"))
   .dependsOn(
-    cloudflareDnsRecordCore,
+    cloudflareDNSRecordCore,
   )
   .settings(commonSettings)
   .settings(
@@ -268,9 +287,9 @@ lazy val cloudflareDnsRecordCodecInstances = (crossProject(JSPlatform, JVMPlatfo
     ),
   )
 
-lazy val cloudflareDnsRecordCirceInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/instances/circe-instances"))
+lazy val cloudflareDNSRecordCirceInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/instances/circe-instances"))
   .dependsOn(
-    cloudflareDnsRecordCodecInstances,
+    cloudflareDNSRecordCodecInstances,
     cloudflareZoneCodecInstances,
     cloudflareCodecInstances % Test,
     cloudflareCirceInstances % Test,
@@ -287,9 +306,23 @@ lazy val cloudflareDnsRecordCirceInstances = (crossProject(JSPlatform, JVMPlatfo
     ),
   )
 
-lazy val cloudflareDnsRecordApi = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/api"))
+lazy val cloudflareDNSRecordQueryInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/instances/query-instances"))
   .dependsOn(
-    cloudflareDnsRecordCore,
+    cloudflareCodecInstances,
+    cloudflareQueryInstances,
+    cloudflareDNSRecordCodecInstances,
+  )
+  .settings(commonSettings)
+  .settings(
+    name := "dns-record-query-instances",
+    libraryDependencies ++= Seq(
+      "com.peknight" %%% "query-core" % pekCirceInstancesVersion,
+    ),
+  )
+
+lazy val cloudflareDNSRecordApi = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/api"))
+  .dependsOn(
+    cloudflareDNSRecordCore,
   )
   .settings(commonSettings)
   .settings(
@@ -298,14 +331,14 @@ lazy val cloudflareDnsRecordApi = (crossProject(JSPlatform, JVMPlatform) in file
     ),
   )
 
-lazy val cloudflareDnsRecordHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/http4s"))
+lazy val cloudflareDNSRecordHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/http4s"))
   .dependsOn(
-    cloudflareDnsRecordApi,
+    cloudflareDNSRecordApi,
     cloudflareHttp4s,
     cloudflareCodecInstances,
     cloudflareCirceInstances,
-    cloudflareQueryInstances,
-    cloudflareDnsRecordCirceInstances,
+    cloudflareDNSRecordCirceInstances,
+    cloudflareDNSRecordQueryInstances,
     cloudflareTest % Test,
   )
   .settings(commonSettings)
@@ -328,7 +361,7 @@ lazy val cloudflareDnsRecordHttp4s = (crossProject(JSPlatform, JVMPlatform) in f
 
 lazy val cloudflareTest = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-test"))
   .dependsOn(
-    cloudflareZoneCore
+    cloudflareDNSRecordCore
   )
   .settings(commonSettings)
   .settings(

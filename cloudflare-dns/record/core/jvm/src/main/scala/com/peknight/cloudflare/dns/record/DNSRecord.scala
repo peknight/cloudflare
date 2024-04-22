@@ -65,12 +65,12 @@ object DNSRecord:
   end CERT
 
   case class CNAME(
-                    id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
+                    id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: Hostname,
                     proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int], locked: Boolean,
                     meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                     createdOn: OffsetDateTime, modifiedOn: OffsetDateTime
                   ) extends DNSRecord:
-    type CONTENT = String
+    type CONTENT = Hostname
     def `type`: DNSRecordType = DNSRecordType.CNAME
   end CNAME
 
@@ -116,7 +116,7 @@ object DNSRecord:
 
   case class MX(
                  id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: Hostname,
-                 proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int], locked: Boolean,
+                 priority: Int, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int], locked: Boolean,
                  meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                  createdOn: OffsetDateTime, modifiedOn: OffsetDateTime
                ) extends DNSRecord:
@@ -135,12 +135,12 @@ object DNSRecord:
   end NAPTR
 
   case class NS(
-                 id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
+                 id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: Hostname,
                  proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int], locked: Boolean,
                  meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                  createdOn: OffsetDateTime, modifiedOn: OffsetDateTime
                ) extends DNSRecord:
-    type CONTENT = String
+    type CONTENT = Hostname
     def `type`: DNSRecordType = DNSRecordType.NS
   end NS
 
@@ -216,8 +216,8 @@ object DNSRecord:
 
   case class URI(
                   id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
-                  data: URIData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int], locked: Boolean,
-                  meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
+                  data: URIData, priority: Int, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int],
+                  locked: Boolean, meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                   createdOn: OffsetDateTime, modifiedOn: OffsetDateTime
                 ) extends DNSRecord:
     type CONTENT = String

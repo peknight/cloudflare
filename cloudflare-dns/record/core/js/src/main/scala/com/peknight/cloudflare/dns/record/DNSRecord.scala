@@ -63,12 +63,12 @@ object DNSRecord:
   end CERT
 
   case class CNAME(
-                    id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
+                    id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: Hostname,
                     proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int], locked: Boolean,
                     meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                     createdOn: String, modifiedOn: String
                   ) extends DNSRecord:
-    type CONTENT = String
+    type CONTENT = Hostname
     def `type`: DNSRecordType = DNSRecordType.CNAME
   end CNAME
 
@@ -114,7 +114,7 @@ object DNSRecord:
 
   case class MX(
                  id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: Hostname,
-                 proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int], locked: Boolean,
+                 priority: Int, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int], locked: Boolean,
                  meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                  createdOn: String, modifiedOn: String
                ) extends DNSRecord:
@@ -133,12 +133,12 @@ object DNSRecord:
   end NAPTR
 
   case class NS(
-                 id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
+                 id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: Hostname,
                  proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int], locked: Boolean,
                  meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                  createdOn: String, modifiedOn: String
                ) extends DNSRecord:
-    type CONTENT = String
+    type CONTENT = Hostname
     def `type`: DNSRecordType = DNSRecordType.NS
   end NS
 
