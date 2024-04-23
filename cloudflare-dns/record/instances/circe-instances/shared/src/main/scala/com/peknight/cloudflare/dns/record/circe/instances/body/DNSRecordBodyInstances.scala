@@ -9,6 +9,7 @@ import com.peknight.codec.Codec
 import com.peknight.codec.circe.sum.jsonType.given
 import com.peknight.codec.configuration.CodecConfiguration
 import com.peknight.codec.cursor.Cursor
+import com.peknight.codec.ip4s.instances.host.given
 import io.circe.Json
 
 trait DNSRecordBodyInstances:
