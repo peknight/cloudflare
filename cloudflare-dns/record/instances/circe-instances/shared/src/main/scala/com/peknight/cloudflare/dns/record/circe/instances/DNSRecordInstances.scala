@@ -3,17 +3,19 @@ package com.peknight.cloudflare.dns.record.circe.instances
 import cats.Monad
 import com.peknight.cloudflare.dns.record.*
 import com.peknight.cloudflare.dns.record.DNSRecord.*
-import com.peknight.cloudflare.dns.record.codec.instances.{DNSRecordIdInstances, DNSRecordTypeInstances}
-import com.peknight.cloudflare.zone.codec.instances.ZoneIdInstances
+import com.peknight.cloudflare.dns.record.circe.instances.data.given
+import com.peknight.cloudflare.dns.record.codec.instances.dnsRecordId.given
+import com.peknight.cloudflare.dns.record.codec.instances.dnsRecordType.given
+import com.peknight.cloudflare.zone.codec.instances.zoneId.given
 import com.peknight.codec.Codec
+import com.peknight.codec.circe.sum.jsonType.given
 import com.peknight.codec.configuration.CodecConfiguration
 import com.peknight.codec.cursor.Cursor
+import com.peknight.codec.ip4s.instances.host.given
+import com.peknight.codec.ip4s.instances.port.given
 import io.circe.Json
 
-trait DNSRecordInstances extends DNSRecordIdInstances
-  with DNSRecordTypeInstances
-  with DataInstances
-  with ZoneIdInstances:
+trait DNSRecordInstances:
   given codecDNSRecordMeta[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], DNSRecordMeta] =
     Codec.derived[F, Json, DNSRecordMeta]
 

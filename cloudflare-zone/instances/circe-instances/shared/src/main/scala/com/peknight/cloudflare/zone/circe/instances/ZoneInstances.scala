@@ -1,16 +1,16 @@
 package com.peknight.cloudflare.zone.circe.instances
 
 import cats.Monad
-import com.peknight.cloudflare.zone.codec.instances.AllInstances
 import com.peknight.cloudflare.zone.*
+import com.peknight.cloudflare.zone.codec.instances.all.given
 import com.peknight.codec.Codec
-import com.peknight.codec.circe.sum.JsonTypeInstances
+import com.peknight.codec.circe.sum.jsonType.given
 import com.peknight.codec.configuration.CodecConfiguration
 import com.peknight.codec.cursor.Cursor
-import com.peknight.codec.ip4s.instances.HostInstances
+import com.peknight.codec.ip4s.instances.host.given
 import io.circe.Json
 
-trait ZoneInstances extends AllInstances with HostInstances with JsonTypeInstances:
+trait ZoneInstances:
   given codecZoneMeta[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], ZoneMeta] =
     Codec.derived[F, Json, ZoneMeta]
 
