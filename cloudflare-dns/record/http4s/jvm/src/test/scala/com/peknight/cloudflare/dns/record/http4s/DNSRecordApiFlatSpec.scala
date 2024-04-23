@@ -1,12 +1,12 @@
 package com.peknight.cloudflare.dns.record.http4s
 
+import cats.Id
 import cats.effect.IO
 import cats.effect.testing.scalatest.AsyncIOSpec
-import cats.syntax.applicative.*
 import cats.syntax.either.*
+import cats.syntax.flatMap.*
+import cats.syntax.functor.*
 import cats.syntax.option.*
-import cats.{Id, Monad}
-import com.comcast.ip4s.Ipv4Address
 import com.peknight.cats.ext.monad.transformer.OptionEitherT
 import com.peknight.cloudflare.Result
 import com.peknight.cloudflare.dns.record.DNSRecordType.A
@@ -14,7 +14,7 @@ import com.peknight.cloudflare.dns.record.body.DNSRecordBody
 import com.peknight.cloudflare.dns.record.query.ListDNSRecordsQuery
 import com.peknight.cloudflare.dns.record.query.Order.Type
 import com.peknight.cloudflare.query.Direction.Desc
-import com.peknight.cloudflare.test.{PekDNSRecord, PekToken, PekZone}
+import com.peknight.cloudflare.test.{PekToken, PekZone}
 import com.peknight.codec.ip4s.instances.host.stringCodecIpv4Address
 import com.peknight.error.Error
 import org.http4s.client.dsl
@@ -53,14 +53,19 @@ class DNSRecordApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
     EmberClientBuilder.default[IO].build
       .use { client =>
         val api = DNSRecordApi[IO](client)(dsl.io)
-        for
-          dnsRecord <- api.createDNSRecord(PekZone.zoneId)(body1)(PekToken.token).lift
-          res <- api.overwriteDNSRecord(PekZone.zoneId, dnsRecord.id)(body1)(PekToken.token).lift
-        yield dnsRecord
+        val run =
+          for
+            dnsRecord <- api.createDNSRecord(PekZone.zoneId)(body1)(PekToken.token).lift
+            dnsRecord1 <- api.overwriteDNSRecord(PekZone.zoneId, dnsRecord.id)(body1)(PekToken.token).lift
+            dnsRecord2 <- api.updateDNSRecord(PekZone.zoneId, dnsRecord1.id)(body2)(PekToken.token).lift
+            dnsRecord3 <- api.dnsRecordDetails(PekZone.zoneId, dnsRecord2.id)(PekToken.token).lift
+            dnsRecordId <- api.deleteDNSRecord(PekZone.zoneId, dnsRecord3.id)(PekToken.token).lift
+          yield dnsRecordId
+        run.value
       }
       .asserting{ result =>
         println(result)
-        assert(result.result.isDefined)
+        assert(result.exists(_.isDefined))
       }
   }
 
