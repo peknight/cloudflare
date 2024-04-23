@@ -7,7 +7,7 @@ import com.peknight.cloudflare.codec.instances.configuration.given
 import com.peknight.cloudflare.dns.record.body.DNSRecordBody
 import com.peknight.cloudflare.dns.record.circe.instances.body.dnsRecordBody.given
 import com.peknight.cloudflare.dns.record.circe.instances.dnsRecord.given
-import com.peknight.cloudflare.dns.record.codec.instances.dnsRecordId.given
+import com.peknight.cloudflare.dns.record.codec.instances.dnsRecordId.{codecDNSRecordIdS, stringCodecDNSRecordId}
 import com.peknight.cloudflare.dns.record.codec.instances.dnsRecordIdObject.codecDNSRecordIdObjectS
 import com.peknight.cloudflare.dns.record.query.ListDNSRecordsQuery
 import com.peknight.cloudflare.dns.record.query.instances.query.listDNSRecordsQuery.given
@@ -18,7 +18,7 @@ import com.peknight.cloudflare.query.instances.configuration.given
 import com.peknight.cloudflare.zone.ZoneId
 import com.peknight.cloudflare.zone.codec.instances.zoneId.given
 import com.peknight.cloudflare.{Result, Token}
-import com.peknight.codec.Decoder
+import com.peknight.codec.{Decoder, Encoder}
 import com.peknight.codec.cursor.Cursor
 import com.peknight.codec.http4s.circe.instances.entityDecoder.given
 import com.peknight.codec.http4s.circe.instances.entityEncoder.given
@@ -35,6 +35,9 @@ class DNSRecordApi[F[_]: Concurrent](client: Client[F])(dsl: Http4sClientDsl[F])
   import dsl.*
 
   private[this] def dnsRecordsUri(zoneId: ZoneId): Uri = clientV4 / "zones" / zoneId / "dns_records"
+
+  given dnsRecordIdJsonEncoder: Encoder[Id, Json, DNSRecordId] = codecDNSRecordIdS[Id, Json]
+  given dnsRecordIdStringEncoder: Encoder[Id, String, DNSRecordId] = stringCodecDNSRecordId[Id]
 
   def listDNSRecords(zoneId: ZoneId)(query: ListDNSRecordsQuery)(token: Token): F[Result[List[DNSRecord]]] =
     client.run(GET(dnsRecordsUri(zoneId).withQuery[ListDNSRecordsQuery](query), Headers(token.toHeader)))

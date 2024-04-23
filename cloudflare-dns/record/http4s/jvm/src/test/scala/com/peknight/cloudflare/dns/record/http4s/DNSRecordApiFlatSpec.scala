@@ -1,17 +1,22 @@
 package com.peknight.cloudflare.dns.record.http4s
 
-import cats.Id
 import cats.effect.IO
 import cats.effect.testing.scalatest.AsyncIOSpec
+import cats.syntax.applicative.*
+import cats.syntax.either.*
 import cats.syntax.option.*
+import cats.{Id, Monad}
 import com.comcast.ip4s.Ipv4Address
-import com.peknight.codec.ip4s.instances.host.stringCodecIpv4Address
+import com.peknight.cats.ext.monad.transformer.OptionEitherT
+import com.peknight.cloudflare.Result
 import com.peknight.cloudflare.dns.record.DNSRecordType.A
 import com.peknight.cloudflare.dns.record.body.DNSRecordBody
 import com.peknight.cloudflare.dns.record.query.ListDNSRecordsQuery
 import com.peknight.cloudflare.dns.record.query.Order.Type
 import com.peknight.cloudflare.query.Direction.Desc
 import com.peknight.cloudflare.test.{PekDNSRecord, PekToken, PekZone}
+import com.peknight.codec.ip4s.instances.host.stringCodecIpv4Address
+import com.peknight.error.Error
 import org.http4s.client.dsl
 import org.http4s.ember.client.EmberClientBuilder
 import org.scalatest.flatspec.AsyncFlatSpec
@@ -30,6 +35,14 @@ class DNSRecordApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
         assert(result.result.isDefined)
       }
   }
+
+  extension [A] (io: IO[Result[A]])
+    private[this] def lift: OptionEitherT[IO, Error, A] =
+      OptionEitherT(io.flatTap(IO.println).map(result =>
+        if result.success then result.result.asRight[Error] else Error(result).asLeft[Option[A]]
+      ))
+  end extension
+
   "CloudFlare DNS Records for a Zone Api Overwrite DNS Record" should "succeed" in {
     val content1 = stringCodecIpv4Address[Id].decode("127.0.0.1").fold(throw _, identity)
     val content2 = stringCodecIpv4Address[Id].decode("192.168.0.1").fold(throw _, identity)
@@ -41,15 +54,15 @@ class DNSRecordApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
       .use { client =>
         val api = DNSRecordApi[IO](client)(dsl.io)
         for
-          createResult <- api.createDNSRecord(PekZone.zoneId)(body1)(PekToken.token)
-          _ <- IO.println(createResult)
-        yield createResult
-        api.overwriteDNSRecord(PekZone.zoneId, PekDNSRecord.dnsRecordId)(body)(PekToken.token)
+          dnsRecord <- api.createDNSRecord(PekZone.zoneId)(body1)(PekToken.token).lift
+          res <- api.overwriteDNSRecord(PekZone.zoneId, dnsRecord.id)(body1)(PekToken.token).lift
+        yield dnsRecord
       }
       .asserting{ result =>
         println(result)
         assert(result.result.isDefined)
       }
   }
+
 
 end DNSRecordApiFlatSpec
