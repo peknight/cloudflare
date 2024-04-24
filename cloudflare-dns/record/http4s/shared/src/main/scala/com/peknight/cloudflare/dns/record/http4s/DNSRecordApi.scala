@@ -23,7 +23,6 @@ import com.peknight.codec.cursor.Cursor
 import com.peknight.codec.http4s.circe.instances.entityDecoder.given
 import com.peknight.codec.http4s.circe.instances.entityEncoder.given
 import com.peknight.codec.http4s.instances.segmentEncoder.given
-import com.peknight.query.Query
 import com.peknight.query.http4s.syntax.id.uri.withQuery
 import io.circe.Json
 import org.http4s.Method.{DELETE, GET, PATCH, POST, PUT}
