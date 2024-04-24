@@ -56,8 +56,8 @@ class DNSRecordApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
         val run =
           for
             dnsRecord <- api.createDNSRecord(PekZone.zoneId)(body1)(PekToken.token).lift
-            dnsRecord1 <- api.overwriteDNSRecord(PekZone.zoneId, dnsRecord.id)(body1)(PekToken.token).lift
-            dnsRecord2 <- api.updateDNSRecord(PekZone.zoneId, dnsRecord1.id)(body2)(PekToken.token).lift
+            dnsRecord1 <- api.overwriteDNSRecord(PekZone.zoneId, dnsRecord.id)(body2)(PekToken.token).lift
+            dnsRecord2 <- api.updateDNSRecord(PekZone.zoneId, dnsRecord1.id)(body3)(PekToken.token).lift
             dnsRecord3 <- api.dnsRecordDetails(PekZone.zoneId, dnsRecord2.id)(PekToken.token).lift
             dnsRecordId <- api.deleteDNSRecord(PekZone.zoneId, dnsRecord3.id)(PekToken.token).lift
           yield dnsRecordId
