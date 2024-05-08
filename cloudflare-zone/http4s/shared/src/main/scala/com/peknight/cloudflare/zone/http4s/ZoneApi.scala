@@ -3,7 +3,6 @@ package com.peknight.cloudflare.zone.http4s
 import cats.effect.Concurrent
 import com.peknight.cloudflare.circe.instances.result.given
 import com.peknight.cloudflare.codec.instances.configuration.given
-import com.peknight.cloudflare.codec.instances.query.all.given
 import com.peknight.cloudflare.http4s.headers.toHeader
 import com.peknight.cloudflare.http4s.uri.clientV4
 import com.peknight.cloudflare.query.instances.configuration.given
@@ -13,7 +12,6 @@ import com.peknight.cloudflare.zone.query.instances.query.listZonesQuery.given
 import com.peknight.cloudflare.zone.{Zone, api}
 import com.peknight.cloudflare.{Result, Token}
 import com.peknight.codec.http4s.circe.instances.entityDecoder.given
-import com.peknight.query.Query
 import com.peknight.query.http4s.syntax.id.uri.withQuery
 import org.http4s.Headers
 import org.http4s.Method.GET
