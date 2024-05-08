@@ -2,13 +2,13 @@ package com.peknight.cloudflare.circe.instances
 
 import cats.Monad
 import com.peknight.cloudflare.{Error, Message, Result, ResultInfo}
-import com.peknight.codec.circe.sum.JsonTypeInstances
+import com.peknight.codec.circe.sum.jsonType.given
 import com.peknight.codec.configuration.CodecConfiguration
 import com.peknight.codec.cursor.Cursor
 import com.peknight.codec.{Codec, Decoder, Encoder}
 import io.circe.Json
 
-trait ResultInstances extends JsonTypeInstances:
+trait ResultInstances:
   given codecResultInfo[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], ResultInfo] =
     Codec.derived[F, Json, ResultInfo]
   given codecError[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], Error] =
