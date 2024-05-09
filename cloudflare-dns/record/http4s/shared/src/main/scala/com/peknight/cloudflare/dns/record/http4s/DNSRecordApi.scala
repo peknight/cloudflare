@@ -18,11 +18,12 @@ import com.peknight.cloudflare.query.instances.configuration.given
 import com.peknight.cloudflare.zone.ZoneId
 import com.peknight.cloudflare.zone.codec.instances.zoneId.given
 import com.peknight.cloudflare.{Result, Token}
-import com.peknight.codec.{Decoder, Encoder}
+import com.peknight.codec.circe.sum.jsonType.given
 import com.peknight.codec.cursor.Cursor
 import com.peknight.codec.http4s.circe.instances.entityDecoder.given
 import com.peknight.codec.http4s.circe.instances.entityEncoder.given
 import com.peknight.codec.http4s.instances.segmentEncoder.given
+import com.peknight.codec.{Decoder, Encoder}
 import com.peknight.query.http4s.syntax.id.uri.withQuery
 import io.circe.Json
 import org.http4s.Method.{DELETE, GET, PATCH, POST, PUT}
@@ -30,33 +31,33 @@ import org.http4s.client.Client
 import org.http4s.client.dsl.Http4sClientDsl
 import org.http4s.{Headers, Uri}
 
-class DNSRecordApi[F[_]: Concurrent](client: Client[F])(dsl: Http4sClientDsl[F]) extends api.DNSRecordApi[F]:
+class DNSRecordApi[F[_]: Concurrent](token: Token)(client: Client[F])(dsl: Http4sClientDsl[F])
+  extends api.DNSRecordApi[F]:
   import dsl.*
 
   private[this] def dnsRecordsUri(zoneId: ZoneId): Uri = clientV4 / "zones" / zoneId / "dns_records"
+  private[this] val headers = Headers(token.toHeader)
 
   given dnsRecordIdJsonEncoder: Encoder[Id, Json, DNSRecordId] = codecDNSRecordIdS[Id, Json]
   given dnsRecordIdStringEncoder: Encoder[Id, String, DNSRecordId] = stringCodecDNSRecordId[Id]
 
-  def listDNSRecords(zoneId: ZoneId)(query: ListDNSRecordsQuery)(token: Token): F[Result[List[DNSRecord]]] =
-    client.run(GET(dnsRecordsUri(zoneId).withQuery[ListDNSRecordsQuery](query), Headers(token.toHeader)))
+  def listDNSRecords(zoneId: ZoneId)(query: ListDNSRecordsQuery): F[Result[List[DNSRecord]]] =
+    client.run(GET(dnsRecordsUri(zoneId).withQuery[ListDNSRecordsQuery](query), headers))
       .use(_.as[Result[List[DNSRecord]]])
 
-  def createDNSRecord(zoneId: ZoneId)(body: DNSRecordBody)(token: Token): F[Result[DNSRecord]] =
-    client.run(POST(body, dnsRecordsUri(zoneId), Headers(token.toHeader))).use(_.as[Result[DNSRecord]])
+  def createDNSRecord(zoneId: ZoneId)(body: DNSRecordBody): F[Result[DNSRecord]] =
+    client.run(POST(body, dnsRecordsUri(zoneId), headers)).use(_.as[Result[DNSRecord]])
 
-  def deleteDNSRecord(zoneId: ZoneId, dnsRecordId: DNSRecordId)(token: Token): F[Result[DNSRecordId]] =
+  def deleteDNSRecord(zoneId: ZoneId, dnsRecordId: DNSRecordId): F[Result[DNSRecordId]] =
     given Decoder[Id, Cursor[Json], DNSRecordId] = codecDNSRecordIdObjectS[Id, Json]
-    client.run(DELETE(dnsRecordsUri(zoneId) / dnsRecordId, Headers(token.toHeader))).use(_.as[Result[DNSRecordId]])
+    client.run(DELETE(dnsRecordsUri(zoneId) / dnsRecordId, headers)).use(_.as[Result[DNSRecordId]])
 
-  def dnsRecordDetails(zoneId: ZoneId, dnsRecordId: DNSRecordId)(token: Token): F[Result[DNSRecord]] =
-    client.run(GET(dnsRecordsUri(zoneId) / dnsRecordId, Headers(token.toHeader))).use(_.as[Result[DNSRecord]])
+  def dnsRecordDetails(zoneId: ZoneId, dnsRecordId: DNSRecordId): F[Result[DNSRecord]] =
+    client.run(GET(dnsRecordsUri(zoneId) / dnsRecordId, headers)).use(_.as[Result[DNSRecord]])
 
-  def updateDNSRecord(zoneId: ZoneId, dnsRecordId: DNSRecordId)(body: DNSRecordBody)(token: Token)
-  : F[Result[DNSRecord]] =
-    client.run(PATCH(body, dnsRecordsUri(zoneId) / dnsRecordId, Headers(token.toHeader))).use(_.as[Result[DNSRecord]])
+  def updateDNSRecord(zoneId: ZoneId, dnsRecordId: DNSRecordId)(body: DNSRecordBody): F[Result[DNSRecord]] =
+    client.run(PATCH(body, dnsRecordsUri(zoneId) / dnsRecordId, headers)).use(_.as[Result[DNSRecord]])
 
-  def overwriteDNSRecord(zoneId: ZoneId, dnsRecordId: DNSRecordId)(body: DNSRecordBody)(token: Token)
-  : F[Result[DNSRecord]] =
-    client.run(PUT(body, dnsRecordsUri(zoneId) / dnsRecordId, Headers(token.toHeader))).use(_.as[Result[DNSRecord]])
+  def overwriteDNSRecord(zoneId: ZoneId, dnsRecordId: DNSRecordId)(body: DNSRecordBody): F[Result[DNSRecord]] =
+    client.run(PUT(body, dnsRecordsUri(zoneId) / dnsRecordId, headers)).use(_.as[Result[DNSRecord]])
 end DNSRecordApi

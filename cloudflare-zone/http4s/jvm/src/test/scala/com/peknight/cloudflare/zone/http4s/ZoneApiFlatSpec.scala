@@ -25,7 +25,7 @@ class ZoneApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
       status = Active.some
     )
     EmberClientBuilder.default[IO].build
-      .use(client => ZoneApi[IO](client)(dsl.io).listZones(query)(PekToken.token))
+      .use(client => ZoneApi[IO](PekToken.token)(client)(dsl.io).listZones(query))
       .asserting { result =>
         println(result)
         assert(result.result.isDefined)

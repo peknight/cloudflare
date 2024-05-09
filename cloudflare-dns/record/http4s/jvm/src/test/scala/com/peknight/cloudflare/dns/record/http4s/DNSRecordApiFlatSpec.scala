@@ -29,7 +29,7 @@ class DNSRecordApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
       order = Type.some
     )
     EmberClientBuilder.default[IO].build
-      .use(client => DNSRecordApi[IO](client)(dsl.io).listDNSRecords(PekZone.zoneId)(query)(PekToken.token))
+      .use(client => DNSRecordApi[IO](PekToken.token)(client)(dsl.io).listDNSRecords(PekZone.zoneId)(query))
       .asserting{ result =>
         println(result)
         assert(result.result.isDefined)
@@ -52,14 +52,14 @@ class DNSRecordApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
     val body3 = body1.copy(content = content3)
     EmberClientBuilder.default[IO].build
       .use { client =>
-        val api = DNSRecordApi[IO](client)(dsl.io)
+        val api = DNSRecordApi[IO](PekToken.token)(client)(dsl.io)
         val run =
           for
-            dnsRecord <- api.createDNSRecord(PekZone.zoneId)(body1)(PekToken.token).lift
-            dnsRecord1 <- api.overwriteDNSRecord(PekZone.zoneId, dnsRecord.id)(body2)(PekToken.token).lift
-            dnsRecord2 <- api.updateDNSRecord(PekZone.zoneId, dnsRecord1.id)(body3)(PekToken.token).lift
-            dnsRecord3 <- api.dnsRecordDetails(PekZone.zoneId, dnsRecord2.id)(PekToken.token).lift
-            dnsRecordId <- api.deleteDNSRecord(PekZone.zoneId, dnsRecord3.id)(PekToken.token).lift
+            dnsRecord <- api.createDNSRecord(PekZone.zoneId)(body1).lift
+            dnsRecord1 <- api.overwriteDNSRecord(PekZone.zoneId, dnsRecord.id)(body2).lift
+            dnsRecord2 <- api.updateDNSRecord(PekZone.zoneId, dnsRecord1.id)(body3).lift
+            dnsRecord3 <- api.dnsRecordDetails(PekZone.zoneId, dnsRecord2.id).lift
+            dnsRecordId <- api.deleteDNSRecord(PekZone.zoneId, dnsRecord3.id).lift
           yield dnsRecordId
         run.value
       }
