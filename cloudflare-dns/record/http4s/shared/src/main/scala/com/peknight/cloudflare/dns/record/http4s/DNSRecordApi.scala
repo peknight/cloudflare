@@ -35,8 +35,8 @@ class DNSRecordApi[F[_]: Concurrent](token: Token)(client: Client[F])(dsl: Http4
   extends api.DNSRecordApi[F]:
   import dsl.*
 
-  private[this] def dnsRecordsUri(zoneId: ZoneId): Uri = clientV4 / "zones" / zoneId / "dns_records"
-  private[this] val headers = Headers(token.toHeader)
+  private def dnsRecordsUri(zoneId: ZoneId): Uri = clientV4 / "zones" / zoneId / "dns_records"
+  private val headers = Headers(token.toHeader)
 
   given dnsRecordIdJsonEncoder: Encoder[Id, Json, DNSRecordId] = codecDNSRecordIdS[Id, Json]
   given dnsRecordIdStringEncoder: Encoder[Id, String, DNSRecordId] = stringCodecDNSRecordId[Id]

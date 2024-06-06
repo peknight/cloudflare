@@ -21,7 +21,7 @@ import org.http4s.client.dsl.Http4sClientDsl
 
 class ZoneApi[F[_]: Concurrent](token: Token)(client: Client[F])(dsl: Http4sClientDsl[F]) extends api.ZoneApi[F]:
   import dsl.*
-  private[this] val headers: Headers = Headers(token.toHeader)
+  private val headers: Headers = Headers(token.toHeader)
   def listZones(query: ListZonesQuery): F[Result[List[Zone]]] =
     client.run(GET((clientV4 / "zones").withQuery[ListZonesQuery](query), headers)).use(_.as[Result[List[Zone]]])
 end ZoneApi

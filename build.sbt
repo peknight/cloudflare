@@ -1,6 +1,6 @@
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
-ThisBuild / scalaVersion := "3.3.1"
+ThisBuild / scalaVersion := "3.4.2"
 
 ThisBuild / organization := "com.peknight.cloudflare"
 
@@ -370,10 +370,10 @@ lazy val cloudflareTest = (crossProject(JSPlatform, JVMPlatform) in file("cloudf
     ),
   )
 
-val circeVersion = "0.14.6"
+val circeVersion = "0.14.7"
 val http4sVersion = "1.0.0-M34"
-val ip4sCoreVersion = "3.3.0"
-val scalaTestVersion = "3.2.16"
+val ip4sCoreVersion = "3.5.0"
+val scalaTestVersion = "3.2.18"
 val catsEffectTestingScalaTestVersion = "1.5.0"
 val logbackVersion = "1.5.6"
 

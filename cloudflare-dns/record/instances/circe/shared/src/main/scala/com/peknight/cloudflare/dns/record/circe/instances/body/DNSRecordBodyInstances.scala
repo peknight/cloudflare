@@ -12,6 +12,7 @@ import com.peknight.codec.cursor.Cursor
 import com.peknight.codec.ip4s.instances.host.given
 import io.circe.Json
 
+//noinspection DuplicatedCode
 trait DNSRecordBodyInstances:
   given codecDNSRecordBodyA[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], A] =
     Codec.derived[F, Json, A]

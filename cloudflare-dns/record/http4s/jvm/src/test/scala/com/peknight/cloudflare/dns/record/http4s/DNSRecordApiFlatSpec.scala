@@ -37,7 +37,7 @@ class DNSRecordApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
   }
 
   extension [A] (io: IO[Result[A]])
-    private[this] def lift: OptionEitherT[IO, Error, A] =
+    private def lift: OptionEitherT[IO, Error, A] =
       OptionEitherT(io.flatTap(IO.println).map(result =>
         if result.success then result.result.asRight[Error] else Error(result).asLeft[Option[A]]
       ))
