@@ -144,12 +144,14 @@ lazy val cloudflareZoneInstances = (project in file("cloudflare-zone/instances")
 lazy val cloudflareZoneCodecInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-zone/instances/codec"))
   .dependsOn(
     cloudflareZoneCore,
+    cloudflareCodecInstances,
   )
   .settings(commonSettings)
   .settings(
     name := "zone-codec-instances",
     libraryDependencies ++= Seq(
       "com.peknight" %%% "codec-core" % pekCodecVersion,
+      "com.peknight" %%% "codec-ip4s" % pekCodecVersion,
       "com.peknight" %%% "commons-string" % pekCommonsVersion,
     ),
   )
@@ -157,7 +159,6 @@ lazy val cloudflareZoneCodecInstances = (crossProject(JSPlatform, JVMPlatform) i
 lazy val cloudflareZoneCirceInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-zone/instances/circe"))
   .dependsOn(
     cloudflareZoneCodecInstances,
-    cloudflareCodecInstances % Test,
     cloudflareCirceInstances % Test,
   )
   .settings(commonSettings)
@@ -165,9 +166,7 @@ lazy val cloudflareZoneCirceInstances = (crossProject(JSPlatform, JVMPlatform) i
     name := "zone-circe-instances",
     libraryDependencies ++= Seq(
       "com.peknight" %%% "codec-circe" % pekCodecVersion,
-      "com.peknight" %%% "codec-ip4s" % pekCodecVersion,
-      "io.circe" %%% "circe-parser" % circeVersion % Test,
-      "io.circe" %%% "circe-jawn" % circeVersion % Test,
+      "com.peknight" %%% "codec-circe-parser" % pekCodecVersion % Test,
       "org.scalatest" %%% "scalatest" % scalaTestVersion % Test,
     ),
   )
