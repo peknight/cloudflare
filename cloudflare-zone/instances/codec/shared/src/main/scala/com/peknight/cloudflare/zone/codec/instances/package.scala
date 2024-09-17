@@ -1,7 +1,6 @@
 package com.peknight.cloudflare.zone.codec
 
 package object instances:
-  object all extends AllInstances
   object accountId extends AccountIdInstances
   object account extends AccountInstances
   object ownerId extends OwnerIdInstances
