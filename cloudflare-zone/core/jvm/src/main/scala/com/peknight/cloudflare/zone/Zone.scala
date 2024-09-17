@@ -2,7 +2,7 @@ package com.peknight.cloudflare.zone
 
 import com.comcast.ip4s.Hostname
 
-import java.time.OffsetDateTime
+import java.time.Instant
 
 case class Zone(
                  id: ZoneId,
@@ -15,9 +15,9 @@ case class Zone(
                  originalNameServers: List[Hostname],
                  originalRegistrar: String,
                  originalDnshost: Option[String],
-                 modifiedOn: OffsetDateTime,
-                 createdOn: OffsetDateTime,
-                 activatedOn: OffsetDateTime,
+                 modifiedOn: Instant,
+                 createdOn: Instant,
+                 activatedOn: Instant,
                  meta: ZoneMeta,
                  owner: Owner,
                  account: Account,

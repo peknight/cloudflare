@@ -1,6 +1,6 @@
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
-ThisBuild / scalaVersion := "3.4.2"
+ThisBuild / scalaVersion := "3.5.0"
 
 ThisBuild / organization := "com.peknight.cloudflare"
 
@@ -79,7 +79,7 @@ lazy val cloudflareCodecInstances = (crossProject(JSPlatform, JVMPlatform) in fi
   )
 
 lazy val cloudflareCirceInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-instances/circe"))
-  .dependsOn(cloudflareCore)
+  .dependsOn(cloudflareCodecInstances)
   .settings(commonSettings)
   .settings(
     name := "circe-instances",
@@ -89,7 +89,7 @@ lazy val cloudflareCirceInstances = (crossProject(JSPlatform, JVMPlatform) in fi
   )
 
 lazy val cloudflareQueryInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-instances/query"))
-  .dependsOn(cloudflareCore)
+  .dependsOn(cloudflareCodecInstances)
   .settings(commonSettings)
   .settings(
     name := "query-instances",
@@ -174,7 +174,6 @@ lazy val cloudflareZoneCirceInstances = (crossProject(JSPlatform, JVMPlatform) i
 
 lazy val cloudflareZoneQueryInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-zone/instances/query"))
   .dependsOn(
-    cloudflareCodecInstances,
     cloudflareQueryInstances,
     cloudflareZoneCodecInstances,
   )
@@ -201,7 +200,6 @@ lazy val cloudflareZoneHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("
   .dependsOn(
     cloudflareZoneApi,
     cloudflareHttp4s,
-    cloudflareCodecInstances,
     cloudflareCirceInstances,
     cloudflareZoneCirceInstances,
     cloudflareZoneQueryInstances,
@@ -370,12 +368,12 @@ lazy val cloudflareTest = (crossProject(JSPlatform, JVMPlatform) in file("cloudf
     ),
   )
 
-val circeVersion = "0.14.7"
+val circeVersion = "0.14.10"
 val http4sVersion = "1.0.0-M34"
-val ip4sCoreVersion = "3.5.0"
-val scalaTestVersion = "3.2.18"
+val ip4sCoreVersion = "3.6.0"
+val scalaTestVersion = "3.2.19"
 val catsEffectTestingScalaTestVersion = "1.5.0"
-val logbackVersion = "1.5.6"
+val logbackVersion = "1.5.8"
 
 val pekVersion = "0.1.0-SNAPSHOT"
 val pekCodecVersion = pekVersion
