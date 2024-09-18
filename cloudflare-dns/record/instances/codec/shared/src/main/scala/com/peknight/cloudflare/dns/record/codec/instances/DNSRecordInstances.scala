@@ -12,6 +12,7 @@ import com.peknight.codec.configuration.CodecConfiguration
 import com.peknight.codec.cursor.Cursor
 import com.peknight.codec.ip4s.instances.host.given
 import com.peknight.codec.ip4s.instances.port.given
+import com.peknight.codec.sum.*
 
 //noinspection DuplicatedCode
 trait DNSRecordInstances:
