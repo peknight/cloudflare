@@ -7,7 +7,7 @@ import cats.syntax.either.*
 import cats.syntax.flatMap.*
 import cats.syntax.functor.*
 import cats.syntax.option.*
-import com.peknight.cats.ext.monad.transformer.OptionEitherT
+import com.peknight.cats.ext.data.OptionEitherT
 import com.peknight.cloudflare.Result
 import com.peknight.cloudflare.dns.record.DNSRecordType.A
 import com.peknight.cloudflare.dns.record.body.DNSRecordBody
