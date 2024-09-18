@@ -275,19 +275,19 @@ lazy val cloudflareDNSRecordInstances = (project in file("cloudflare-dns/record/
 lazy val cloudflareDNSRecordCodecInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/instances/codec"))
   .dependsOn(
     cloudflareDNSRecordCore,
+    cloudflareZoneCodecInstances,
   )
   .settings(commonSettings)
   .settings(
     name := "dns-record-codec-instances",
     libraryDependencies ++= Seq(
-      "com.peknight" %%% "codec-core" % pekCodecVersion,
+      "com.peknight" %%% "codec-ip4s" % pekCodecVersion,
     ),
   )
 
 lazy val cloudflareDNSRecordCirceInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/instances/circe"))
   .dependsOn(
     cloudflareDNSRecordCodecInstances,
-    cloudflareZoneCodecInstances,
     cloudflareCodecInstances % Test,
     cloudflareCirceInstances % Test,
   )
@@ -296,9 +296,7 @@ lazy val cloudflareDNSRecordCirceInstances = (crossProject(JSPlatform, JVMPlatfo
     name := "dns-record-circe-instances",
     libraryDependencies ++= Seq(
       "com.peknight" %%% "codec-circe" % pekCodecVersion,
-      "com.peknight" %%% "codec-ip4s" % pekCodecVersion,
-      "io.circe" %%% "circe-parser" % circeVersion % Test,
-      "io.circe" %%% "circe-jawn" % circeVersion % Test,
+      "com.peknight" %%% "codec-circe-parser" % pekCodecVersion % Test,
       "org.scalatest" %%% "scalatest" % scalaTestVersion % Test,
     ),
   )
