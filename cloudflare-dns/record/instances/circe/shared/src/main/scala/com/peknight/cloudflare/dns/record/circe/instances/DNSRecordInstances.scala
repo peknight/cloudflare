@@ -36,6 +36,8 @@ trait DNSRecordInstances:
     codecDNSRecordNAPTR[F, Json]
   given jsonCodecDNSRecordNS[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], NS] =
     codecDNSRecordNS[F, Json]
+  given jsonCodecDNSRecordOPENPGPKEY[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], OPENPGPKEY] =
+    codecDNSRecordOPENPGPKEY[F, Json]
   given jsonCodecDNSRecordPTR[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], PTR] =
     codecDNSRecordPTR[F, Json]
   given jsonCodecDNSRecordSMIMEA[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], SMIMEA] =

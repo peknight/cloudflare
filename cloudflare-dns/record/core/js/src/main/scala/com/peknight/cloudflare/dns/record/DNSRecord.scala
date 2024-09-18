@@ -17,14 +17,18 @@ sealed trait DNSRecord:
   def meta: Option[DNSRecordMeta]
   def comment: Option[String]
   def tags: Option[List[String]]
+  def settings: DNSRecordSettings
   def createdOn: String
   def modifiedOn: String
+  def commentModifiedOn: Option[String]
+  def tagsModifiedOn: Option[String]
 end DNSRecord
 object DNSRecord:
   case class A(
                 id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: Ipv4Address,
                 proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int], meta: Option[DNSRecordMeta],
-                comment: Option[String], tags: Option[List[String]], createdOn: String, modifiedOn: String
+                comment: Option[String], tags: Option[List[String]], settings: DNSRecordSettings, createdOn: String,
+                modifiedOn: String, commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
               ) extends DNSRecord:
     type CONTENT = Ipv4Address
     def `type`: DNSRecordType = DNSRecordType.A
@@ -33,7 +37,8 @@ object DNSRecord:
   case class AAAA(
                    id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: Ipv6Address,
                    proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int], meta: Option[DNSRecordMeta],
-                   comment: Option[String], tags: Option[List[String]], createdOn: String, modifiedOn: String
+                   comment: Option[String], tags: Option[List[String]], settings: DNSRecordSettings, createdOn: String,
+                   modifiedOn: String, commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
                  ) extends DNSRecord:
     type CONTENT = Ipv6Address
     def `type`: DNSRecordType = DNSRecordType.AAAA
@@ -43,7 +48,8 @@ object DNSRecord:
                   id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
                   data: CAAData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int],
                   meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
-                  createdOn: String, modifiedOn: String
+                  settings: DNSRecordSettings, createdOn: String, modifiedOn: String,
+                  commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
                 ) extends DNSRecord:
     type CONTENT = String
     def `type`: DNSRecordType = DNSRecordType.CAA
@@ -52,8 +58,9 @@ object DNSRecord:
   case class CERT(
                    id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
                    data: CERTData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int],
-                   meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]], createdOn: String,
-                   modifiedOn: String
+                   meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
+                   settings: DNSRecordSettings, createdOn: String, modifiedOn: String,
+                   commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
                  ) extends DNSRecord:
     type CONTENT = String
     def `type`: DNSRecordType = DNSRecordType.CERT
@@ -62,7 +69,9 @@ object DNSRecord:
   case class CNAME(
                     id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: Hostname,
                     proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int], meta: Option[DNSRecordMeta],
-                    comment: Option[String], tags: Option[List[String]], createdOn: String, modifiedOn: String
+                    comment: Option[String], tags: Option[List[String]], settings: DNSRecordSettings,
+                    createdOn: String, modifiedOn: String, commentModifiedOn: Option[String],
+                    tagsModifiedOn: Option[String]
                   ) extends DNSRecord:
     type CONTENT = Hostname
     def `type`: DNSRecordType = DNSRecordType.CNAME
@@ -72,7 +81,8 @@ object DNSRecord:
                      id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
                      data: DNSKEYData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int],
                      meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
-                     createdOn: String, modifiedOn: String
+                     settings: DNSRecordSettings, createdOn: String, modifiedOn: String,
+                     commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
                    ) extends DNSRecord:
     type CONTENT = String
     def `type`: DNSRecordType = DNSRecordType.DNSKEY
@@ -81,8 +91,9 @@ object DNSRecord:
   case class DS(
                  id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
                  data: DSData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int],
-                 meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]], createdOn: String,
-                 modifiedOn: String
+                 meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
+                 settings: DNSRecordSettings, createdOn: String, modifiedOn: String,
+                 commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
                ) extends DNSRecord:
     type CONTENT = String
     def `type`: DNSRecordType = DNSRecordType.DS
@@ -91,8 +102,9 @@ object DNSRecord:
   case class HTTPS(
                     id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
                     data: HTTPSData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int],
-                    meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]], createdOn: String,
-                    modifiedOn: String
+                    meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
+                    settings: DNSRecordSettings, createdOn: String, modifiedOn: String,
+                    commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
                   ) extends DNSRecord:
     type CONTENT = String
     def `type`: DNSRecordType = DNSRecordType.HTTPS
@@ -101,8 +113,9 @@ object DNSRecord:
   case class LOC(
                   id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
                   data: LOCData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int],
-                  meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]], createdOn: String,
-                  modifiedOn: String
+                  meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
+                  settings: DNSRecordSettings, createdOn: String, modifiedOn: String,
+                  commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
                 ) extends DNSRecord:
     type CONTENT = String
     def `type`: DNSRecordType = DNSRecordType.LOC
@@ -111,8 +124,9 @@ object DNSRecord:
   case class MX(
                  id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: Hostname,
                  priority: Int, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int],
-                 meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]], createdOn: String,
-                 modifiedOn: String
+                 meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
+                 settings: DNSRecordSettings, createdOn: String, modifiedOn: String,
+                 commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
                ) extends DNSRecord:
     type CONTENT = Hostname
     def `type`: DNSRecordType = DNSRecordType.MX
@@ -121,8 +135,9 @@ object DNSRecord:
   case class NAPTR(
                     id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
                     data: NAPTRData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int],
-                    meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]], createdOn: String,
-                    modifiedOn: String
+                    meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
+                    settings: DNSRecordSettings, createdOn: String, modifiedOn: String,
+                    commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
                   ) extends DNSRecord:
     type CONTENT = String
     def `type`: DNSRecordType = DNSRecordType.NAPTR
@@ -131,16 +146,28 @@ object DNSRecord:
   case class NS(
                  id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: Hostname,
                  proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int], meta: Option[DNSRecordMeta],
-                 comment: Option[String], tags: Option[List[String]], createdOn: String, modifiedOn: String
+                 comment: Option[String], tags: Option[List[String]], settings: DNSRecordSettings, createdOn: String,
+                 modifiedOn: String, commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
                ) extends DNSRecord:
     type CONTENT = Hostname
     def `type`: DNSRecordType = DNSRecordType.NS
   end NS
 
+  case class OPENPGPKEY(
+                 id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: Hostname,
+                 proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int], meta: Option[DNSRecordMeta],
+                 comment: Option[String], tags: Option[List[String]], settings: DNSRecordSettings, createdOn: String,
+                 modifiedOn: String, commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
+               ) extends DNSRecord:
+    type CONTENT = String
+    def `type`: DNSRecordType = DNSRecordType.OPENPGPKEY
+  end NS
+
   case class PTR(
                   id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
                   proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int], meta: Option[DNSRecordMeta],
-                  comment: Option[String], tags: Option[List[String]], createdOn: String, modifiedOn: String
+                  comment: Option[String], tags: Option[List[String]], settings: DNSRecordSettings, createdOn: String,
+                  modifiedOn: String, commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
                 ) extends DNSRecord:
     type CONTENT = String
     def `type`: DNSRecordType = DNSRecordType.PTR
@@ -150,7 +177,8 @@ object DNSRecord:
                      id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
                      data: SMIMEAData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int],
                      meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
-                     createdOn: String, modifiedOn: String
+                     settings: DNSRecordSettings, createdOn: String, modifiedOn: String,
+                     commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
                    ) extends DNSRecord:
     type CONTENT = String
     def `type`: DNSRecordType = DNSRecordType.SMIMEA
@@ -159,8 +187,9 @@ object DNSRecord:
   case class SRV(
                   id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
                   data: SRVData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int],
-                  meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]], createdOn: String,
-                  modifiedOn: String
+                  meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
+                  settings: DNSRecordSettings, createdOn: String, modifiedOn: String,
+                  commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
                 ) extends DNSRecord:
     type CONTENT = String
     def `type`: DNSRecordType = DNSRecordType.SRV
@@ -169,8 +198,9 @@ object DNSRecord:
   case class SSHFP(
                     id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
                     data: SSHFPData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int],
-                    meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]], createdOn: String,
-                    modifiedOn: String
+                    meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
+                    settings: DNSRecordSettings, createdOn: String, modifiedOn: String,
+                    commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
                   ) extends DNSRecord:
     type CONTENT = String
     def `type`: DNSRecordType = DNSRecordType.SSHFP
@@ -179,8 +209,9 @@ object DNSRecord:
   case class SVCB(
                    id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
                    data: SVCBData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int],
-                   meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]], createdOn: String,
-                   modifiedOn: String
+                   meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
+                   settings: DNSRecordSettings, createdOn: String, modifiedOn: String,
+                   commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
                  ) extends DNSRecord:
     type CONTENT = String
     def `type`: DNSRecordType = DNSRecordType.SVCB
@@ -189,8 +220,9 @@ object DNSRecord:
   case class TLSA(
                    id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
                    data: TLSAData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int],
-                   meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]], createdOn: String,
-                   modifiedOn: String
+                   meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
+                   settings: DNSRecordSettings, createdOn: String, modifiedOn: String,
+                   commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
                  ) extends DNSRecord:
     type CONTENT = String
     def `type`: DNSRecordType = DNSRecordType.TLSA
@@ -199,7 +231,8 @@ object DNSRecord:
   case class TXT(
                   id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
                   proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int], meta: Option[DNSRecordMeta],
-                  comment: Option[String], tags: Option[List[String]], createdOn: String, modifiedOn: String
+                  comment: Option[String], tags: Option[List[String]], settings: DNSRecordSettings, createdOn: String,
+                  modifiedOn: String, commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
                 ) extends DNSRecord:
     type CONTENT = String
     def `type`: DNSRecordType = DNSRecordType.TXT
@@ -207,9 +240,10 @@ object DNSRecord:
 
   case class URI(
                   id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
-                  data: URIData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int],
+                  data: URIData, priority: Int, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int],
                   meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
-                  createdOn: String, modifiedOn: String
+                  settings: DNSRecordSettings, createdOn: String, modifiedOn: String,
+                  commentModifiedOn: Option[String], tagsModifiedOn: Option[String]
                 ) extends DNSRecord:
     type CONTENT = String
     def `type`: DNSRecordType = DNSRecordType.URI

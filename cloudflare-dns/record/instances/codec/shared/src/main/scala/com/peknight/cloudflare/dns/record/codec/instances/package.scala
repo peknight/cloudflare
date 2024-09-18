@@ -6,6 +6,7 @@ package object instances:
   object dnsRecordIdObject extends DNSRecordIdObjectInstances
   object dnsRecord extends DNSRecordInstances
   object dnsRecordMeta extends DNSRecordMetaInstances
+  object dnsRecordSettings extends DNSRecordSettingsInstances
   object dnsRecordType extends DNSRecordTypeInstances
   object latitudeDirection extends LatitudeDirectionInstances
   object longitudeDirection extends LongitudeDirectionInstances

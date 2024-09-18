@@ -5,6 +5,7 @@ import com.peknight.cloudflare.dns.record.DNSRecord
 import com.peknight.cloudflare.dns.record.DNSRecord.*
 import com.peknight.cloudflare.dns.record.codec.instances.dnsRecordId.given
 import com.peknight.cloudflare.dns.record.codec.instances.dnsRecordMeta.given
+import com.peknight.cloudflare.dns.record.codec.instances.dnsRecordSettings.given
 import com.peknight.cloudflare.dns.record.codec.instances.dnsRecordType.given
 import com.peknight.cloudflare.zone.codec.instances.zoneId.given
 import com.peknight.codec.Codec
@@ -52,6 +53,10 @@ trait DNSRecordInstances:
   given codecDNSRecordNS[F[_], S](using CodecConfiguration, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
                                   NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], NS] =
     Codec.derived[F, S, NS]
+  given codecDNSRecordOPENPGPKEY[F[_], S](using CodecConfiguration, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
+                                          NumberType[S], BooleanType[S], StringType[S])
+  : Codec[F, S, Cursor[S], OPENPGPKEY] =
+    Codec.derived[F, S, OPENPGPKEY]
   given codecDNSRecordPTR[F[_], S](using CodecConfiguration, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
                                    NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], PTR] =
     Codec.derived[F, S, PTR]
