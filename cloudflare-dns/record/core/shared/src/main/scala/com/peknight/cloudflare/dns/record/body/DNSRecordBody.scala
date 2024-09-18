@@ -93,7 +93,7 @@ object DNSRecordBody:
   end SSHFP
   case class SVCB(data: SVCBData, name: String, comment: Option[String] = None, tags: Option[List[String]] = None,
                   ttl: Option[Int] = None,
-                   settings: Option[DNSRecordSettings] = None extends DNSRecordBody:
+                   settings: Option[DNSRecordSettings] = None) extends DNSRecordBody:
     def `type`: DNSRecordType = DNSRecordType.SVCB
   end SVCB
   case class TLSA(data: TLSAData, name: String, comment: Option[String] = None, tags: Option[List[String]] = None,

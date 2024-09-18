@@ -156,14 +156,14 @@ object DNSRecord:
   end NS
 
   case class OPENPGPKEY(
-                 id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: Hostname,
+                 id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
                  proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Int], meta: Option[DNSRecordMeta],
                  comment: Option[String], tags: Option[List[String]], settings: DNSRecordSettings, createdOn: Instant,
                  modifiedOn: Instant, commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
                ) extends DNSRecord:
     type CONTENT = String
     def `type`: DNSRecordType = DNSRecordType.OPENPGPKEY
-  end NS
+  end OPENPGPKEY
 
   case class PTR(
                   id: DNSRecordId, zoneId: Option[ZoneId], zoneName: String, name: String, content: String,
