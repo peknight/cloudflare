@@ -288,7 +288,6 @@ lazy val cloudflareDNSRecordCodecInstances = (crossProject(JSPlatform, JVMPlatfo
 lazy val cloudflareDNSRecordCirceInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/instances/circe"))
   .dependsOn(
     cloudflareDNSRecordCodecInstances,
-    cloudflareCodecInstances % Test,
     cloudflareCirceInstances % Test,
   )
   .settings(commonSettings)
@@ -303,7 +302,6 @@ lazy val cloudflareDNSRecordCirceInstances = (crossProject(JSPlatform, JVMPlatfo
 
 lazy val cloudflareDNSRecordQueryInstances = (crossProject(JSPlatform, JVMPlatform) in file("cloudflare-dns/record/instances/query"))
   .dependsOn(
-    cloudflareCodecInstances,
     cloudflareQueryInstances,
     cloudflareDNSRecordCodecInstances,
   )
@@ -330,7 +328,6 @@ lazy val cloudflareDNSRecordHttp4s = (crossProject(JSPlatform, JVMPlatform) in f
   .dependsOn(
     cloudflareDNSRecordApi,
     cloudflareHttp4s,
-    cloudflareCodecInstances,
     cloudflareCirceInstances,
     cloudflareDNSRecordCirceInstances,
     cloudflareDNSRecordQueryInstances,
