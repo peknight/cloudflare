@@ -26,6 +26,9 @@ object DNSRecordCirceInstancesCases:
       |            "tags":[
       |
       |            ],
+      |            "settings": {
+      |
+      |            },
       |            "created_on":"2019-10-23T08:30:31.112072Z",
       |            "modified_on":"2022-02-11T09:30:26.143901Z"
       |        },
@@ -50,6 +53,9 @@ object DNSRecordCirceInstancesCases:
       |            "tags":[
       |
       |            ],
+      |            "settings": {
+      |
+      |            },
       |            "created_on":"2019-10-23T08:29:08.603154Z",
       |            "modified_on":"2019-10-23T08:29:08.603154Z"
       |        },
@@ -74,6 +80,9 @@ object DNSRecordCirceInstancesCases:
       |            "tags":[
       |
       |            ],
+      |            "settings": {
+      |
+      |            },
       |            "created_on":"2021-07-29T12:14:38.42497Z",
       |            "modified_on":"2022-02-28T03:07:59.579295Z"
       |        },
@@ -98,6 +107,9 @@ object DNSRecordCirceInstancesCases:
       |            "tags":[
       |
       |            ],
+      |            "settings": {
+      |
+      |            },
       |            "created_on":"2022-07-06T08:20:55.472925Z",
       |            "modified_on":"2022-07-06T08:20:55.472925Z"
       |        }
