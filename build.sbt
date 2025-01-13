@@ -1,6 +1,6 @@
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
-ThisBuild / scalaVersion := "3.5.0"
+ThisBuild / scalaVersion := "3.6.2"
 
 ThisBuild / organization := "com.peknight.cloudflare"
 
@@ -366,8 +366,8 @@ val circeVersion = "0.14.10"
 val http4sVersion = "1.0.0-M34"
 val ip4sCoreVersion = "3.6.0"
 val scalaTestVersion = "3.2.19"
-val catsEffectTestingScalaTestVersion = "1.5.0"
-val logbackVersion = "1.5.8"
+val catsEffectTestingScalaTestVersion = "1.6.0"
+val logbackVersion = "1.5.16"
 
 val pekVersion = "0.1.0-SNAPSHOT"
 val pekCodecVersion = pekVersion
