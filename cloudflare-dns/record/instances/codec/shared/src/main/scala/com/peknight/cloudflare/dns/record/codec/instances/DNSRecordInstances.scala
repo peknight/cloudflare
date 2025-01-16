@@ -3,6 +3,7 @@ package com.peknight.cloudflare.dns.record.codec.instances
 import cats.Monad
 import com.peknight.cloudflare.dns.record.DNSRecord
 import com.peknight.cloudflare.dns.record.DNSRecord.*
+import com.peknight.cloudflare.dns.record.codec.instances.dnsRecordData.given
 import com.peknight.cloudflare.dns.record.codec.instances.dnsRecordId.given
 import com.peknight.cloudflare.dns.record.codec.instances.dnsRecordMeta.given
 import com.peknight.cloudflare.dns.record.codec.instances.dnsRecordSettings.given

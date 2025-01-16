@@ -212,6 +212,7 @@ lazy val cloudflareZoneHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("
       "com.peknight" %%% "codec-http4s-circe" % pekCodecVersion,
       "com.peknight" %%% "query-http4s" % pekQueryVersion,
       "org.http4s" %%% "http4s-ember-client" % http4sVersion % Test,
+      "org.scalatest" %%% "scalatest-flatspec" % scalaTestVersion % Test,
       "org.typelevel" %%% "cats-effect-testing-scalatest" % catsEffectTestingScalaTestVersion % Test,
     ),
   )
@@ -342,6 +343,7 @@ lazy val cloudflareDNSRecordHttp4s = (crossProject(JSPlatform, JVMPlatform) in f
       "com.peknight" %%% "codec-http4s-circe" % pekCodecVersion,
       "com.peknight" %%% "query-http4s" % pekQueryVersion,
       "org.http4s" %%% "http4s-ember-client" % http4sVersion % Test,
+      "org.scalatest" %%% "scalatest-flatspec" % scalaTestVersion % Test,
       "org.typelevel" %%% "cats-effect-testing-scalatest" % catsEffectTestingScalaTestVersion % Test,
     ),
   )
