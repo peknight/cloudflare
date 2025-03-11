@@ -38,6 +38,7 @@ lazy val cloudflareCore = (crossProject(JSPlatform, JVMPlatform) in file("cloudf
   .settings(
     name := "core",
     libraryDependencies ++= Seq(
+      "com.peknight" %%% "api-core" % pekApiVersion,
     ),
   )
 
@@ -372,6 +373,7 @@ val catsEffectTestingScalaTestVersion = "1.6.0"
 val logbackVersion = "1.5.16"
 
 val pekVersion = "0.1.0-SNAPSHOT"
+val pekApiVersion = pekVersion
 val pekCodecVersion = pekVersion
 val pekQueryVersion = pekVersion
 val pekCommonsVersion = pekVersion

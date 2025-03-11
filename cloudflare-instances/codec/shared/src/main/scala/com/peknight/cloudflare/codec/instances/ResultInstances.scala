@@ -11,9 +11,14 @@ import com.peknight.codec.sum.*
 import com.peknight.codec.{Codec, Decoder, Encoder}
 
 trait ResultInstances:
-  given codecResult[F[_], S, A](using CodecConfiguration, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                NumberType[S], BooleanType[S], StringType[S], Encoder[F, S, A], Decoder[F, Cursor[S], A])
+  private val memberNameMap: Map[String, String] = Map("msgs" -> "messages")
+  given codecResult[F[_], S, A](using configuration: CodecConfiguration, monad: Monad[F], objectType: ObjectType[S],
+                                nullType: NullType[S], arrayType: ArrayType[S], numberType: NumberType[S],
+                                booleanType: BooleanType[S], stringType: StringType[S],
+                                encoder: Encoder[F, S, A], decoder: Decoder[F, Cursor[S], A])
   : Codec[F, S, Cursor[S], Result[A]] =
-    Codec.derived[F, S, Result[A]]
+    Codec.derived[F, S, Result[A]](using configuration.withTransformMemberNames(memberName =>
+      memberNameMap.getOrElse(memberName, configuration.transformMemberNames(memberName))
+    ))
 end ResultInstances
 object ResultInstances extends ResultInstances
