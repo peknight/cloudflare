@@ -1,5 +1,6 @@
 package com.peknight.cloudflare.dns.record.error
 
+import com.peknight.cloudflare.dns.record.DNSRecordId
 import com.peknight.error.Error
 
 case class DNSRecordIdNotMatch(actual: DNSRecordId, expected: DNSRecordId) extends Error:
