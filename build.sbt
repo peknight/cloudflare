@@ -212,6 +212,7 @@ lazy val cloudflareZoneHttp4s = (crossProject(JSPlatform, JVMPlatform) in file("
       "org.http4s" %%% "http4s-client" % http4sVersion,
       "com.peknight" %%% "codec-http4s-circe" % pekCodecVersion,
       "com.peknight" %%% "query-http4s" % pekQueryVersion,
+      "com.peknight" %%% "auth-http4s" % pekAuthVersion,
       "org.http4s" %%% "http4s-ember-client" % http4sVersion % Test,
       "org.scalatest" %%% "scalatest-flatspec" % scalaTestVersion % Test,
       "org.typelevel" %%% "cats-effect-testing-scalatest" % catsEffectTestingScalaTestVersion % Test,
@@ -343,6 +344,7 @@ lazy val cloudflareDNSRecordHttp4s = (crossProject(JSPlatform, JVMPlatform) in f
       "com.peknight" %%% "codec-http4s" % pekCodecVersion,
       "com.peknight" %%% "codec-http4s-circe" % pekCodecVersion,
       "com.peknight" %%% "query-http4s" % pekQueryVersion,
+      "com.peknight" %%% "auth-http4s" % pekAuthVersion,
       "org.http4s" %%% "http4s-ember-client" % http4sVersion % Test,
       "org.scalatest" %%% "scalatest-flatspec" % scalaTestVersion % Test,
       "org.typelevel" %%% "cats-effect-testing-scalatest" % catsEffectTestingScalaTestVersion % Test,
@@ -362,6 +364,7 @@ lazy val cloudflareTest = (crossProject(JSPlatform, JVMPlatform) in file("cloudf
   .settings(
     name := "test",
     libraryDependencies ++= Seq(
+      "com.peknight" %%% "auth-core" % pekAuthVersion,
     ),
   )
 
@@ -376,6 +379,7 @@ val pekVersion = "0.1.0-SNAPSHOT"
 val pekApiVersion = pekVersion
 val pekCodecVersion = pekVersion
 val pekQueryVersion = pekVersion
+val pekAuthVersion = pekVersion
 val pekCommonsVersion = pekVersion
 
 val logbackClassic = "ch.qos.logback" % "logback-classic" % logbackVersion

@@ -2,6 +2,9 @@ package com.peknight.cloudflare.dns.record.http4s
 
 import cats.Id
 import cats.effect.Concurrent
+import com.peknight.auth.http4s.syntax.token.toHeader
+import com.peknight.auth.token.Token
+import com.peknight.cloudflare.Result
 import com.peknight.cloudflare.circe.instances.result.given
 import com.peknight.cloudflare.codec.instances.configuration.given
 import com.peknight.cloudflare.dns.record.body.DNSRecordBody
@@ -12,12 +15,10 @@ import com.peknight.cloudflare.dns.record.codec.instances.dnsRecordIdObject.code
 import com.peknight.cloudflare.dns.record.query.ListDNSRecordsQuery
 import com.peknight.cloudflare.dns.record.query.instances.query.listDNSRecordsQuery.given
 import com.peknight.cloudflare.dns.record.{DNSRecord, DNSRecordId, api}
-import com.peknight.cloudflare.http4s.headers.toHeader
 import com.peknight.cloudflare.http4s.uri.clientV4
 import com.peknight.cloudflare.query.instances.configuration.given
 import com.peknight.cloudflare.zone.ZoneId
 import com.peknight.cloudflare.zone.codec.instances.zoneId.given
-import com.peknight.cloudflare.{Result, Token}
 import com.peknight.codec.circe.sum.jsonType.given
 import com.peknight.codec.cursor.Cursor
 import com.peknight.codec.http4s.circe.instances.entityDecoder.given

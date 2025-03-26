@@ -4,8 +4,6 @@ import cats.Id
 import cats.effect.IO
 import cats.effect.testing.scalatest.AsyncIOSpec
 import cats.syntax.either.*
-import cats.syntax.flatMap.*
-import cats.syntax.functor.*
 import cats.syntax.option.*
 import com.peknight.cats.ext.data.OptionEitherT
 import com.peknight.cloudflare.Result
@@ -14,7 +12,7 @@ import com.peknight.cloudflare.dns.record.body.DNSRecordBody
 import com.peknight.cloudflare.dns.record.query.ListDNSRecordsQuery
 import com.peknight.cloudflare.dns.record.query.Order.Type
 import com.peknight.cloudflare.query.Direction.Desc
-import com.peknight.cloudflare.test.{PekToken, PekZone}
+import com.peknight.cloudflare.test.{pekToken, pekZoneId}
 import com.peknight.codec.ip4s.instances.host.stringCodecIpv4Address
 import com.peknight.error.Error
 import org.http4s.client.dsl
@@ -29,7 +27,7 @@ class DNSRecordApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
       order = Type.some
     )
     EmberClientBuilder.default[IO].build
-      .use(client => DNSRecordApi[IO](PekToken.token)(client)(dsl.io).listDNSRecords(PekZone.zoneId)(query))
+      .use(client => DNSRecordApi[IO](pekToken)(client)(dsl.io).listDNSRecords(pekZoneId)(query))
       .asserting{ result =>
         println(result)
         assert(result.result.isDefined)
@@ -52,14 +50,14 @@ class DNSRecordApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
     val body3 = body1.copy(content = content3)
     EmberClientBuilder.default[IO].build
       .use { client =>
-        val api = DNSRecordApi[IO](PekToken.token)(client)(dsl.io)
+        val api = DNSRecordApi[IO](pekToken)(client)(dsl.io)
         val run =
           for
-            dnsRecord <- api.createDNSRecord(PekZone.zoneId)(body1).lift
-            dnsRecord1 <- api.overwriteDNSRecord(PekZone.zoneId, dnsRecord.id)(body2).lift
-            dnsRecord2 <- api.updateDNSRecord(PekZone.zoneId, dnsRecord1.id)(body3).lift
-            dnsRecord3 <- api.dnsRecordDetails(PekZone.zoneId, dnsRecord2.id).lift
-            dnsRecordId <- api.deleteDNSRecord(PekZone.zoneId, dnsRecord3.id).lift
+            dnsRecord <- api.createDNSRecord(pekZoneId)(body1).lift
+            dnsRecord1 <- api.overwriteDNSRecord(pekZoneId, dnsRecord.id)(body2).lift
+            dnsRecord2 <- api.updateDNSRecord(pekZoneId, dnsRecord1.id)(body3).lift
+            dnsRecord3 <- api.dnsRecordDetails(pekZoneId, dnsRecord2.id).lift
+            dnsRecordId <- api.deleteDNSRecord(pekZoneId, dnsRecord3.id).lift
           yield dnsRecordId
         run.value
       }

@@ -1,5 +1,7 @@
 package com.peknight.cloudflare
 
+import com.peknight.api.pagination.Pagination
+
 case class ResultInfo(
                        // Total number of results for the requested service
                        count: Int,
@@ -10,4 +12,4 @@ case class ResultInfo(
                        // Total results available without any search parameters
                        totalCount: Int,
                        totalPages: Option[Int]
-                     )
+                     ) extends Pagination

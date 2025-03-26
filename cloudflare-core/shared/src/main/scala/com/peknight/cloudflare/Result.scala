@@ -1,7 +1,7 @@
 package com.peknight.cloudflare
 
 import cats.data.Ior
-import com.peknight.error
+import com.peknight.api.pagination.Pagination
 
 case class Result[A](
                       result: Option[A],
@@ -11,10 +11,10 @@ case class Result[A](
                       msgs: List[Message]
                     ) extends com.peknight.api.Result[A]:
   def ior: com.peknight.error.Error Ior A =
-    (result, errors) match
-      case (Some(res), Nil) => Ior.right(res)
-      case (Some(res), errs) => Ior.both(com.peknight.error.Error(errs), res)
-      case (None, errs) => Ior.left(com.peknight.error.Error(errs))
+    (result, errors, msgs) match
+      case (Some(res), Nil, Nil) => Ior.right(res)
+      case (Some(res), errs, msgs) => Ior.both(com.peknight.error.Error(errs ::: msgs), res)
+      case (None, errs, msgs) => Ior.left(com.peknight.error.Error(errs ::: msgs))
   override def data: Option[A] = result
-  override def messages: List[String] = msgs.map(_.message)
+  override def pagination: Option[Pagination] = resultInfo
 end Result

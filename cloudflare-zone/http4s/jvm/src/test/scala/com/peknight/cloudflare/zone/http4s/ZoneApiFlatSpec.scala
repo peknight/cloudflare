@@ -1,12 +1,12 @@
 package com.peknight.cloudflare.zone.http4s
 
 import cats.effect.IO
-import cats.syntax.option.*
 import cats.effect.testing.scalatest.AsyncIOSpec
+import cats.syntax.option.*
 import com.peknight.cloudflare.query.Direction.Desc
 import com.peknight.cloudflare.query.Match.Any
 import com.peknight.cloudflare.query.StringParam
-import com.peknight.cloudflare.test.PekToken
+import com.peknight.cloudflare.test.pekToken
 import com.peknight.cloudflare.zone.ZoneStatus.Active
 import com.peknight.cloudflare.zone.query.Order.Name
 import com.peknight.cloudflare.zone.query.{Account, ListZonesQuery}
@@ -25,7 +25,7 @@ class ZoneApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
       status = Active.some
     )
     EmberClientBuilder.default[IO].build
-      .use(client => ZoneApi[IO](PekToken.token)(client)(dsl.io).listZones(query))
+      .use(client => ZoneApi[IO](pekToken)(client)(dsl.io).listZones(query))
       .asserting { result =>
         println(result)
         assert(result.result.isDefined)
