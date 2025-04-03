@@ -13,7 +13,7 @@ import com.peknight.commons.string.syntax.cases.to
 trait MatchInstances:
   given stringCodecMatch[F[_]: Applicative]: Codec[F, String, String, Match] =
     EnumCodecDerivation.unsafeDerived[F, String, String, Match](
-      using CodecConfiguration(transformConstructorNames = _.to(SnakeCase))
+      using CodecConfiguration.default.withTransformConstructorName(_.to(SnakeCase))
     )
 
   given codecMatchS[F[_], S](using Configuration, Applicative[F], StringType[S]): Codec[F, S, Cursor[S], Match] =

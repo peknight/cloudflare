@@ -1,6 +1,7 @@
 package com.peknight.cloudflare.codec.instances
 
 import cats.Monad
+import cats.data.NonEmptyList
 import com.peknight.cloudflare.Result
 import com.peknight.cloudflare.codec.instances.error.given
 import com.peknight.cloudflare.codec.instances.message.given
@@ -18,7 +19,7 @@ trait ResultInstances:
                                 encoder: Encoder[F, S, A], decoder: Decoder[F, Cursor[S], A])
   : Codec[F, S, Cursor[S], Result[A]] =
     Codec.derived[F, S, Result[A]](using configuration.withTransformMemberNames(memberName =>
-      memberNameMap.getOrElse(memberName, configuration.transformMemberNames(memberName))
+      memberNameMap.get(memberName).map(NonEmptyList.one).getOrElse(configuration.transformMemberNames(memberName))
     ))
 end ResultInstances
 object ResultInstances extends ResultInstances

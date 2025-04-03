@@ -16,7 +16,7 @@ trait OrderInstances:
   given stringCodecOrder[F[_], O <: Order](using Applicative[F], Generic.Sum[O])
   : Codec[F, String, String, O] =
     EnumCodecDerivation.unsafeDerived[F, String, String, O](
-      using CodecConfiguration(transformConstructorNames = _.splitByCase.map(_.toLowerCase).mkString("."))
+      using CodecConfiguration.default.withTransformConstructorName(_.splitByCase.map(_.toLowerCase).mkString("."))
     )
 
   given codecOrderS[F[_], S, O <: Order](using Configuration, Applicative[F], StringType[S], Generic.Sum[O], ClassTag[O])

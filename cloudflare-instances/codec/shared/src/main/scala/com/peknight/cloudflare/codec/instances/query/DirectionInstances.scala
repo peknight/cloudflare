@@ -13,7 +13,7 @@ import com.peknight.commons.string.syntax.cases.to
 trait DirectionInstances:
   given stringCodecDirection[F[_]: Applicative]: Codec[F, String, String, Direction] =
     EnumCodecDerivation.unsafeDerived[F, String, String, Direction](
-      using CodecConfiguration(transformConstructorNames = _.to(SnakeCase))
+      using CodecConfiguration.default.withTransformConstructorName(_.to(SnakeCase))
     )
 
   given codecDirectionS[F[_], S](using Configuration, Applicative[F], StringType[S]): Codec[F, S, Cursor[S], Direction] =

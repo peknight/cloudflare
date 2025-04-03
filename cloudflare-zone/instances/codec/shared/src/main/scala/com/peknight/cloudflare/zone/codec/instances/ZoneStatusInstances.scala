@@ -13,7 +13,7 @@ import com.peknight.commons.string.syntax.cases.to
 trait ZoneStatusInstances:
   given stringCodecZoneStatus[F[_]: Applicative]: Codec[F, String, String, ZoneStatus] =
     EnumCodecDerivation.unsafeDerived[F, String, String, ZoneStatus](
-      using CodecConfiguration(transformConstructorNames = _.to(SnakeCase))
+      using CodecConfiguration.default.withTransformConstructorName(_.to(SnakeCase))
     )
 
   given codecZoneStatusS[F[_], S](using Configuration, Applicative[F], StringType[S])

@@ -5,6 +5,6 @@ import com.peknight.commons.string.cases.SnakeCase
 import com.peknight.commons.string.syntax.cases.to
 
 trait ConfigurationInstances:
-  given configuration: CodecConfiguration = CodecConfiguration(transformMemberNames = _.to(SnakeCase))
+  given configuration: CodecConfiguration = CodecConfiguration.default.withTransformMemberName(_.to(SnakeCase))
 end ConfigurationInstances
 object ConfigurationInstances extends ConfigurationInstances
