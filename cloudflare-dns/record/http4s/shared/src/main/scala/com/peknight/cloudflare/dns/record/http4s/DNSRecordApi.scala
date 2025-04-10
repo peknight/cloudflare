@@ -32,8 +32,8 @@ import org.http4s.client.Client
 import org.http4s.client.dsl.Http4sClientDsl
 import org.http4s.{Headers, Uri}
 
-class DNSRecordApi[F[_]: Concurrent](token: Token)(client: Client[F])(dsl: Http4sClientDsl[F])
-  extends api.DNSRecordApi[F]:
+class DNSRecordApi[F[_]: Concurrent](token: Token)(using client: Client[F]) extends api.DNSRecordApi[F]:
+  private val dsl: Http4sClientDsl[F] = Http4sClientDsl[F]
   import dsl.*
 
   private def dnsRecordsUri(zoneId: ZoneId): Uri = clientV4 / "zones" / zoneId / "dns_records"

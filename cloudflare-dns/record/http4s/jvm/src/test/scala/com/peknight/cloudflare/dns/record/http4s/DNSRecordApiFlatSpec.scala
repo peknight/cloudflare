@@ -15,7 +15,7 @@ import com.peknight.cloudflare.query.Direction.Desc
 import com.peknight.cloudflare.test.{pekToken, pekZoneId}
 import com.peknight.codec.ip4s.instances.host.stringCodecIpv4Address
 import com.peknight.error.Error
-import org.http4s.client.dsl
+import org.http4s.client.Client
 import org.http4s.ember.client.EmberClientBuilder
 import org.scalatest.flatspec.AsyncFlatSpec
 
@@ -27,7 +27,10 @@ class DNSRecordApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
       order = Type.some
     )
     EmberClientBuilder.default[IO].build
-      .use(client => DNSRecordApi[IO](pekToken)(client)(dsl.io).listDNSRecords(pekZoneId)(query))
+      .use { client =>
+        given Client[IO] = client
+        DNSRecordApi[IO](pekToken).listDNSRecords(pekZoneId)(query)
+      }
       .asserting{ result =>
         println(result)
         assert(result.result.isDefined)
@@ -50,7 +53,8 @@ class DNSRecordApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
     val body3 = body1.copy(content = content3)
     EmberClientBuilder.default[IO].build
       .use { client =>
-        val api = DNSRecordApi[IO](pekToken)(client)(dsl.io)
+        given Client[IO] = client
+        val api = DNSRecordApi[IO](pekToken)
         val run =
           for
             dnsRecord <- api.createDNSRecord(pekZoneId)(body1).lift

@@ -20,7 +20,8 @@ import org.http4s.Method.GET
 import org.http4s.client.Client
 import org.http4s.client.dsl.Http4sClientDsl
 
-class ZoneApi[F[_]: Concurrent](token: Token)(client: Client[F])(dsl: Http4sClientDsl[F]) extends api.ZoneApi[F]:
+class ZoneApi[F[_]: Concurrent](token: Token)(using client: Client[F]) extends api.ZoneApi[F]:
+  private val dsl: Http4sClientDsl[F] = Http4sClientDsl[F]
   import dsl.*
   private val headers: Headers = Headers(token.toHeader)
   def listZones(query: ListZonesQuery): F[Result[List[Zone]]] =

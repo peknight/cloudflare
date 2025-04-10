@@ -10,7 +10,7 @@ import com.peknight.cloudflare.test.pekToken
 import com.peknight.cloudflare.zone.ZoneStatus.Active
 import com.peknight.cloudflare.zone.query.Order.Name
 import com.peknight.cloudflare.zone.query.{Account, ListZonesQuery}
-import org.http4s.client.dsl
+import org.http4s.client.Client
 import org.http4s.ember.client.EmberClientBuilder
 import org.scalatest.flatspec.AsyncFlatSpec
 
@@ -25,7 +25,10 @@ class ZoneApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
       status = Active.some
     )
     EmberClientBuilder.default[IO].build
-      .use(client => ZoneApi[IO](pekToken)(client)(dsl.io).listZones(query))
+      .use { client =>
+        given Client[IO] = client
+        ZoneApi[IO](pekToken).listZones(query)
+      }
       .asserting { result =>
         println(result)
         assert(result.result.isDefined)
