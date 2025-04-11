@@ -4,7 +4,7 @@ import com.comcast.ip4s.{Host, Hostname, Ipv4Address, Ipv6Address}
 import com.peknight.cloudflare.zone.ZoneId
 
 import java.time.Instant
-import scala.concurrent.duration.Duration
+import scala.concurrent.duration.FiniteDuration
 
 sealed trait DNSRecord:
   type CONTENT <: Host | String
@@ -16,7 +16,7 @@ sealed trait DNSRecord:
   def content: CONTENT
   def proxiable: Boolean
   def proxied: Option[Boolean]
-  def ttl: Option[Duration]
+  def ttl: Option[FiniteDuration]
   def meta: Option[DNSRecordMeta]
   def comment: Option[String]
   def tags: Option[List[String]]
@@ -29,7 +29,7 @@ end DNSRecord
 object DNSRecord:
   case class A(
                 id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: Ipv4Address,
-                proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration], meta: Option[DNSRecordMeta],
+                proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration], meta: Option[DNSRecordMeta],
                 comment: Option[String], tags: Option[List[String]], settings: DNSRecordSettings, createdOn: Instant,
                 modifiedOn: Instant, commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
               ) extends DNSRecord:
@@ -39,7 +39,7 @@ object DNSRecord:
 
   case class AAAA(
                    id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: Ipv6Address,
-                   proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration], meta: Option[DNSRecordMeta],
+                   proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration], meta: Option[DNSRecordMeta],
                    comment: Option[String], tags: Option[List[String]], settings: DNSRecordSettings, createdOn: Instant,
                    modifiedOn: Instant, commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
                  ) extends DNSRecord:
@@ -49,7 +49,7 @@ object DNSRecord:
 
   case class CAA(
                   id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: String,
-                  data: CAAData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration],
+                  data: CAAData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration],
                   meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                   settings: DNSRecordSettings, createdOn: Instant, modifiedOn: Instant,
                   commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
@@ -60,7 +60,7 @@ object DNSRecord:
 
   case class CERT(
                    id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: String,
-                   data: CERTData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration],
+                   data: CERTData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration],
                    meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                    settings: DNSRecordSettings, createdOn: Instant, modifiedOn: Instant,
                    commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
@@ -71,7 +71,7 @@ object DNSRecord:
 
   case class CNAME(
                     id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: Hostname,
-                    proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration], meta: Option[DNSRecordMeta],
+                    proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration], meta: Option[DNSRecordMeta],
                     comment: Option[String], tags: Option[List[String]], settings: DNSRecordSettings,
                     createdOn: Instant, modifiedOn: Instant, commentModifiedOn: Option[Instant],
                     tagsModifiedOn: Option[Instant]
@@ -82,7 +82,7 @@ object DNSRecord:
 
   case class DNSKEY(
                      id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: String,
-                     data: DNSKEYData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration],
+                     data: DNSKEYData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration],
                      meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                      settings: DNSRecordSettings, createdOn: Instant, modifiedOn: Instant,
                      commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
@@ -93,7 +93,7 @@ object DNSRecord:
 
   case class DS(
                  id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: String,
-                 data: DSData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration],
+                 data: DSData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration],
                  meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                  settings: DNSRecordSettings, createdOn: Instant, modifiedOn: Instant,
                  commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
@@ -104,7 +104,7 @@ object DNSRecord:
 
   case class HTTPS(
                     id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: String,
-                    data: HTTPSData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration],
+                    data: HTTPSData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration],
                     meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                     settings: DNSRecordSettings, createdOn: Instant, modifiedOn: Instant,
                     commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
@@ -115,7 +115,7 @@ object DNSRecord:
 
   case class LOC(
                   id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: String,
-                  data: LOCData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration],
+                  data: LOCData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration],
                   meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                   settings: DNSRecordSettings, createdOn: Instant, modifiedOn: Instant,
                   commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
@@ -126,7 +126,7 @@ object DNSRecord:
 
   case class MX(
                  id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: Hostname,
-                 priority: Int, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration],
+                 priority: Int, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration],
                  meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                  settings: DNSRecordSettings, createdOn: Instant, modifiedOn: Instant,
                  commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
@@ -137,7 +137,7 @@ object DNSRecord:
 
   case class NAPTR(
                     id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: String,
-                    data: NAPTRData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration],
+                    data: NAPTRData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration],
                     meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                     settings: DNSRecordSettings, createdOn: Instant, modifiedOn: Instant,
                     commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
@@ -148,7 +148,7 @@ object DNSRecord:
 
   case class NS(
                  id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: Hostname,
-                 proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration], meta: Option[DNSRecordMeta],
+                 proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration], meta: Option[DNSRecordMeta],
                  comment: Option[String], tags: Option[List[String]], settings: DNSRecordSettings, createdOn: Instant,
                  modifiedOn: Instant, commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
                ) extends DNSRecord:
@@ -158,7 +158,7 @@ object DNSRecord:
 
   case class OPENPGPKEY(
                  id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: String,
-                 proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration], meta: Option[DNSRecordMeta],
+                 proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration], meta: Option[DNSRecordMeta],
                  comment: Option[String], tags: Option[List[String]], settings: DNSRecordSettings, createdOn: Instant,
                  modifiedOn: Instant, commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
                ) extends DNSRecord:
@@ -168,7 +168,7 @@ object DNSRecord:
 
   case class PTR(
                   id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: String,
-                  proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration], meta: Option[DNSRecordMeta],
+                  proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration], meta: Option[DNSRecordMeta],
                   comment: Option[String], tags: Option[List[String]], settings: DNSRecordSettings, createdOn: Instant,
                   modifiedOn: Instant, commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
                 ) extends DNSRecord:
@@ -178,7 +178,7 @@ object DNSRecord:
 
   case class SMIMEA(
                      id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: String,
-                     data: SMIMEAData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration],
+                     data: SMIMEAData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration],
                      meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                      settings: DNSRecordSettings, createdOn: Instant, modifiedOn: Instant,
                      commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
@@ -189,7 +189,7 @@ object DNSRecord:
 
   case class SRV(
                   id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: String,
-                  data: SRVData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration],
+                  data: SRVData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration],
                   meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                   settings: DNSRecordSettings, createdOn: Instant, modifiedOn: Instant,
                   commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
@@ -200,7 +200,7 @@ object DNSRecord:
 
   case class SSHFP(
                     id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: String,
-                    data: SSHFPData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration],
+                    data: SSHFPData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration],
                     meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                     settings: DNSRecordSettings, createdOn: Instant, modifiedOn: Instant,
                     commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
@@ -211,7 +211,7 @@ object DNSRecord:
 
   case class SVCB(
                    id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: String,
-                   data: SVCBData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration],
+                   data: SVCBData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration],
                    meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                    settings: DNSRecordSettings, createdOn: Instant, modifiedOn: Instant,
                    commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
@@ -222,7 +222,7 @@ object DNSRecord:
 
   case class TLSA(
                    id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: String,
-                   data: TLSAData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration],
+                   data: TLSAData, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration],
                    meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                    settings: DNSRecordSettings, createdOn: Instant, modifiedOn: Instant,
                    commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
@@ -233,7 +233,7 @@ object DNSRecord:
 
   case class TXT(
                   id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: String,
-                  proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration], meta: Option[DNSRecordMeta],
+                  proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration], meta: Option[DNSRecordMeta],
                   comment: Option[String], tags: Option[List[String]], settings: DNSRecordSettings, createdOn: Instant,
                   modifiedOn: Instant, commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
                 ) extends DNSRecord:
@@ -243,7 +243,7 @@ object DNSRecord:
 
   case class URI(
                   id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: String,
-                  data: URIData, priority: Int, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[Duration],
+                  data: URIData, priority: Int, proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration],
                   meta: Option[DNSRecordMeta], comment: Option[String], tags: Option[List[String]],
                   settings: DNSRecordSettings, createdOn: Instant, modifiedOn: Instant,
                   commentModifiedOn: Option[Instant], tagsModifiedOn: Option[Instant]
