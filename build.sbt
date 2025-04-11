@@ -75,7 +75,7 @@ lazy val cloudflareCodecInstances = (crossProject(JSPlatform, JVMPlatform) in fi
     name := "codec-instances",
     libraryDependencies ++= Seq(
       "com.peknight" %%% "codec-core" % pekCodecVersion,
-      "com.peknight" %%% "commons-string" % pekCommonsVersion,
+      "com.peknight" %%% "commons-text" % pekCommonsVersion,
     ),
   )
 
@@ -153,7 +153,7 @@ lazy val cloudflareZoneCodecInstances = (crossProject(JSPlatform, JVMPlatform) i
     libraryDependencies ++= Seq(
       "com.peknight" %%% "codec-core" % pekCodecVersion,
       "com.peknight" %%% "codec-ip4s" % pekCodecVersion,
-      "com.peknight" %%% "commons-string" % pekCommonsVersion,
+      "com.peknight" %%% "commons-text" % pekCommonsVersion,
     ),
   )
 

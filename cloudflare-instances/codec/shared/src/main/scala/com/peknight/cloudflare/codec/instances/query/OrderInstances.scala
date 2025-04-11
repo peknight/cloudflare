@@ -7,7 +7,7 @@ import com.peknight.codec.configuration.{CodecConfiguration, Configuration}
 import com.peknight.codec.cursor.Cursor
 import com.peknight.codec.derivation.EnumCodecDerivation
 import com.peknight.codec.sum.StringType
-import com.peknight.commons.string.syntax.cases.splitByCase
+import com.peknight.commons.text.syntax.cases.splitByCase
 import com.peknight.generic.Generic
 
 import scala.reflect.ClassTag

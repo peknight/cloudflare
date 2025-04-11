@@ -7,8 +7,8 @@ import com.peknight.codec.configuration.{CodecConfiguration, Configuration}
 import com.peknight.codec.cursor.Cursor
 import com.peknight.codec.derivation.EnumCodecDerivation
 import com.peknight.codec.sum.StringType
-import com.peknight.commons.string.cases.SnakeCase
-import com.peknight.commons.string.syntax.cases.to
+import com.peknight.commons.text.cases.SnakeCase
+import com.peknight.commons.text.syntax.cases.to
 
 trait ZoneStatusInstances:
   given stringCodecZoneStatus[F[_]: Applicative]: Codec[F, String, String, ZoneStatus] =
