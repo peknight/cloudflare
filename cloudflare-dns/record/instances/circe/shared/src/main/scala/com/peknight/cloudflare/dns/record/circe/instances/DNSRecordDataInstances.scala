@@ -5,36 +5,36 @@ import com.peknight.cloudflare.dns.record.*
 import com.peknight.cloudflare.dns.record.codec.instances.dnsRecordData.given
 import com.peknight.codec.Codec
 import com.peknight.codec.circe.sum.jsonType.given
-import com.peknight.codec.configuration.CodecConfiguration
+import com.peknight.codec.config.CodecConfig
 import com.peknight.codec.cursor.Cursor
 import io.circe.Json
 
 trait DNSRecordDataInstances:
-  given jsonCodecDNSRecordCAAData[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], CAAData] =
+  given jsonCodecDNSRecordCAAData[F[_]](using CodecConfig, Monad[F]): Codec[F, Json, Cursor[Json], CAAData] =
     codecDNSRecordCAAData[F, Json]
-  given jsonCodecDNSRecordCERTData[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], CERTData] =
+  given jsonCodecDNSRecordCERTData[F[_]](using CodecConfig, Monad[F]): Codec[F, Json, Cursor[Json], CERTData] =
     codecDNSRecordCERTData[F, Json]
-  given jsonCodecDNSRecordDNSKEYData[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], DNSKEYData] =
+  given jsonCodecDNSRecordDNSKEYData[F[_]](using CodecConfig, Monad[F]): Codec[F, Json, Cursor[Json], DNSKEYData] =
     codecDNSRecordDNSKEYData[F, Json]
-  given jsonCodecDNSRecordDSData[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], DSData] =
+  given jsonCodecDNSRecordDSData[F[_]](using CodecConfig, Monad[F]): Codec[F, Json, Cursor[Json], DSData] =
     codecDNSRecordDSData[F, Json]
-  given jsonCodecDNSRecordHTTPSData[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], HTTPSData] =
+  given jsonCodecDNSRecordHTTPSData[F[_]](using CodecConfig, Monad[F]): Codec[F, Json, Cursor[Json], HTTPSData] =
     codecDNSRecordHTTPSData[F, Json]
-  given jsonCodecDNSRecordLOCData[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], LOCData] =
+  given jsonCodecDNSRecordLOCData[F[_]](using CodecConfig, Monad[F]): Codec[F, Json, Cursor[Json], LOCData] =
     codecDNSRecordLOCData[F, Json]
-  given jsonCodecDNSRecordNAPTRData[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], NAPTRData] =
+  given jsonCodecDNSRecordNAPTRData[F[_]](using CodecConfig, Monad[F]): Codec[F, Json, Cursor[Json], NAPTRData] =
     codecDNSRecordNAPTRData[F, Json]
-  given jsonCodecDNSRecordSMIMEAData[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], SMIMEAData] =
+  given jsonCodecDNSRecordSMIMEAData[F[_]](using CodecConfig, Monad[F]): Codec[F, Json, Cursor[Json], SMIMEAData] =
     codecDNSRecordSMIMEAData[F, Json]
-  given jsonCodecDNSRecordSRVData[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], SRVData] =
+  given jsonCodecDNSRecordSRVData[F[_]](using CodecConfig, Monad[F]): Codec[F, Json, Cursor[Json], SRVData] =
     codecDNSRecordSRVData[F, Json]
-  given jsonCodecDNSRecordSSHFPData[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], SSHFPData] =
+  given jsonCodecDNSRecordSSHFPData[F[_]](using CodecConfig, Monad[F]): Codec[F, Json, Cursor[Json], SSHFPData] =
     codecDNSRecordSSHFPData[F, Json]
-  given jsonCodecDNSRecordSVCBData[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], SVCBData] =
+  given jsonCodecDNSRecordSVCBData[F[_]](using CodecConfig, Monad[F]): Codec[F, Json, Cursor[Json], SVCBData] =
     codecDNSRecordSVCBData[F, Json]
-  given jsonCodecDNSRecordTLSAData[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], TLSAData] =
+  given jsonCodecDNSRecordTLSAData[F[_]](using CodecConfig, Monad[F]): Codec[F, Json, Cursor[Json], TLSAData] =
     codecDNSRecordTLSAData[F, Json]
-  given jsonCodecDNSRecordURIData[F[_]](using CodecConfiguration, Monad[F]): Codec[F, Json, Cursor[Json], URIData] =
+  given jsonCodecDNSRecordURIData[F[_]](using CodecConfig, Monad[F]): Codec[F, Json, Cursor[Json], URIData] =
     codecDNSRecordURIData[F, Json]
 end DNSRecordDataInstances
 object DNSRecordDataInstances extends DNSRecordDataInstances

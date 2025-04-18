@@ -1,7 +1,7 @@
 package com.peknight.cloudflare.codec
 
 package object instances:
-  object configuration extends ConfigurationInstances
+  object config extends ConfigInstances
   object resultInfo extends ResultInfoInstances
   object error extends ErrorInstances
   object message extends MessageInstances

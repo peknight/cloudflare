@@ -6,7 +6,7 @@ import com.peknight.auth.http4s.syntax.token.toHeader
 import com.peknight.auth.token.Token
 import com.peknight.cloudflare.Result
 import com.peknight.cloudflare.circe.instances.result.given
-import com.peknight.cloudflare.codec.instances.configuration.given
+import com.peknight.cloudflare.codec.instances.config.given
 import com.peknight.cloudflare.dns.record.body.DNSRecordBody
 import com.peknight.cloudflare.dns.record.circe.instances.body.dnsRecordBody.given
 import com.peknight.cloudflare.dns.record.circe.instances.dnsRecord.given
@@ -16,7 +16,7 @@ import com.peknight.cloudflare.dns.record.query.ListDNSRecordsQuery
 import com.peknight.cloudflare.dns.record.query.instances.query.listDNSRecordsQuery.given
 import com.peknight.cloudflare.dns.record.{DNSRecord, DNSRecordId, api}
 import com.peknight.cloudflare.http4s.uri.clientV4
-import com.peknight.cloudflare.query.instances.configuration.given
+import com.peknight.cloudflare.query.instances.config.given
 import com.peknight.cloudflare.zone.ZoneId
 import com.peknight.cloudflare.zone.codec.instances.zoneId.given
 import com.peknight.codec.circe.sum.jsonType.given

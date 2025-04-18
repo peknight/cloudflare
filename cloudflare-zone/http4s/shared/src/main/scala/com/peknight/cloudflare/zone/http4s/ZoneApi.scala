@@ -5,9 +5,9 @@ import com.peknight.auth.http4s.syntax.token.toHeader
 import com.peknight.auth.token.Token
 import com.peknight.cloudflare.Result
 import com.peknight.cloudflare.circe.instances.result.given
-import com.peknight.cloudflare.codec.instances.configuration.given
+import com.peknight.cloudflare.codec.instances.config.given
 import com.peknight.cloudflare.http4s.uri.clientV4
-import com.peknight.cloudflare.query.instances.configuration.given
+import com.peknight.cloudflare.query.instances.config.given
 import com.peknight.cloudflare.zone.circe.instances.zone.given
 import com.peknight.cloudflare.zone.query.ListZonesQuery
 import com.peknight.cloudflare.zone.query.instances.query.listZonesQuery.given

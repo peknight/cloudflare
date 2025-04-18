@@ -3,7 +3,7 @@ package com.peknight.cloudflare.dns.record.circe.instances
 import cats.Id
 import com.peknight.cloudflare.Result
 import com.peknight.cloudflare.circe.instances.result.given
-import com.peknight.cloudflare.codec.instances.configuration.given
+import com.peknight.cloudflare.codec.instances.config.given
 import com.peknight.cloudflare.dns.record.DNSRecord
 import com.peknight.cloudflare.dns.record.circe.instances.DNSRecordCirceInstancesCases.*
 import com.peknight.cloudflare.dns.record.codec.instances.dnsRecord.given

@@ -1,5 +1,5 @@
 package com.peknight.cloudflare.query
 
 package object instances:
-  object configuration extends ConfigurationInstances
+  object config extends ConfigInstances
 end instances

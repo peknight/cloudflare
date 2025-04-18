@@ -1,8 +1,8 @@
 package com.peknight.cloudflare.query.instances
 
-import com.peknight.query.configuration.Configuration
+import com.peknight.query.config.Config
 
-trait ConfigurationInstances:
-  given Configuration = Configuration(defaultKeys = List("equal", "exact"), flagKeys = List("absent", "present"))
-end ConfigurationInstances
-object ConfigurationInstances extends ConfigurationInstances
+trait ConfigInstances:
+  given Config = Config(defaultKeys = List("equal", "exact"), flagKeys = List("absent", "present"))
+end ConfigInstances
+object ConfigInstances extends ConfigInstances
