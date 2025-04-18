@@ -1,6 +1,6 @@
 package com.peknight.cloudflare.dns.record.codec.instances
 
-import cats.Monad
+import cats.{Monad, Show}
 import com.peknight.cloudflare.dns.record.DNSRecord
 import com.peknight.cloudflare.dns.record.DNSRecord.*
 import com.peknight.cloudflare.dns.record.codec.instances.dnsRecordData.given
@@ -22,93 +22,93 @@ import scala.concurrent.duration.FiniteDuration
 //noinspection DuplicatedCode
 trait DNSRecordInstances:
   given codecDNSRecordA[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                 NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], A] =
+                                 NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], A] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, A]
   given codecDNSRecordAAAA[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                    NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], AAAA] =
+                                    NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], AAAA] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, AAAA]
   given codecDNSRecordCAA[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                   NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], CAA] =
+                                   NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], CAA] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, CAA]
   given codecDNSRecordCERT[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                    NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], CERT] =
+                                    NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], CERT] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, CERT]
   given codecDNSRecordCNAME[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                     NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], CNAME] =
+                                     NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], CNAME] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, CNAME]
   given codecDNSRecordDNSKEY[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                      NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], DNSKEY] =
+                                      NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], DNSKEY] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, DNSKEY]
   given codecDNSRecordDS[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                  NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], DS] =
+                                  NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], DS] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, DS]
   given codecDNSRecordHTTPS[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                     NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], HTTPS] =
+                                     NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], HTTPS] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, HTTPS]
   given codecDNSRecordLOC[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                   NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], LOC] =
+                                   NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], LOC] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, LOC]
   given codecDNSRecordMX[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                  NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], MX] =
+                                  NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], MX] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, MX]
   given codecDNSRecordNAPTR[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                     NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], NAPTR] =
+                                     NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], NAPTR] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, NAPTR]
   given codecDNSRecordNS[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                  NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], NS] =
+                                  NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], NS] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, NS]
   given codecDNSRecordOPENPGPKEY[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                          NumberType[S], BooleanType[S], StringType[S])
+                                          NumberType[S], BooleanType[S], StringType[S], Show[S])
   : Codec[F, S, Cursor[S], OPENPGPKEY] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, OPENPGPKEY]
   given codecDNSRecordPTR[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                   NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], PTR] =
+                                   NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], PTR] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, PTR]
   given codecDNSRecordSMIMEA[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                      NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], SMIMEA] =
+                                      NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], SMIMEA] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, SMIMEA]
   given codecDNSRecordSRV[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                   NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], SRV] =
+                                   NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], SRV] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, SRV]
   given codecDNSRecordSSHFP[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                     NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], SSHFP] =
+                                     NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], SSHFP] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, SSHFP]
   given codecDNSRecordSVCB[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                    NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], SVCB] =
+                                    NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], SVCB] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, SVCB]
   given codecDNSRecordTLSA[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                    NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], TLSA] =
+                                    NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], TLSA] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, TLSA]
   given codecDNSRecordTXT[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                   NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], TXT] =
+                                   NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], TXT] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, TXT]
   given codecDNSRecordURI[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                                   NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], URI] =
+                                   NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], URI] =
     given Codec[F, S, Cursor[S], FiniteDuration] = codecFiniteDurationOfSecondsNS
     Codec.derived[F, S, URI]
   given codecDNSRecord[F[_], S](using config: CodecConfig, monad: Monad[F], objectType: ObjectType[S],
                                 nullType: NullType[S], arrayType: ArrayType[S], numberType: NumberType[S],
-                                booleanType: BooleanType[S], stringType: StringType[S])
+                                booleanType: BooleanType[S], stringType: StringType[S], show: Show[S])
   : Codec[F, S, Cursor[S], DNSRecord] =
     Codec.derived[F, S, DNSRecord](using config.withDiscriminator("type"))
 end DNSRecordInstances

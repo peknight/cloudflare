@@ -1,6 +1,6 @@
 package com.peknight.cloudflare.zone.codec.instances
 
-import cats.Monad
+import cats.{Monad, Show}
 import com.peknight.cloudflare.zone.Zone
 import com.peknight.cloudflare.zone.codec.instances.account.given
 import com.peknight.cloudflare.zone.codec.instances.owner.given
@@ -18,7 +18,7 @@ import com.peknight.codec.sum.*
 
 trait ZoneInstances:
   given codecZone[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], ArrayType[S],
-                           NumberType[S], BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], Zone] =
+                           NumberType[S], BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], Zone] =
     Codec.derived[F, S, Zone]
 end ZoneInstances
 object ZoneInstances extends ZoneInstances

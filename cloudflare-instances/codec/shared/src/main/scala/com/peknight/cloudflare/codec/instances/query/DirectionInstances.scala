@@ -1,6 +1,6 @@
 package com.peknight.cloudflare.codec.instances.query
 
-import cats.Applicative
+import cats.{Applicative, Show}
 import com.peknight.cloudflare.query.Direction
 import com.peknight.codec.Codec
 import com.peknight.codec.config.{CodecConfig, Config}
@@ -16,7 +16,7 @@ trait DirectionInstances:
       using CodecConfig.default.withTransformConstructorName(_.to(SnakeCase))
     )
 
-  given codecDirectionS[F[_], S](using Config, Applicative[F], StringType[S]): Codec[F, S, Cursor[S], Direction] =
+  given codecDirectionS[F[_], S](using Config, Applicative[F], StringType[S], Show[S]): Codec[F, S, Cursor[S], Direction] =
     Codec.codecS[F, S, Direction]
 end DirectionInstances
 object DirectionInstances extends DirectionInstances

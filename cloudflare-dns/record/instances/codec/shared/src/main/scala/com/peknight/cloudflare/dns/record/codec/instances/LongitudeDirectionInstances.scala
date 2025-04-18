@@ -1,6 +1,6 @@
 package com.peknight.cloudflare.dns.record.codec.instances
 
-import cats.Applicative
+import cats.{Applicative, Show}
 import com.peknight.cloudflare.dns.record.LongitudeDirection
 import com.peknight.codec.Codec
 import com.peknight.codec.config.Config
@@ -13,7 +13,7 @@ trait LongitudeDirectionInstances:
   : Codec[F, String, String, LongitudeDirection] =
     EnumCodecDerivation.unsafeDerived[F, String, String, LongitudeDirection]
 
-  given codecLongitudeDirectionS[F[_], S](using Config, Applicative[F], StringType[S])
+  given codecLongitudeDirectionS[F[_], S](using Config, Applicative[F], StringType[S], Show[S])
   : Codec[F, S, Cursor[S], LongitudeDirection] =
     Codec.codecS[F, S, LongitudeDirection]
 end LongitudeDirectionInstances

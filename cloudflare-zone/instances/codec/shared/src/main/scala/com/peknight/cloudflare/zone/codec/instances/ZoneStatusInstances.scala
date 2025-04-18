@@ -1,6 +1,6 @@
 package com.peknight.cloudflare.zone.codec.instances
 
-import cats.Applicative
+import cats.{Applicative, Show}
 import com.peknight.cloudflare.zone.ZoneStatus
 import com.peknight.codec.Codec
 import com.peknight.codec.config.{CodecConfig, Config}
@@ -16,7 +16,7 @@ trait ZoneStatusInstances:
       using CodecConfig.default.withTransformConstructorName(_.to(SnakeCase))
     )
 
-  given codecZoneStatusS[F[_], S](using Config, Applicative[F], StringType[S])
+  given codecZoneStatusS[F[_], S](using Config, Applicative[F], StringType[S], Show[S])
   : Codec[F, S, Cursor[S], ZoneStatus] =
     Codec.codecS[F, S, ZoneStatus]
 end ZoneStatusInstances

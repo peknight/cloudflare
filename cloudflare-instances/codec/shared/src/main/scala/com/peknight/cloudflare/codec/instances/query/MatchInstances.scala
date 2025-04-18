@@ -1,6 +1,6 @@
 package com.peknight.cloudflare.codec.instances.query
 
-import cats.Applicative
+import cats.{Applicative, Show}
 import com.peknight.cloudflare.query.Match
 import com.peknight.codec.Codec
 import com.peknight.codec.config.{CodecConfig, Config}
@@ -16,7 +16,7 @@ trait MatchInstances:
       using CodecConfig.default.withTransformConstructorName(_.to(SnakeCase))
     )
 
-  given codecMatchS[F[_], S](using Config, Applicative[F], StringType[S]): Codec[F, S, Cursor[S], Match] =
+  given codecMatchS[F[_], S](using Config, Applicative[F], StringType[S], Show[S]): Codec[F, S, Cursor[S], Match] =
     Codec.codecS[F, S, Match]
 end MatchInstances
 object MatchInstances extends MatchInstances

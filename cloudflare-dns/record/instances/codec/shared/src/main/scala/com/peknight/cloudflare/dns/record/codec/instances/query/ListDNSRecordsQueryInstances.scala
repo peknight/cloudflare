@@ -1,6 +1,6 @@
 package com.peknight.cloudflare.dns.record.codec.instances.query
 
-import cats.Monad
+import cats.{Monad, Show}
 import com.peknight.cloudflare.codec.instances.query.`match`.given
 import com.peknight.cloudflare.codec.instances.query.direction.given
 import com.peknight.cloudflare.codec.instances.query.order.given
@@ -14,7 +14,7 @@ import com.peknight.codec.sum.*
 
 trait ListDNSRecordsQueryInstances:
   given codecListDNSRecordsQuery[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], NumberType[S],
-                                          BooleanType[S], StringType[S]): Codec[F, S, Cursor[S], ListDNSRecordsQuery] =
+                                          BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], ListDNSRecordsQuery] =
     Codec.derived[F, S, ListDNSRecordsQuery]
 end ListDNSRecordsQueryInstances
 object ListDNSRecordsQueryInstances extends ListDNSRecordsQueryInstances
