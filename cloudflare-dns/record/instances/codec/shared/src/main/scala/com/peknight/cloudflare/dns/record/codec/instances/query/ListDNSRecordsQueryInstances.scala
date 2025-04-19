@@ -11,10 +11,12 @@ import com.peknight.codec.Codec
 import com.peknight.codec.config.CodecConfig
 import com.peknight.codec.cursor.Cursor
 import com.peknight.codec.sum.*
+import com.peknight.generic.derivation.show
 
 trait ListDNSRecordsQueryInstances:
   given codecListDNSRecordsQuery[F[_], S](using CodecConfig, Monad[F], ObjectType[S], NullType[S], NumberType[S],
                                           BooleanType[S], StringType[S], Show[S]): Codec[F, S, Cursor[S], ListDNSRecordsQuery] =
     Codec.derived[F, S, ListDNSRecordsQuery]
+  given showListDNSRecordsQuery: Show[ListDNSRecordsQuery] = show.derived[ListDNSRecordsQuery]
 end ListDNSRecordsQueryInstances
 object ListDNSRecordsQueryInstances extends ListDNSRecordsQueryInstances
