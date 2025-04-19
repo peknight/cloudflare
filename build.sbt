@@ -285,6 +285,7 @@ lazy val cloudflareDNSRecordCodecInstances = (crossProject(JSPlatform, JVMPlatfo
     name := "dns-record-codec-instances",
     libraryDependencies ++= Seq(
       "com.peknight" %%% "codec-ip4s" % pekCodecVersion,
+      "com.peknight" %%% "cats-instances-time" % pekInstancesVersion,
     ),
   )
 
@@ -380,6 +381,7 @@ val pekApiVersion = pekVersion
 val pekCodecVersion = pekVersion
 val pekQueryVersion = pekVersion
 val pekAuthVersion = pekVersion
+val pekInstancesVersion = pekVersion
 val pekCommonsVersion = pekVersion
 
 val logbackClassic = "ch.qos.logback" % "logback-classic" % logbackVersion
