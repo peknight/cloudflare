@@ -15,13 +15,11 @@ class ZoneCirceInstancesFlatSpec extends AnyFlatSpec:
 
   "CloudFlare Zone's circe instances" should "parse succeed json" in {
     val result = decode[Id, Result[List[Zone]]](listZonesSucceed)
-    println(result)
     assert(result.isRight)
   }
 
   "CloudFlare Zone's circe instances" should "parse failed json" in {
     val result = decode[Id, Result[List[Zone]]](listZonesFailed)
-    println(result)
     assert(result.isRight)
   }
 end ZoneCirceInstancesFlatSpec

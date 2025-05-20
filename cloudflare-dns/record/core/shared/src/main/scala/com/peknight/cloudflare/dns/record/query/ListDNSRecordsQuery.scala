@@ -1,5 +1,6 @@
 package com.peknight.cloudflare.dns.record.query
 
+import cats.Show
 import com.peknight.cloudflare.dns.record.DNSRecordType
 import com.peknight.cloudflare.query.{Direction, Match, QueryParam, StringOptionParam}
 
@@ -9,3 +10,6 @@ case class ListDNSRecordsQuery(comment: Option[StringOptionParam] = None, conten
                                perPage: Option[Int] = None, proxied: Option[Boolean] = None,
                                search: Option[String] = None, tag: Option[StringOptionParam] = None,
                                tagMatch: Option[Match] = None, `type`: Option[DNSRecordType] = None) extends QueryParam
+object ListDNSRecordsQuery:
+  given showListDNSRecordsQuery: Show[ListDNSRecordsQuery] = Show.fromToString[ListDNSRecordsQuery]
+end ListDNSRecordsQuery
