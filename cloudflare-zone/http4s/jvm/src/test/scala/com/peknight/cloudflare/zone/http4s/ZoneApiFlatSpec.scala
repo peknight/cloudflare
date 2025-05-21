@@ -43,7 +43,8 @@ class ZoneApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
           for
             logger <- EitherT(Slf4jLogger.fromClass[IO](classOf[ZoneApiFlatSpec]).asError)
             given Logger[IO] = logger
-            token <- EitherT(Decoder.load[IO, Token](Key(Vector("CLOUDFLARE", "TOKEN"))))
+            // 设置环境变量CLOUDFLARE_TOKEN
+            token <- EitherT(Decoder.load[IO, Token](Key("cloudflare", "token")))
               .log[Unit]("ZoneApiFlatSpec#loadToken")
             zones <- EitherT(ZoneApi[IO](token).listZones(query).resultAsError)
           yield

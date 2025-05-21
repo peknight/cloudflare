@@ -38,7 +38,8 @@ class DNSRecordApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
           for
             logger <- EitherT(Slf4jLogger.fromClass[IO](classOf[DNSRecordApiFlatSpec]).asError)
             given Logger[IO] = logger
-            config <- EitherT(Decoder.load[IO, CloudflareZoneConfig](Key("CLOUDFLARE")))
+            // 设置环境变量CLOUDFLARE_TOKEN及CLOUDFLARE_ZONE_ID
+            config <- EitherT(Decoder.load[IO, CloudflareZoneConfig](Key("cloudflare")))
               .log[Unit]("DNSRecordApiFlatSpec#loadConfig")
             dnsRecords <- EitherT(DNSRecordApi[IO](config.token).listDNSRecords(config.zoneId)(query).resultAsError)
               .log("DNSRecordApiFlatSpec#listDNSRecords", query.some)
@@ -63,7 +64,8 @@ class DNSRecordApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
           for
             logger <- EitherT(Slf4jLogger.fromClass[IO](classOf[DNSRecordApiFlatSpec]).asError)
             given Logger[IO] = logger
-            config <- EitherT(Decoder.load[IO, CloudflareZoneConfig](Key("CLOUDFLARE")))
+            // 设置环境变量CLOUDFLARE_TOKEN及CLOUDFLARE_ZONE_ID
+            config <- EitherT(Decoder.load[IO, CloudflareZoneConfig](Key("cloudflare")))
             api = DNSRecordApi[IO](config.token)
             dnsRecord <- EitherT(api.createDNSRecord(config.zoneId)(body1).resultAsError)
               .log("DNSRecordApiFlatSpec#createDNSRecord", body1.some)

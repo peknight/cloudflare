@@ -1,5 +1,3 @@
-/cloudflare-test/shared/src/main/scala/com/peknight/cloudflare/test/package.scala
-
 .bsp/
 .bloop/
 .metals/
