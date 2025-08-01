@@ -5,7 +5,7 @@ import cats.data.EitherT
 import cats.effect.IO
 import cats.effect.testing.scalatest.AsyncIOSpec
 import cats.syntax.option.*
-import com.peknight.api.syntax.result.asError as resultAsError
+import com.peknight.api.syntax.result.asET as resultAsET
 import com.peknight.auth.token.Token
 import com.peknight.cloudflare.query.Direction.Desc
 import com.peknight.cloudflare.query.Match.Any
@@ -16,7 +16,7 @@ import com.peknight.cloudflare.zone.query.Order.Name
 import com.peknight.codec.Decoder
 import com.peknight.codec.effect.instances.envReader.given
 import com.peknight.codec.reader.Key
-import com.peknight.error.syntax.applicativeError.asError
+import com.peknight.error.syntax.applicativeError.asET
 import com.peknight.logging.syntax.eitherT.log
 import org.http4s.client.Client
 import org.http4s.ember.client.EmberClientBuilder
@@ -41,12 +41,12 @@ class ZoneApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
         given Show[Token] = Show.fromToString[Token]
         val eitherT =
           for
-            logger <- EitherT(Slf4jLogger.fromClass[IO](classOf[ZoneApiFlatSpec]).asError)
+            logger <- Slf4jLogger.fromClass[IO](classOf[ZoneApiFlatSpec]).asET
             given Logger[IO] = logger
             // 设置环境变量CLOUDFLARE_TOKEN
             token <- EitherT(Decoder.load[IO, Token](Key("cloudflare", "token")))
               .log[Unit]("ZoneApiFlatSpec#loadToken")
-            zones <- EitherT(ZoneApi[IO](token).listZones(query).resultAsError)
+            zones <- ZoneApi[IO](token).listZones(query).resultAsET
           yield
             zones
         eitherT.value
