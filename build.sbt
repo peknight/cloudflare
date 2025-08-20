@@ -59,24 +59,21 @@ lazy val cloudflareZone = (project in file("cloudflare-zone"))
   .aggregate(
     cloudflareZoneCore.jvm,
     cloudflareZoneCore.js,
-    cloudflareZoneCore.native,
     cloudflareZoneConfig.jvm,
     cloudflareZoneConfig.js,
-    cloudflareZoneConfig.native,
     cloudflareZoneInstances,
     cloudflareZoneApi.jvm,
     cloudflareZoneApi.js,
-    cloudflareZoneApi.native,
     cloudflareZoneHttp4s.jvm,
     cloudflareZoneHttp4s.js,
   )
 
-lazy val cloudflareZoneCore = (crossProject(JVMPlatform, JSPlatform, NativePlatform) in file("cloudflare-zone/core"))
+lazy val cloudflareZoneCore = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-zone/core"))
   .dependsOn(cloudflareCore)
   .settings(name := "zone-core")
   .settings(crossDependencies(comcast.ip4s))
 
-lazy val cloudflareZoneConfig = (crossProject(JVMPlatform, JSPlatform, NativePlatform) in file("cloudflare-zone/config"))
+lazy val cloudflareZoneConfig = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-zone/config"))
   .dependsOn(cloudflareZoneCore)
   .settings(name := "zone-config")
   .settings(crossDependencies(peknight.auth))
@@ -125,7 +122,7 @@ lazy val cloudflareZoneQueryInstances = (crossProject(JVMPlatform, JSPlatform) i
   .settings(name := "zone-query-instances")
   .settings(crossDependencies(peknight.query))
 
-lazy val cloudflareZoneApi = (crossProject(JVMPlatform, JSPlatform, NativePlatform) in file("cloudflare-zone/api"))
+lazy val cloudflareZoneApi = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-zone/api"))
   .dependsOn(cloudflareZoneCore)
   .settings(name := "zone-api")
 
@@ -165,16 +162,14 @@ lazy val cloudflareDNSRecord = (project in file("cloudflare-dns/record"))
   .aggregate(
     cloudflareDNSRecordCore.jvm,
     cloudflareDNSRecordCore.js,
-    cloudflareDNSRecordCore.native,
     cloudflareDNSRecordInstances,
     cloudflareDNSRecordApi.jvm,
     cloudflareDNSRecordApi.js,
-    cloudflareDNSRecordApi.native,
     cloudflareDNSRecordHttp4s.jvm,
     cloudflareDNSRecordHttp4s.js,
   )
 
-lazy val cloudflareDNSRecordCore = (crossProject(JVMPlatform, JSPlatform, NativePlatform) in file("cloudflare-dns/record/core"))
+lazy val cloudflareDNSRecordCore = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-dns/record/core"))
   .dependsOn(cloudflareZoneCore)
   .settings(name := "dns-record-core")
 
@@ -222,7 +217,7 @@ lazy val cloudflareDNSRecordQueryInstances = (crossProject(JVMPlatform, JSPlatfo
   .settings(name := "dns-record-query-instances")
   .settings(crossDependencies(peknight.query))
 
-lazy val cloudflareDNSRecordApi = (crossProject(JVMPlatform, JSPlatform, NativePlatform) in file("cloudflare-dns/record/api"))
+lazy val cloudflareDNSRecordApi = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-dns/record/api"))
   .settings(name := "dns-record-api")
   .dependsOn(cloudflareDNSRecordCore)
 
