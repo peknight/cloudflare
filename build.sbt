@@ -3,6 +3,8 @@ import com.peknight.build.sbt.*
 
 commonSettings
 
+ThisBuild / organization := "com.peknight.cloudflare"
+
 lazy val cloudflare = (project in file("."))
   .settings(name := "cloudflare")
   .aggregate(
