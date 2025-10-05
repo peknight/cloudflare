@@ -16,7 +16,7 @@ import com.peknight.cloudflare.dns.record.query.ListDNSRecordsQuery
 import com.peknight.cloudflare.dns.record.query.instances.query.listDNSRecordsQuery.given
 import com.peknight.cloudflare.dns.record.{DNSRecord, DNSRecordId, api}
 import com.peknight.cloudflare.http4s.uri.clientV4
-import com.peknight.cloudflare.query.instances.config.given
+import com.peknight.cloudflare.query.instances.queryConfig.given
 import com.peknight.cloudflare.zone.ZoneId
 import com.peknight.cloudflare.zone.codec.instances.zoneId.given
 import com.peknight.codec.circe.sum.jsonType.given
