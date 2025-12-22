@@ -2,7 +2,6 @@ package com.peknight.cloudflare.query
 
 import cats.{Monad, Show}
 import com.peknight.cloudflare.config.given
-import com.peknight.cloudflare.query.StringOptionParam
 import com.peknight.codec.Codec
 import com.peknight.codec.cursor.Cursor
 import com.peknight.codec.sum.{NullType, ObjectType, StringType}

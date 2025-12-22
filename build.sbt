@@ -36,7 +36,6 @@ lazy val cloudflareZone = (project in file("cloudflare-zone"))
     cloudflareZoneCore.js,
     cloudflareZoneConfig.jvm,
     cloudflareZoneConfig.js,
-    cloudflareZoneInstances,
     cloudflareZoneApi.jvm,
     cloudflareZoneApi.js,
     cloudflareZoneHttp4s.jvm,
@@ -46,53 +45,19 @@ lazy val cloudflareZone = (project in file("cloudflare-zone"))
 lazy val cloudflareZoneCore = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-zone/core"))
   .dependsOn(cloudflareCore)
   .settings(name := "zone-core")
-  .settings(crossDependencies(comcast.ip4s))
-
-lazy val cloudflareZoneConfig = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-zone/config"))
-  .dependsOn(cloudflareZoneCore)
-  .settings(name := "zone-config")
-  .settings(crossDependencies(peknight.auth))
-
-lazy val cloudflareZoneInstances = (project in file("cloudflare-zone/instances"))
-  .settings(name := "zone-instances")
-  .aggregate(
-    cloudflareZoneCodecInstances.jvm,
-    cloudflareZoneCodecInstances.js,
-    cloudflareZoneCirceInstances.jvm,
-    cloudflareZoneCirceInstances.js,
-    cloudflareZoneQueryInstances.jvm,
-    cloudflareZoneQueryInstances.js,
-  )
-
-lazy val cloudflareZoneCodecInstances = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-zone/instances/codec"))
-  .dependsOn(
-    cloudflareZoneCore,
-    cloudflareZoneConfig,
-  )
-  .settings(name := "zone-codec-instances")
   .settings(crossDependencies(
-    peknight.codec.effect,
     peknight.codec.ip4s,
-    peknight.commons.text,
+    peknight.codec.effect,
   ))
-
-lazy val cloudflareZoneCirceInstances = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-zone/instances/circe"))
-  .dependsOn(
-    cloudflareZoneCodecInstances,
-  )
-  .settings(name := "zone-circe-instances")
-  .settings(crossDependencies(peknight.codec.circe))
   .settings(crossTestDependencies(
     peknight.codec.circe.parser,
     scalaTest,
   ))
 
-lazy val cloudflareZoneQueryInstances = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-zone/instances/query"))
-  .dependsOn(
-    cloudflareZoneCodecInstances,
-  )
-  .settings(name := "zone-query-instances")
-  .settings(crossDependencies(peknight.query))
+lazy val cloudflareZoneConfig = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-zone/config"))
+  .dependsOn(cloudflareZoneCore)
+  .settings(name := "zone-config")
+  .settings(crossDependencies(peknight.auth))
 
 lazy val cloudflareZoneApi = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-zone/api"))
   .dependsOn(cloudflareZoneCore)
@@ -102,8 +67,6 @@ lazy val cloudflareZoneHttp4s = (crossProject(JVMPlatform, JSPlatform) in file("
   .dependsOn(
     cloudflareZoneApi,
     cloudflareHttp4s,
-    cloudflareZoneCirceInstances,
-    cloudflareZoneQueryInstances,
   )
   .settings(name := "zone-http4s")
   .settings(crossDependencies(
@@ -158,7 +121,6 @@ lazy val cloudflareDNSRecordInstances = (project in file("cloudflare-dns/record/
 lazy val cloudflareDNSRecordCodecInstances = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-dns/record/instances/codec"))
   .dependsOn(
     cloudflareDNSRecordCore,
-    cloudflareZoneCodecInstances,
   )
   .settings(name := "dns-record-codec-instances")
   .settings(crossDependencies(

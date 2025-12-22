@@ -2,7 +2,6 @@ package com.peknight.cloudflare
 
 import cats.data.Ior
 import cats.{Monad, Show}
-import com.peknight.cloudflare.Result
 import com.peknight.codec.config.CodecConfig
 import com.peknight.codec.cursor.Cursor
 import com.peknight.codec.sum.*

@@ -1,12 +1,9 @@
-package com.peknight.cloudflare.zone.circe.instances
+package com.peknight.cloudflare.zone
 
 import cats.Id
 import com.peknight.cloudflare.Result
-import com.peknight.cloudflare.circe.instances.result.given
-import com.peknight.cloudflare.codec.instances.config.given
 import com.peknight.cloudflare.zone.Zone
-import com.peknight.cloudflare.zone.circe.instances.ZoneCirceInstancesCases.*
-import com.peknight.cloudflare.zone.circe.instances.zone.given
+import com.peknight.cloudflare.zone.ZoneCirceInstancesCases.*
 import com.peknight.codec.circe.parser.decode
 import com.peknight.codec.circe.sum.jsonType.given
 import org.scalatest.flatspec.AnyFlatSpec

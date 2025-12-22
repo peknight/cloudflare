@@ -4,13 +4,9 @@ import cats.effect.Concurrent
 import com.peknight.auth.http4s.syntax.token.toHeader
 import com.peknight.auth.token.Token
 import com.peknight.cloudflare.Result
-import com.peknight.cloudflare.circe.instances.result.given
-import com.peknight.cloudflare.codec.instances.config.given
+import com.peknight.cloudflare.config.given
 import com.peknight.cloudflare.http4s.uri.clientV4
-import com.peknight.cloudflare.query.instances.queryConfig.given
-import com.peknight.cloudflare.zone.circe.instances.zone.given
 import com.peknight.cloudflare.zone.query.ListZonesQuery
-import com.peknight.cloudflare.zone.query.instances.query.listZonesQuery.given
 import com.peknight.cloudflare.zone.{Zone, api}
 import com.peknight.codec.circe.sum.jsonType.given
 import com.peknight.codec.http4s.circe.instances.entityDecoder.given

@@ -1,7 +1,6 @@
 package com.peknight.cloudflare.query
 
 import cats.{Applicative, Eq, Show}
-import com.peknight.cloudflare.query.Direction
 import com.peknight.codec.Codec
 import com.peknight.codec.config.CodecConfig
 import com.peknight.codec.cursor.Cursor

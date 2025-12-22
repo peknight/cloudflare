@@ -1,7 +1,7 @@
-package com.peknight.cloudflare.zone.circe.instances
+package com.peknight.cloudflare.zone
 
 object ZoneCirceInstancesCases:
-  private[instances] val listZonesFailed =
+  private[zone] val listZonesFailed =
     """
       |{
       |  "success" : false,
@@ -22,7 +22,7 @@ object ZoneCirceInstancesCases:
       |  "result" : null
       |}
     """.stripMargin
-  private[instances] val listZonesSucceed =
+  private[zone] val listZonesSucceed =
     """
       |{
       |  "result" : [
@@ -102,5 +102,4 @@ object ZoneCirceInstancesCases:
       |  ]
       |}
     """.stripMargin
-
 end ZoneCirceInstancesCases
