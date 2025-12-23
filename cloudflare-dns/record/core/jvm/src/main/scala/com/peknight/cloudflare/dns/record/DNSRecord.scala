@@ -1,6 +1,5 @@
 package com.peknight.cloudflare.dns.record
 
-import cats.Show
 import com.comcast.ip4s.{Host, Hostname, Ipv4Address, Ipv6Address}
 import com.peknight.cloudflare.zone.ZoneId
 
@@ -27,7 +26,7 @@ sealed trait DNSRecord:
   def commentModifiedOn: Option[Instant]
   def tagsModifiedOn: Option[Instant]
 end DNSRecord
-object DNSRecord:
+object DNSRecord extends DNSRecordCompanion:
   case class A(
                 id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: Ipv4Address,
                 proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration], meta: Option[DNSRecordMeta],
@@ -252,27 +251,4 @@ object DNSRecord:
     type CONTENT = String
     def `type`: DNSRecordType = DNSRecordType.URI
   end URI
-
-  given showDNSRecordA: Show[A] = Show.fromToString[A]
-  given showDNSRecordAAAA: Show[AAAA] = Show.fromToString[AAAA]
-  given showDNSRecordCAA: Show[CAA] = Show.fromToString[CAA]
-  given showDNSRecordCERT: Show[CERT] = Show.fromToString[CERT]
-  given showDNSRecordCNAME: Show[CNAME] = Show.fromToString[CNAME]
-  given showDNSRecordDNSKEY: Show[DNSKEY] = Show.fromToString[DNSKEY]
-  given showDNSRecordDS: Show[DS] = Show.fromToString[DS]
-  given showDNSRecordHTTPS: Show[HTTPS] = Show.fromToString[HTTPS]
-  given showDNSRecordLOC: Show[LOC] = Show.fromToString[LOC]
-  given showDNSRecordMX: Show[MX] = Show.fromToString[MX]
-  given showDNSRecordNAPTR: Show[NAPTR] = Show.fromToString[NAPTR]
-  given showDNSRecordNS: Show[NS] = Show.fromToString[NS]
-  given showDNSRecordOPENPGPKEY: Show[OPENPGPKEY] = Show.fromToString[OPENPGPKEY]
-  given showDPTRRecordPTR: Show[PTR] = Show.fromToString[PTR]
-  given showDSMIMEARecordSMIMEA: Show[SMIMEA] = Show.fromToString[SMIMEA]
-  given showDSRVRecordSRV: Show[SRV] = Show.fromToString[SRV]
-  given showDSSHFPRecordSSHFP: Show[SSHFP] = Show.fromToString[SSHFP]
-  given showDSVCBRecordSVCB: Show[SVCB] = Show.fromToString[SVCB]
-  given showDTLSARecordTLSA: Show[TLSA] = Show.fromToString[TLSA]
-  given showDTXTRecordTXT: Show[TXT] = Show.fromToString[TXT]
-  given showDNSRecordURI: Show[URI] = Show.fromToString[URI]
-  given showDNSRecord: Show[DNSRecord] = Show.fromToString[DNSRecord]
 end DNSRecord

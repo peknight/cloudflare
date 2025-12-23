@@ -5,20 +5,12 @@ import cats.effect.Concurrent
 import com.peknight.auth.http4s.syntax.token.toHeader
 import com.peknight.auth.token.Token
 import com.peknight.cloudflare.Result
-import com.peknight.cloudflare.circe.instances.result.given
-import com.peknight.cloudflare.codec.instances.config.given
+import com.peknight.cloudflare.config.given
 import com.peknight.cloudflare.dns.record.body.DNSRecordBody
-import com.peknight.cloudflare.dns.record.circe.instances.body.dnsRecordBody.given
-import com.peknight.cloudflare.dns.record.circe.instances.dnsRecord.given
-import com.peknight.cloudflare.dns.record.codec.instances.dnsRecordId.{codecDNSRecordIdS, stringCodecDNSRecordId}
-import com.peknight.cloudflare.dns.record.codec.instances.dnsRecordIdObject.codecDNSRecordIdObjectS
 import com.peknight.cloudflare.dns.record.query.ListDNSRecordsQuery
-import com.peknight.cloudflare.dns.record.query.instances.query.listDNSRecordsQuery.given
 import com.peknight.cloudflare.dns.record.{DNSRecord, DNSRecordId, api}
 import com.peknight.cloudflare.http4s.uri.clientV4
-import com.peknight.cloudflare.query.instances.queryConfig.given
 import com.peknight.cloudflare.zone.ZoneId
-import com.peknight.cloudflare.zone.codec.instances.zoneId.given
 import com.peknight.codec.circe.sum.jsonType.given
 import com.peknight.codec.cursor.Cursor
 import com.peknight.codec.http4s.circe.instances.entityDecoder.given
@@ -39,8 +31,8 @@ class DNSRecordApi[F[_]: Concurrent](token: Token)(using client: Client[F]) exte
   private def dnsRecordsUri(zoneId: ZoneId): Uri = clientV4 / "zones" / zoneId / "dns_records"
   private val headers = Headers(token.toHeader)
 
-  given dnsRecordIdJsonEncoder: Encoder[Id, Json, DNSRecordId] = codecDNSRecordIdS[Id, Json]
-  given dnsRecordIdStringEncoder: Encoder[Id, String, DNSRecordId] = stringCodecDNSRecordId[Id]
+  given dnsRecordIdJsonEncoder: Encoder[Id, Json, DNSRecordId] = DNSRecordId.codecDNSRecordIdS[Id, Json]
+  given dnsRecordIdStringEncoder: Encoder[Id, String, DNSRecordId] = DNSRecordId.stringCodecDNSRecordId[Id]
 
   def listDNSRecords(zoneId: ZoneId)(query: ListDNSRecordsQuery): F[Result[List[DNSRecord]]] =
     client.run(GET(dnsRecordsUri(zoneId).withQuery[ListDNSRecordsQuery](query), headers))
@@ -50,7 +42,7 @@ class DNSRecordApi[F[_]: Concurrent](token: Token)(using client: Client[F]) exte
     client.run(POST(body, dnsRecordsUri(zoneId), headers)).use(_.as[Result[DNSRecord]])
 
   def deleteDNSRecord(zoneId: ZoneId, dnsRecordId: DNSRecordId): F[Result[DNSRecordId]] =
-    given Decoder[Id, Cursor[Json], DNSRecordId] = codecDNSRecordIdObjectS[Id, Json]
+    given Decoder[Id, Cursor[Json], DNSRecordId] = DNSRecordId.codecDNSRecordIdObjectS[Id, Json]
     client.run(DELETE(dnsRecordsUri(zoneId) / dnsRecordId, headers)).use(_.as[Result[DNSRecordId]])
 
   def dnsRecordDetails(zoneId: ZoneId, dnsRecordId: DNSRecordId): F[Result[DNSRecord]] =

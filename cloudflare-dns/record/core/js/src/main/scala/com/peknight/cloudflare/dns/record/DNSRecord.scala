@@ -25,7 +25,7 @@ sealed trait DNSRecord:
   def commentModifiedOn: Option[String]
   def tagsModifiedOn: Option[String]
 end DNSRecord
-object DNSRecord:
+object DNSRecord extends DNSRecordCompanion:
   case class A(
                 id: DNSRecordId, zoneId: Option[ZoneId], zoneName: Option[String], name: String, content: Ipv4Address,
                 proxiable: Boolean, proxied: Option[Boolean], ttl: Option[FiniteDuration], meta: Option[DNSRecordMeta],
