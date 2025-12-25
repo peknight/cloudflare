@@ -25,7 +25,7 @@ import org.typelevel.log4cats.Logger
 import org.typelevel.log4cats.slf4j.Slf4jLogger
 
 class ZoneApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
-  "CloudFlare Zone Api List Zones" should "succeed" in {
+  "CloudFlare Zone Api List Zones" should "pass" in {
     val query = ListZonesQuery(
       direction = Desc.some,
       `match` = Any.some,

@@ -24,7 +24,7 @@ import org.typelevel.log4cats.Logger
 import org.typelevel.log4cats.slf4j.Slf4jLogger
 
 class DNSRecordApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
-  "CloudFlare DNS Records for a Zone Api List DNS Records" should "succeed" in {
+  "CloudFlare DNS Records for a Zone Api List DNS Records" should "pass" in {
     val query = ListDNSRecordsQuery(
       `type` = A.some,
       direction = Desc.some,
@@ -49,7 +49,7 @@ class DNSRecordApiFlatSpec extends AsyncFlatSpec with AsyncIOSpec:
       .asserting(either => assert(either.isRight))
   }
 
-  "CloudFlare DNS Records for a Zone Api Overwrite DNS Record" should "succeed" in {
+  "CloudFlare DNS Records for a Zone Api Overwrite DNS Record" should "pass" in {
     val content1 = ipv4"127.0.0.1"
     val content2 = ipv4"192.168.0.1"
     val content3 = ipv4"192.168.1.1"
