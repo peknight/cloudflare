@@ -2,7 +2,7 @@ package com.peknight.cloudflare.zone.config
 
 import cats.effect.std.Env
 import cats.{Monad, MonadError, Show}
-import com.peknight.auth.token.Token
+import com.peknight.auth.Token
 import com.peknight.cloudflare.zone.ZoneId
 import com.peknight.codec.config.{CodecConfig, given}
 import com.peknight.codec.cursor.Cursor

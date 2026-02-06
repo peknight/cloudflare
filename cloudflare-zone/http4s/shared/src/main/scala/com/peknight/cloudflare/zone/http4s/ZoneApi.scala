@@ -2,7 +2,7 @@ package com.peknight.cloudflare.zone.http4s
 
 import cats.effect.Concurrent
 import com.peknight.auth.http4s.syntax.token.toHeader
-import com.peknight.auth.token.Token
+import com.peknight.auth.Token
 import com.peknight.cloudflare.Result
 import com.peknight.cloudflare.config.given
 import com.peknight.cloudflare.http4s.uri.clientV4

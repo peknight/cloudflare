@@ -3,7 +3,7 @@ package com.peknight.cloudflare.dns.record.http4s
 import cats.Id
 import cats.effect.Concurrent
 import com.peknight.auth.http4s.syntax.token.toHeader
-import com.peknight.auth.token.Token
+import com.peknight.auth.Token
 import com.peknight.cloudflare.Result
 import com.peknight.cloudflare.config.given
 import com.peknight.cloudflare.dns.record.body.DNSRecordBody

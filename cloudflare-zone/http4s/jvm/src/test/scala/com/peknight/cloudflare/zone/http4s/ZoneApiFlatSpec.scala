@@ -6,7 +6,7 @@ import cats.effect.IO
 import cats.effect.testing.scalatest.AsyncIOSpec
 import cats.syntax.option.*
 import com.peknight.api.syntax.result.asET as resultAsET
-import com.peknight.auth.token.Token
+import com.peknight.auth.Token
 import com.peknight.cloudflare.query.Direction.Desc
 import com.peknight.cloudflare.query.Match.Any
 import com.peknight.cloudflare.query.StringParam
