@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Compile') {
             steps {
-                sh 'sbt -J-Xmx2G clean compile'
+                sh 'sbt clean -J-Xmx2G compile'
             }
         }
         stage('Test') {
