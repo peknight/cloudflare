@@ -6,9 +6,14 @@ pipeline {
                 sh 'curl "https://git.peknight.com/peknight/build/raw/branch/master/project/build.properties" > project/build.properties'
             }
         }
+        stage('Clean') {
+            steps {
+                sh 'sbt clean'
+            }
+        }
         stage('Compile') {
             steps {
-                sh 'sbt clean -J-Xmx2G compile'
+                sh 'sbt -J-Xmx2G compile'
             }
         }
         stage('Test') {
