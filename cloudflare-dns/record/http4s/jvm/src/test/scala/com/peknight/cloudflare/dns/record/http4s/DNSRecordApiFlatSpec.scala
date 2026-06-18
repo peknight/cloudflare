@@ -14,7 +14,6 @@ import com.peknight.cloudflare.query.Direction.Desc
 import com.peknight.cloudflare.zone.config.CloudflareZoneConfig
 import com.peknight.codec.Decoder
 import com.peknight.codec.reader.Key
-import com.peknight.error.Error
 import com.peknight.error.syntax.applicativeError.asET
 import com.peknight.logging.syntax.eitherT.log
 import org.http4s.client.Client
