@@ -7,135 +7,142 @@ ThisBuild / organization := "com.peknight.cloudflare"
 
 lazy val cloudflare = (project in file("."))
   .settings(name := "cloudflare")
-  .aggregate(
-    cloudflareCore.jvm,
-    cloudflareCore.js,
-    cloudflareHttp4s.jvm,
-    cloudflareHttp4s.js,
-    cloudflareZone,
-    cloudflareDNS,
-  )
+  .aggregate(cloudflareCore.projectRefs *)
+  .aggregate(cloudflareHttp4s.projectRefs *)
+  .aggregate(cloudflareZone.projectRefs *)
+  .aggregate(cloudflareDNS.projectRefs *)
 
-lazy val cloudflareCore = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-core"))
+lazy val cloudflareCore = (projectMatrix in file("cloudflare-core"))
   .settings(name := "core")
-  .settings(crossDependencies(
+  .settings(libraryDependencies ++= dependencies(
     peknight.api,
     peknight.query,
     peknight.commons.text,
   ))
+  .jvmPlatform(scalaVersions = Seq(scala.scala3.version))
+  .jsPlatform(scalaVersions = Seq(scala.scala3.version))
 
-lazy val cloudflareHttp4s = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-http4s"))
+lazy val cloudflareHttp4s = (projectMatrix in file("cloudflare-http4s"))
   .dependsOn(cloudflareCore)
   .settings(name := "http4s")
-  .settings(crossDependencies(http4s))
+  .settings(libraryDependencies ++= dependencies(http4s))
+  .jvmPlatform(scalaVersions = Seq(scala.scala3.version))
+  .jsPlatform(scalaVersions = Seq(scala.scala3.version))
 
-lazy val cloudflareZone = (project in file("cloudflare-zone"))
+lazy val cloudflareZone = (projectMatrix in file("cloudflare-zone"))
   .settings(name := "zone")
-  .aggregate(
-    cloudflareZoneCore.jvm,
-    cloudflareZoneCore.js,
-    cloudflareZoneConfig.jvm,
-    cloudflareZoneConfig.js,
-    cloudflareZoneApi.jvm,
-    cloudflareZoneApi.js,
-    cloudflareZoneHttp4s.jvm,
-    cloudflareZoneHttp4s.js,
-  )
+  .aggregate(cloudflareZoneCore.projectRefs *)
+  .aggregate(cloudflareZoneConfig.projectRefs *)
+  .aggregate(cloudflareZoneApi.projectRefs *)
+  .aggregate(cloudflareZoneHttp4s.projectRefs *)
+  .jvmPlatform(scalaVersions = Seq(scala.scala3.version))
+  .jsPlatform(scalaVersions = Seq(scala.scala3.version))
 
-lazy val cloudflareZoneCore = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-zone/core"))
+lazy val cloudflareZoneCore = (projectMatrix in file("cloudflare-zone/core"))
   .dependsOn(cloudflareCore)
   .settings(name := "zone-core")
-  .settings(crossDependencies(
+  .settings(libraryDependencies ++= dependencies(
     peknight.codec.ip4s,
     peknight.codec.effect,
   ))
-  .settings(crossTestDependencies(
+  .settings(libraryDependencies ++= testDependencies(
     peknight.codec.circe.parser,
     scalaTest,
   ))
+  .jvmPlatform(scalaVersions = Seq(scala.scala3.version))
+  .jsPlatform(scalaVersions = Seq(scala.scala3.version))
 
-lazy val cloudflareZoneConfig = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-zone/config"))
+lazy val cloudflareZoneConfig = (projectMatrix in file("cloudflare-zone/config"))
   .dependsOn(cloudflareZoneCore)
   .settings(name := "zone-config")
-  .settings(crossDependencies(peknight.auth))
+  .settings(libraryDependencies ++= dependencies(peknight.auth))
+  .jvmPlatform(scalaVersions = Seq(scala.scala3.version))
+  .jsPlatform(scalaVersions = Seq(scala.scala3.version))
 
-lazy val cloudflareZoneApi = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-zone/api"))
+lazy val cloudflareZoneApi = (projectMatrix in file("cloudflare-zone/api"))
   .dependsOn(cloudflareZoneCore)
   .settings(name := "zone-api")
+  .jvmPlatform(scalaVersions = Seq(scala.scala3.version))
+  .jsPlatform(scalaVersions = Seq(scala.scala3.version))
 
-lazy val cloudflareZoneHttp4s = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-zone/http4s"))
-  .dependsOn(
-    cloudflareZoneApi,
-    cloudflareHttp4s,
-  )
+lazy val cloudflareZoneHttp4s = (projectMatrix in file("cloudflare-zone/http4s"))
+  .dependsOn(cloudflareZoneApi, cloudflareHttp4s)
   .settings(name := "zone-http4s")
-  .settings(crossDependencies(
+  .settings(libraryDependencies ++= dependencies(
     http4s.client,
     peknight.codec.http4s.circe,
     peknight.query.http4s,
     peknight.auth.http4s,
   ))
-  .settings(crossTestDependencies(
+  .settings(libraryDependencies ++= testDependencies(
     http4s.ember.client,
     peknight.logging,
     peknight.logging.logback.config,
     scalaTest.flatSpec,
     typelevel.catsEffect.testingScalaTest,
   ))
-  .jvmSettings(libraryDependencies ++= Seq(
-    testDependency(typelevel.log4Cats.slf4j),
-    jvmTestDependency(logback.classic),
-  ))
-
-lazy val cloudflareDNS = (project in file("cloudflare-dns"))
-  .settings(name := "dns")
-  .aggregate(cloudflareDNSRecord)
-
-lazy val cloudflareDNSRecord = (project in file("cloudflare-dns/record"))
-  .settings(name := "dns-record")
-  .aggregate(
-    cloudflareDNSRecordCore.jvm,
-    cloudflareDNSRecordCore.js,
-    cloudflareDNSRecordApi.jvm,
-    cloudflareDNSRecordApi.js,
-    cloudflareDNSRecordHttp4s.jvm,
-    cloudflareDNSRecordHttp4s.js,
+  .jvmPlatform(
+    scalaVersions = Seq(scala.scala3.version),
+    settings = Seq(
+      libraryDependencies ++= testDependencies(typelevel.log4Cats.slf4j),
+      libraryDependencies ++= jvmTestDependencies(logback.classic),
+    )
   )
+  .jsPlatform(scalaVersions = Seq(scala.scala3.version))
 
-lazy val cloudflareDNSRecordCore = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-dns/record/core"))
+lazy val cloudflareDNS = (projectMatrix in file("cloudflare-dns"))
+  .settings(name := "dns")
+  .aggregate(cloudflareDNSRecord.projectRefs *)
+  .jvmPlatform(scalaVersions = Seq(scala.scala3.version))
+  .jsPlatform(scalaVersions = Seq(scala.scala3.version))
+
+lazy val cloudflareDNSRecord = (projectMatrix in file("cloudflare-dns/record"))
+  .settings(name := "dns-record")
+  .aggregate(cloudflareDNSRecordCore.projectRefs *)
+  .aggregate(cloudflareDNSRecordApi.projectRefs *)
+  .aggregate(cloudflareDNSRecordHttp4s.projectRefs *)
+  .jvmPlatform(scalaVersions = Seq(scala.scala3.version))
+  .jsPlatform(scalaVersions = Seq(scala.scala3.version))
+
+lazy val cloudflareDNSRecordCore = (projectMatrix in file("cloudflare-dns/record/core"))
   .dependsOn(cloudflareZoneCore)
   .settings(name := "dns-record-core")
-  .settings(crossTestDependencies(
+  .settings(libraryDependencies ++= testDependencies(
     peknight.codec.circe.parser,
     scalaTest,
   ))
+  .jvmPlatform(scalaVersions = Seq(scala.scala3.version))
+  .jsPlatform(scalaVersions = Seq(scala.scala3.version))
 
-lazy val cloudflareDNSRecordApi = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-dns/record/api"))
-  .settings(name := "dns-record-api")
+lazy val cloudflareDNSRecordApi = (projectMatrix in file("cloudflare-dns/record/api"))
   .dependsOn(cloudflareDNSRecordCore)
+  .settings(name := "dns-record-api")
+  .jvmPlatform(scalaVersions = Seq(scala.scala3.version))
+  .jsPlatform(scalaVersions = Seq(scala.scala3.version))
 
-lazy val cloudflareDNSRecordHttp4s = (crossProject(JVMPlatform, JSPlatform) in file("cloudflare-dns/record/http4s"))
-  .dependsOn(
-    cloudflareDNSRecordApi,
-    cloudflareHttp4s,
-    cloudflareZoneConfig % Test,
-  )
+lazy val cloudflareDNSRecordHttp4s = (projectMatrix in file("cloudflare-dns/record/http4s"))
+  .dependsOn(cloudflareDNSRecordApi, cloudflareHttp4s)
+  .dependsOn(cloudflareZoneConfig % Test)
   .settings(name := "dns-record-http4s")
-  .settings(crossDependencies(
+  .settings(libraryDependencies ++= dependencies(
     http4s.client,
     peknight.codec.http4s,
     peknight.codec.http4s.circe,
     peknight.query.http4s,
     peknight.auth.http4s,
   ))
-  .settings(crossTestDependencies(
+  .settings(libraryDependencies ++= testDependencies(
     http4s.ember.client,
     peknight.logging,
     peknight.logging.logback.config,
     scalaTest.flatSpec,
     typelevel.catsEffect.testingScalaTest,
   ))
-  .jvmSettings(libraryDependencies ++= Seq(
-    testDependency(typelevel.log4Cats.slf4j),
-    jvmTestDependency(logback.classic),
-  ))
+  .jvmPlatform(
+    scalaVersions = Seq(scala.scala3.version),
+    settings = Seq(
+      libraryDependencies ++= testDependencies(typelevel.log4Cats.slf4j),
+      libraryDependencies ++= jvmTestDependencies(logback.classic),
+    )
+  )
+  .jsPlatform(scalaVersions = Seq(scala.scala3.version))
